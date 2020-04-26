@@ -74,7 +74,7 @@ SizedBox(height: 10,),
 
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: greypandaicon,
+                  color: Global.greypandaicon,
 
                 ),
 
@@ -92,7 +92,7 @@ SizedBox(height: 10,),
                         padding: const EdgeInsets.only(right: 15),
                         child: Icon(
                           Icons.keyboard_arrow_down,
-                          color:orangepanda,
+                          color:Global.orangepanda,
                           size: 20.09,
                         ),
                       ),
@@ -125,7 +125,7 @@ SizedBox(height: 10,),
 
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: greypandaicon,
+                  color: Global.greypandaicon,
 
                 ),
 
@@ -143,7 +143,7 @@ SizedBox(height: 10,),
                         padding: const EdgeInsets.only(right: 15),
                         child: Icon(
                           Icons.keyboard_arrow_down,
-                          color:orangepanda,
+                          color:Global.orangepanda,
                           size: 20.09,
                         ),
                       ),
@@ -175,7 +175,7 @@ SizedBox(height: 10,),
 
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: greypandaicon,
+                  color: Global.greypandaicon,
 
                 ),
 
@@ -193,7 +193,7 @@ SizedBox(height: 10,),
                         padding: const EdgeInsets.only(right: 15),
                         child: Icon(
                           Icons.keyboard_arrow_down,
-                          color:orangepanda,
+                          color:Global.orangepanda,
                           size: 20.09,
                         ),
                       ),
@@ -225,7 +225,7 @@ SizedBox(height: 10,),
 
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: greypandaicon,
+                  color: Global.greypandaicon,
 
                 ),
 
@@ -243,7 +243,7 @@ SizedBox(height: 10,),
                         padding: const EdgeInsets.only(right: 15),
                         child: Icon(
                           Icons.keyboard_arrow_down,
-                          color:orangepanda,
+                          color:Global.orangepanda,
                           size: 20.09,
                         ),
                       ),
@@ -285,7 +285,7 @@ Row(
         decoration: BoxDecoration(
 
           borderRadius: BorderRadius.all(Radius.circular(30)),
-          border: Border.all(color: greypandaicon)
+          border: Border.all(color: Global.greypandaicon)
 
         ),
 
@@ -307,8 +307,8 @@ Row(
      },
       min: 0,
       max: 100,
-            activeColor: orangepanda,
-            inactiveColor: blackpanda,
+            activeColor: Global.orangepanda,
+            inactiveColor: Global.blackpanda,
 
 
 
@@ -326,7 +326,7 @@ Row(
                 Radio(
                   value: 1,
                   groupValue: selectedRadio,
-                  activeColor: orangepanda,
+                  activeColor: Global.orangepanda,
                   onChanged: (val) {
 
                     print("Radio $val");
@@ -337,7 +337,7 @@ Row(
 
                 ),
 
-                new Text('Male',style: TextStyle(fontSize: 12,color: greypanda),),
+                new Text('Male',style: TextStyle(fontSize: 12,color: Global.greypanda),),
 
                 Radio(
 
@@ -345,7 +345,7 @@ Row(
 
                   groupValue: selectedRadio,
 
-                  activeColor: orangepanda,
+                  activeColor: Global.orangepanda,
 
                   onChanged: (val) {
 
@@ -357,7 +357,7 @@ Row(
 
                 ),
 
-                new Text('Female',style: TextStyle(fontSize: 12,color: greypanda)),
+                new Text('Female',style: TextStyle(fontSize: 12,color: Global.greypanda)),
 
                 Radio(
 
@@ -365,7 +365,7 @@ Row(
 
                   groupValue: selectedRadio,
 
-                  activeColor: orangepanda,
+                  activeColor: Global.orangepanda,
 
                   onChanged: (val) {
 
@@ -377,7 +377,7 @@ Row(
 
                 ),
 
-                new Text('Unknown',style: TextStyle(fontSize: 12,color: greypanda)),
+                new Text('Unknown',style: TextStyle(fontSize: 12,color: Global.greypanda)),
 
               ],),
 
@@ -386,13 +386,13 @@ Row(
             SizedBox(height: 20,),
             Row(
               children: <Widget>[
-                Expanded(child: customraisedbutton(text: "SAVE",bgclr: orangepanda,clr: whitepanda,)),
+                Expanded(child: customraisedbutton(text: "SAVE",bgclr: Global.orangepanda,clr: Global.whitepanda,)),
               ],
             ),
             SizedBox(height: 5,),
             Row(
               children: <Widget>[
-                Expanded(child: customraisedbutton(text: "BACK",bgclr: orangepanda,clr: whitepanda,)),
+                Expanded(child: customraisedbutton(text: "BACK",bgclr: Global.orangepanda,clr: Global.whitepanda,)),
               ],
             )
           ],),

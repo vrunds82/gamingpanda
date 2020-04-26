@@ -28,7 +28,7 @@ class _splashscreenState extends State<splashscreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     //Global variable which is in global file
-    Global.isSwitchedFT = await prefs.get("switchState");
+    Global.isSwitchedFT = await prefs.get("theme")??false;
     print(Global.isSwitchedFT);
 
 setState(() {
@@ -49,6 +49,7 @@ setState(() {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getSwitchState();
     startTime();
   }
 }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class profilepage extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class profilepage extends StatefulWidget {
 class _profilepageState extends State<profilepage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppbar,
+    return Scaffold(appBar: CustomAppbar,backgroundColor: Global.isSwitchedFT==true?Global.blackpanda:Global.whitepanda,
 
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.start,
@@ -26,14 +27,14 @@ class _profilepageState extends State<profilepage> {
           ),
 SizedBox(height: 20,),
             Text("Toni",style: TextStyle(
-             color: blackpanda,fontSize: 18
+             color: Global.blackpanda,fontSize: 18
             ),),
             Text("25",style: TextStyle(
-                color: orangepanda,fontSize: 18,fontWeight: FontWeight.bold
+                color: Global.orangepanda,fontSize: 18,fontWeight: FontWeight.bold
             ),),
             SizedBox(height: 30,),
 
-            Icon(Icons.games),
+            Image.asset('assets/images/game.png',height: 30,width: 30,),
             SizedBox(height: 5,),
             Text("League of Legends, Gears of War,",style: TextStyle(
               fontSize: 16,fontWeight: FontWeight.bold
@@ -51,7 +52,7 @@ SizedBox(height: 20,),
                   label: Padding(
                     padding: const EdgeInsets.only(left: 20,right: 35),
                     child: Text('FILTERS',textAlign: TextAlign.start,
-                      style: TextStyle(color: whitepanda,fontWeight: FontWeight.bold),),
+                      style: TextStyle(color: Global.whitepanda,fontWeight: FontWeight.bold),),
                   ),
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 5,bottom: 5),
@@ -60,13 +61,13 @@ SizedBox(height: 20,),
                         height: 36.0,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                            color: lightorangepanda),
+                            color: Global.lightorangepanda),
 
-                        child: Icon(Icons.edit, color:whitepanda,size: 20,)),
+                        child: Icon(Icons.edit, color:Global.whitepanda,size: 20,)),
                   ),
 
 
-                  color: orangepanda),
+                  color: Global.orangepanda),
             ),
 
             SizedBox(height: 10,),
@@ -79,7 +80,7 @@ SizedBox(height: 20,),
                   label: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text('EDIT PROFILE',textAlign: TextAlign.center,
-                      style: TextStyle(color: whitepanda,fontWeight: FontWeight.bold),),
+                      style: TextStyle(color: Global.whitepanda,fontWeight: FontWeight.bold),),
                   ),
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 5,bottom: 5),
@@ -88,13 +89,13 @@ SizedBox(height: 20,),
                         height: 36.0,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                            color: greypandaicon),
+                            color: Global.greypandaicon),
 
-                        child: Icon(Icons.edit, color:lightorangepanda,size: 20,)),
+                        child: Icon(Icons.edit, color:Global.lightorangepanda,size: 20,)),
                   ),
 
 
-                  color: blackpanda),
+                  color: Global.blackpanda),
             ),
 
             SizedBox(height: 30,),
@@ -109,7 +110,11 @@ Padding(
 
       onChanged: (bool value)
 
-      {
+      async {
+        Global.isSwitchedFT=value;
+
+        SharedPreferences pref= await SharedPreferences.getInstance();
+        await pref.setBool('theme', Global.isSwitchedFT);
 
         setState(() {
 
@@ -133,27 +138,27 @@ Padding(
 
       },
 
-      activeTrackColor: blackpanda,
+      activeTrackColor: Global.blackpanda,
 
-      activeColor: greypandaicon,
+      activeColor: Global.greypandaicon,
 
     ),
 
     Text("NIGHT MODE",style: TextStyle(
 
-      color: blackpanda
+      color: Global.blackpanda
 
     ),),
     Spacer(),
     Container(
         decoration: new BoxDecoration(
-            color: orangepanda,
+            color: Global.orangepanda,
             borderRadius: new BorderRadius.all(Radius.circular(30))
         ),
 
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(Icons.settings,size: 30,color: whitepanda,),
+          child: Icon(Icons.settings,size: 30,color: Global.whitepanda,),
         ))
 
   ],),

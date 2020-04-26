@@ -59,8 +59,9 @@ class _aboutuState extends State<aboutu> {
                 hintText: "Please write at what time you play, what are you looking for, what is your game style...",
               ),
             ),
-          )
-      ),],
+          ),
+
+      ),customgradientbuton(buttontext: "SAVE",)],
            ),
          ),
        ),

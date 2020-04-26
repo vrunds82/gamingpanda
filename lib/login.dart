@@ -27,7 +27,7 @@ body: Center(
           Image.asset('assets/images/Logo.png',height: 100,width: 100,),
           SizedBox(height: 8,),
           Text("LOGIN",style: TextStyle(
-            fontSize: 30,fontWeight: FontWeight.bold,color: orangepanda
+            fontSize: 30,fontWeight: FontWeight.bold,color: Global.orangepanda
           ),),
           SizedBox(height: 30,),
 
@@ -42,7 +42,7 @@ body: Center(
           Row(
             children: <Widget>[
               Expanded(
-                child: customraisedbutton(click: (){},clr: whitepanda,text: "LOGIN",)
+                child: customraisedbutton(click: (){},clr: Global.whitepanda,text: "LOGIN",bgclr: Global.orangepanda,)
               ),
             ],
           ),

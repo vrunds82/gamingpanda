@@ -10,7 +10,7 @@ class chatscreen extends StatefulWidget {
 class _chatscreenState extends State<chatscreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppbar,
+    return Scaffold(appBar: CustomAppbarforchat,
 
 body:   ListView.builder(
   //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
@@ -32,7 +32,7 @@ body:   ListView.builder(
                       )
                   ),
                   Positioned(
-                    right: 8,bottom: 8,
+                    right: 8,bottom: 5,
                     child: Card(elevation: 5.0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.0),
@@ -44,7 +44,7 @@ body:   ListView.builder(
 
 
 
-                            child: Icon(Icons.brightness_1,color: orangepanda,size: 12,)),
+                            child: Icon(Icons.brightness_1,color: Global.orangepanda,size: 13,)),
                       ),
                     ),
                   ),
@@ -61,7 +61,7 @@ body:   ListView.builder(
                   child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text('Ivana',style: TextStyle(fontSize: 15),textAlign: TextAlign.left,),
-                      Text('Moze za pola sata',style: TextStyle(fontSize: 12,color: greypandaicon),textAlign: TextAlign.left,),
+                      Text('Moze za pola sata',style: TextStyle(fontSize: 12,color: Global.greypandaicon),textAlign: TextAlign.left,),
 
                     ],
                   ),

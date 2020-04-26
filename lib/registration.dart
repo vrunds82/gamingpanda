@@ -26,7 +26,7 @@ class _registerState extends State<register> {
                children: <Widget>[
 SizedBox(height: 20,),
                  Text("REGISTRATION",style: TextStyle(
-                     fontSize: 30,fontWeight: FontWeight.bold,color: orangepanda
+                     fontSize: 30,fontWeight: FontWeight.bold,color: Global.orangepanda
                  ),),
                  SizedBox(height: 5,),
                  CircleAvatar(
@@ -58,7 +58,10 @@ SizedBox(height: 20,),
                  Row(
                    children: <Widget>[
                      Expanded(
-                         child: customraisedbutton(click: (){},clr: whitepanda,text: "REGISTER",bgclr: orangepanda,)
+                         child: customraisedbutton(click: (){
+                           Navigator.of(context).pushNamed('cardswipe');
+
+                         },clr: Global.whitepanda,text: "REGISTER",bgclr: Global.orangepanda,)
                      ),
                    ],
                  ),
