@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
 
 
       ),
-      home: splashscreen(),
+      home: profilepage(),
       routes: {
 
       'login':(context)=>loginpage(),

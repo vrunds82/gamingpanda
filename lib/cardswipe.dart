@@ -10,9 +10,11 @@ class cardpage extends StatefulWidget {
 class _cardpageState extends State<cardpage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppbar,
+    return Scaffold(
       body: Column(
+
         children: <Widget>[
+          CustomAppbar(),
           Stack(
             children: <Widget>[
 
