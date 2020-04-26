@@ -145,12 +145,12 @@ color: greypanda,fontSize: 16,
 
 
 
-AppBar CustomAppbar =  AppBar(backgroundColor: greypandaicon,title: Row(children: <Widget>[
-  Icon(Icons.person),
+AppBar CustomAppbar =  AppBar(backgroundColor: whitepanda,title: Row(children: <Widget>[
+  Image.asset('assets/images/usergrey.png',height: 20,width: 20,),
   Spacer(),
-  Icon(Icons.star),
+  Image.asset('assets/images/pandagrey.png',height: 20,width: 20,),
   Spacer(),
-  Icon(Icons.chat)
+  Image.asset('assets/images/chatgrey.png',height: 20,width: 20,),
 
 ],),);
 
