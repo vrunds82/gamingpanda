@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/about_you.dart';
+import 'package:gamingpanda/chat.dart';
+import 'package:gamingpanda/filters.dart';
 import 'package:gamingpanda/login.dart';
 import 'package:gamingpanda/profile.dart';
 import 'package:gamingpanda/registration.dart';
@@ -19,7 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Schyler",
         textTheme: TextTheme(body1: TextStyle(fontSize: Global.fontsize),body2: TextStyle(fontSize: Global.fontsize),
-        title:TextStyle(fontSize: Global.fontsize) ),
+        title:TextStyle(fontSize: Global.fontsize) ,
+        ),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -30,8 +33,9 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+
       ),
-      home: aboutu(),
+      home: chatscreen(),
       routes: {
 
       'login':(context)=>loginpage(),

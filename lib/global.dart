@@ -145,7 +145,7 @@ color: greypanda,fontSize: 16,
 
 
 
-AppBar CustomAppbar =  AppBar(title: Row(children: <Widget>[
+AppBar CustomAppbar =  AppBar(backgroundColor: greypandaicon,title: Row(children: <Widget>[
   Icon(Icons.person),
   Spacer(),
   Icon(Icons.star),
