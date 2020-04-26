@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/about_you.dart';
 import 'package:gamingpanda/login.dart';
+import 'package:gamingpanda/profile.dart';
 import 'package:gamingpanda/registration.dart';
+import 'package:gamingpanda/settings.dart';
 import 'package:gamingpanda/splash.dart';
+
+import 'global.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,6 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: "Schyler",
+        textTheme: TextTheme(body1: TextStyle(fontSize: Global.fontsize),body2: TextStyle(fontSize: Global.fontsize),
+        title:TextStyle(fontSize: Global.fontsize) ),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -24,7 +31,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: splashscreen(),
+      home: aboutu(),
       routes: {
 
       'login':(context)=>loginpage(),

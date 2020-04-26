@@ -41,24 +41,24 @@ SizedBox(height: 20,),
                  SizedBox(height: 30,),
                  customtext(text: "Name",),
                  SizedBox(height: 5,),
-                 Customtextfield(controllername: name,),
+                 Customtextfield(controllername: name,focusborder: true,),
                  SizedBox(height: 20,),
                  customtext(text: "Email",),
                  SizedBox(height: 5,),
-                 Customtextfield(controllername: email,),
+                 Customtextfield(controllername: email,focusborder: true,),
                  SizedBox(height: 20,),
                  customtext(text: "Password",),
                  SizedBox(height: 5,),
-                 Customtextfield(controllername: password,obsecuretext: true,),
+                 Customtextfield(controllername: password,obsecuretext: true,focusborder: true,),
                  SizedBox(height:20,),
                  customtext(text: "Confirm password",),
                  SizedBox(height: 5,),
-                 Customtextfield(controllername: confirmpassword,obsecuretext: true,),
+                 Customtextfield(controllername: confirmpassword,obsecuretext: true,focusborder: true,),
                  SizedBox(height: 20,),
                  Row(
                    children: <Widget>[
                      Expanded(
-                         child: customraisedbutton(click: (){},clr: whitepanda,text: "REGISTER",)
+                         child: customraisedbutton(click: (){},clr: whitepanda,text: "REGISTER",bgclr: orangepanda,)
                      ),
                    ],
                  ),
@@ -96,3 +96,8 @@ SizedBox(height: 20,),
     );
   }
 }
+
+
+
+
+
