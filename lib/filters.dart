@@ -46,6 +46,7 @@ class _filteritemState extends State<filteritem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 20,right: 20,top: 30),
@@ -389,7 +390,7 @@ Row(
                 Expanded(child: customraisedbutton(text: "SAVE",bgclr: Global.orangepanda,clr: Global.whitepanda,)),
               ],
             ),
-            SizedBox(height: 5,),
+            SizedBox(height: 10,),
             Row(
               children: <Widget>[
                 Expanded(child: customraisedbutton(text: "BACK",bgclr: Global.orangepanda,clr: Global.whitepanda,)),

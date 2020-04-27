@@ -145,54 +145,69 @@ class CustomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+
         Container(
-          height: MediaQuery.of(context).size.width * .15,
-          color: Colors.grey[200],
-          child: Row(
+          height: MediaQuery.of(context).size.width * .2,
+          color: Global.isSwitchedFT==false?Global.blackpanda:Global.whitepanda ,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top:8.0,bottom: 8.0),
+              child: Row(
 
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width*.08,
-              ),
-              GestureDetector(onTap: (){
-               Navigator.of(context).pushNamed('profile');
-    },
-                child: Image.asset(
-                  Global.currentpageindex == 0
-                      ? 'assets/images/usergrey.png'
-                      : 'assets/images/userorange.png',
-                  height: MediaQuery.of(context).size.width * .1,
-                  width: MediaQuery.of(context).size.width * .1,
-                ),
-              ),
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width*.08,
 
-              Expanded(
-                child: GestureDetector(onTap: (){
-                  Navigator.of(context).pushNamed('cardswipe');
-                },
-                  child: Image.asset(
-                    Global.currentpageindex == 1
-                        ? 'assets/images/pandagrey.png'
-                        : 'assets/images/pandaorange.png',
-                    height: MediaQuery.of(context).size.width * .1,
-                    width: MediaQuery.of(context).size.width * .1,
                   ),
-                ),
-              ),
+                  GestureDetector(onTap: (){
 
-              GestureDetector(onTap: (){
-                Navigator.of(context).pushNamed('chat');
-              },
-                child: Image.asset(
-                  'assets/images/chatgrey.png',
-                  height: MediaQuery.of(context).size.width * .1,
-                  width: MediaQuery.of(context).size.width * .1,
-                ),
+                    Global.currentpageindex = 0;
+                   Navigator.of(context).pushNamed('profile');
+    },
+                    child: Image.asset(
+                      Global.currentpageindex == 0
+                          ? 'assets/images/userorange.png'
+                          : 'assets/images/usergrey.png',
+                      height: MediaQuery.of(context).size.width * .1,
+                      width: MediaQuery.of(context).size.width * .1,
+                    ),
+                  ),
+
+                  Expanded(
+                    child: GestureDetector(onTap: (){
+
+                      Global.currentpageindex = 1;
+                      Navigator.of(context).pushNamed('cardswipe');
+                    },
+                      child: Image.asset(
+                        Global.currentpageindex == 1
+                            ? 'assets/images/pandaorange.png'
+                            : 'assets/images/pandagrey.png',
+                        height: MediaQuery.of(context).size.width * .1,
+                        width: MediaQuery.of(context).size.width * .1,
+                      ),
+                    ),
+                  ),
+
+                  GestureDetector(onTap: (){
+
+                    Global.currentpageindex = 2;
+                    Navigator.of(context).pushNamed('chat');
+                  },
+                    child: Image.asset(   Global.currentpageindex == 2
+                        ? 'assets/images/chatorange.png'
+                        : 'assets/images/chatgrey.png',
+
+                      height: MediaQuery.of(context).size.width * .1,
+                      width: MediaQuery.of(context).size.width * .1,
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width*.08,
+                  ),
+                ],
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width*.08,
-              ),
-            ],
+            ),
           ),
         ),
         Container(
@@ -314,13 +329,17 @@ class customcard extends StatelessWidget {
   }
 }
 
-AppBar CustomAppbarforchat = AppBar(
+AppBar CustomAppbarforchat = AppBar(automaticallyImplyLeading: false,
   backgroundColor: Global.whitepanda,
   title: Row(
     children: <Widget>[
-      Icon(
-        Icons.keyboard_backspace,
-        color: Global.orangepanda,
+      GestureDetector(onTap: (){
+
+      },
+        child: Icon(
+          Icons.keyboard_backspace,
+          color: Global.orangepanda,
+        ),
       ),
       Spacer(),
       Row(
@@ -389,7 +408,7 @@ class customgradientbuton extends StatelessWidget {
   }
 }
 
-AppBar CustomAppbarforsettings = AppBar(
+AppBar CustomAppbarforsettings = AppBar(automaticallyImplyLeading: false,
   flexibleSpace: Container(
     decoration: BoxDecoration(
         gradient: LinearGradient(

@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(scaffoldBackgroundColor:Global.isSwitchedFT==false?Global.blackpanda:Global.whitepanda ,
+        //appBarTheme: AppBarTheme( color:  Global.isSwitchedFT==false?Global.blackpanda:Global.whitepanda,),
         fontFamily: "Schyler",
         textTheme: TextTheme(body1: TextStyle(fontSize: Global.fontsize),body2: TextStyle(fontSize: Global.fontsize),
         title:TextStyle(fontSize: Global.fontsize) ,
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
 
 
       ),
-      home: profilepage(),
+      home: splashscreen(),
       routes: {
 
       'login':(context)=>loginpage(),
