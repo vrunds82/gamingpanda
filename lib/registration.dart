@@ -19,16 +19,17 @@ class _registerState extends State<register> {
   Widget build(BuildContext context) {
     return Scaffold(
        body: Padding(
-         padding: const EdgeInsets.only(left: 15,right: 15),
+         padding: EdgeInsets.only(left:  MediaQuery.of(context).size.width*0.1,right:  MediaQuery.of(context).size.width*0.1),
          child: Center(
            child: SingleChildScrollView(
              child: Column(
+
                children: <Widget>[
 SizedBox(height: 20,),
                  Text("REGISTRATION",style: TextStyle(
                      fontSize: 30,fontWeight: FontWeight.bold,color: Global.orangepanda
                  ),),
-                 SizedBox(height: 5,),
+                 SizedBox(height: 15,),
                  CircleAvatar(
                    radius: 38,
                    child: ClipOval(
@@ -38,7 +39,7 @@ SizedBox(height: 20,),
 
 
 
-                 SizedBox(height: 30,),
+                 SizedBox(height: 10,),
                  customtext(text: "Name",),
                  SizedBox(height: 5,),
                  Customtextfield(controllername: name,focusborder: true,),
@@ -75,7 +76,7 @@ SizedBox(height: 20,),
                          Navigator.of(context).pushNamed('registerp');
                        },
                          child: Text("Already have Account?",style: TextStyle(
-                           decoration: TextDecoration.underline,
+
                          )),
                        ),
                       SizedBox(width: 5,),
@@ -84,7 +85,7 @@ SizedBox(height: 20,),
                          Navigator.of(context).pushNamed('login');
                        },
                          child: Text("Sign In",style: TextStyle(
-                           decoration: TextDecoration.underline,fontSize: 18
+                           fontSize: 18
                          )),
                        ),
 

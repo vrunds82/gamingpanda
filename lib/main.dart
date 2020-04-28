@@ -18,42 +18,32 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(scaffoldBackgroundColor:Global.isSwitchedFT==false?Global.blackpanda:Global.whitepanda ,
-        //appBarTheme: AppBarTheme( color:  Global.isSwitchedFT==false?Global.blackpanda:Global.whitepanda,),
-        fontFamily: "Schyler",
-        textTheme: TextTheme(body1: TextStyle(fontSize: Global.fontsize),body2: TextStyle(fontSize: Global.fontsize),
-        title:TextStyle(fontSize: Global.fontsize) ,
-        ),
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-
-
-      ),
+      theme: ThemeData(
+          scaffoldBackgroundColor: Global.isSwitchedFT == true
+              ? Global.blackpanda
+              : Global.whitepanda,
+          //appBarTheme: AppBarTheme( color:  Global.isSwitchedFT==false?Global.blackpanda:Global.whitepanda,),
+          fontFamily: "Schyler",
+          textTheme: TextTheme(
+            body1: TextStyle(fontSize: Global.fontsize),
+            body2: TextStyle(fontSize: Global.fontsize),
+            title: TextStyle(fontSize: Global.fontsize),
+          ),
+          primarySwatch: Colors.blue),
       home: splashscreen(),
       routes: {
-
-      'login':(context)=>loginpage(),
-        'registerp':(context)=>register(),
-        'cardswipe':(context)=>cardpage(),
-        'profile':(context)=>profilepage(),
-        'chat':(context)=>chatscreen(),
-        'livechat':(context)=>livechatpage(),
-        'settings':(context)=>settingpage(),
-        'filter':(context)=>filteritem(),
-
-
+        'login': (context) => loginpage(),
+        'registerp': (context) => register(),
+        'cardswipe': (context) => cardpage(),
+        'profile': (context) => profilepage(),
+        'chat': (context) => chatscreen(),
+        'livechat': (context) => livechatpage(),
+        'settings': (context) => settingpage(),
+        'filter': (context) => filteritem(),
       },
     );
   }
 }
-

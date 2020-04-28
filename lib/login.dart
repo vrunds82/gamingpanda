@@ -18,7 +18,7 @@ class _loginpageState extends State<loginpage> {
     return Scaffold(
 body: Center(
   child:   Padding(
-    padding: const EdgeInsets.only(left: 15,right: 15),
+    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,right:  MediaQuery.of(context).size.width*0.1),
     child: SingleChildScrollView(
 
       child: Column(mainAxisAlignment: MainAxisAlignment.center,

@@ -46,7 +46,9 @@ class _filteritemState extends State<filteritem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: Global.isSwitchedFT == true
+          ? Global.blackpanda
+          : Global.whitepanda,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 20,right: 20,top: 30),

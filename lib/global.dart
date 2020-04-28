@@ -148,7 +148,7 @@ class CustomAppbar extends StatelessWidget {
 
         Container(
           height: MediaQuery.of(context).size.width * .2,
-          color: Global.isSwitchedFT==false?Global.blackpanda:Global.whitepanda ,
+          color: Global.isSwitchedFT==true?Global.blackpanda:Global.whitepanda ,
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(top:8.0,bottom: 8.0),

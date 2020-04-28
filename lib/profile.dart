@@ -47,8 +47,8 @@ SizedBox(height: 20,),
 
             Container(width: MediaQuery.of(context).size.width/2,
               child: RaisedButton.icon(
-                  onPressed: (){
 
+                  onPressed: (){
                     Navigator.of(context).pushNamed('filter');
                   },
                   shape: RoundedRectangleBorder(
@@ -69,8 +69,6 @@ SizedBox(height: 20,),
 
                         child: Icon(Icons.edit, color:Global.whitepanda,size: 20,)),
                   ),
-
-
                   color: Global.orangepanda),
             ),
 
