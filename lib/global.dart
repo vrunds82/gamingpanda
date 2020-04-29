@@ -11,7 +11,7 @@ class Global {
   static Color lightorangepanda = Color(0xffFE9335);
   static Color darkgrey = Color(0xff9F9F9F);
   static Color yellowpanda = Color(0xffFCCF31);
-
+  static Color darkBlue = Color(0xff16161D);
   static int currentpageindex = 1;
 }
 
@@ -145,10 +145,9 @@ class CustomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-
         Container(
           height: MediaQuery.of(context).size.width * .2,
-          color: Global.isSwitchedFT==true?Global.blackpanda:Global.whitepanda ,
+          color: Global.isSwitchedFT==true?Global.darkBlue:Global.whitepanda ,
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(top:8.0,bottom: 8.0),
@@ -162,7 +161,7 @@ class CustomAppbar extends StatelessWidget {
                   GestureDetector(onTap: (){
 
                     Global.currentpageindex = 0;
-                   Navigator.of(context).pushNamed('profile');
+                   Navigator.of(context).pushReplacementNamed('profile');
     },
                     child: Image.asset(
                       Global.currentpageindex == 0
@@ -177,7 +176,7 @@ class CustomAppbar extends StatelessWidget {
                     child: GestureDetector(onTap: (){
 
                       Global.currentpageindex = 1;
-                      Navigator.of(context).pushNamed('cardswipe');
+                      Navigator.of(context).pushReplacementNamed('cardswipe');
                     },
                       child: Image.asset(
                         Global.currentpageindex == 1
@@ -192,7 +191,7 @@ class CustomAppbar extends StatelessWidget {
                   GestureDetector(onTap: (){
 
                     Global.currentpageindex = 2;
-                    Navigator.of(context).pushNamed('chat');
+                    Navigator.of(context).pushReplacementNamed('chat');
                   },
                     child: Image.asset(   Global.currentpageindex == 2
                         ? 'assets/images/chatorange.png'
@@ -211,7 +210,7 @@ class CustomAppbar extends StatelessWidget {
           ),
         ),
         Container(
-          height: 0.5,
+          height: Global.isSwitchedFT?0:0.5,
           color: Colors.grey,
         ),
       ],
@@ -329,50 +328,60 @@ class customcard extends StatelessWidget {
   }
 }
 
-AppBar CustomAppbarforchat = AppBar(automaticallyImplyLeading: false,
-  backgroundColor: Global.whitepanda,
+AppBar CustomAppbarforchat =
+AppBar(
+  backgroundColor:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
   title: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
-      GestureDetector(onTap: (){
+      Container(
+          height: 30,
+          width: 30,
+          margin: EdgeInsets.only(left: 20, top: 15, bottom: 10),
+          decoration: new BoxDecoration(
+              shape: BoxShape.circle,
+              image: new DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/images/user.png'),
+              ))),
+      SizedBox(
+        width: 5,
+      ),
+      CustomText(
+        text: "Ivana",
+          fontWeight: FontWeight.bold,
+        fontSize: 20,
 
-      },
-        child: Icon(
-          Icons.keyboard_backspace,
-          color: Global.orangepanda,
-        ),
       ),
-      Spacer(),
-      Row(
-        children: <Widget>[
-          Container(
-              height: 30,
-              width: 30,
-              margin: EdgeInsets.only(left: 20, top: 15, bottom: 10),
-              decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/images/user.png'),
-                  ))),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            "Ivana",
-            style: TextStyle(
-                color: Global.blackpanda,
-                fontSize: 14,
-                fontWeight: FontWeight.bold),
-          ),
-        ],
+
+
+      // For Adjusting Space
+      Opacity(
+        opacity: 0,
+        child: Container(
+            height: 30,
+            width: 30,
+            margin: EdgeInsets.only(left: 20, top: 15, bottom: 10),
+            decoration: new BoxDecoration(
+                shape: BoxShape.circle,
+                image: new DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/images/user.png'),
+                ))),
       ),
-      Spacer(),
-      Icon(
-        Icons.more_vert,
-        color: Global.orangepanda,
+      SizedBox(
+        width: 5,
       ),
+
     ],
   ),
+  centerTitle: true,
+  actions: <Widget>[
+    Icon(
+      Icons.more_vert,
+      color: Global.orangepanda,
+    ),
+  ],
 );
 
 class customgradientbuton extends StatelessWidget {
@@ -465,3 +474,61 @@ AppBar CustomAppbarforsettings = AppBar(automaticallyImplyLeading: false,
     ],
   ),
 );
+
+class CustomButton extends StatelessWidget {
+
+  String text;
+  Icon icon;
+  Color textColor;
+  Color backgroundColor;
+
+
+  CustomButton({this.text, this.icon, this.textColor, this.backgroundColor});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width*.5,
+      decoration: BoxDecoration(
+        color:backgroundColor,
+        borderRadius: BorderRadius.circular(100)
+      ),
+
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          children: <Widget>[
+            Container(
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(211,211,211, 0.4),
+                    borderRadius: BorderRadius.circular(100)
+                ),
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: icon,
+            )),
+            Expanded(child: Center(child: Text(text,style: TextStyle(fontWeight: FontWeight.w900,color: textColor),))),
+          ],
+        ),
+      ),
+
+    );
+  }
+}
+
+
+class CustomText extends StatelessWidget {
+
+  String text;
+  FontWeight fontWeight;
+  double fontSize;
+  Color color;
+  TextDecoration decoration;
+
+  CustomText({this.text, this.fontWeight,this.fontSize,this.color,this.decoration});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,style: TextStyle(color: color==null?Global.isSwitchedFT ==false ? Global.blackpanda : Global.whitepanda:color,fontWeight: fontWeight??FontWeight.normal,fontSize:  fontSize??14,decoration: decoration??TextDecoration.none),);
+  }
+}
+

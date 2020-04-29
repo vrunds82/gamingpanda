@@ -13,6 +13,7 @@ class splashscreen extends StatefulWidget {
 class _splashscreenState extends State<splashscreen> {
 
   startTime() async {
+    await getSwitchState();
     var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
   }
@@ -27,9 +28,8 @@ class _splashscreenState extends State<splashscreen> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //Global variable which is in global file
     Global.isSwitchedFT = await prefs.get("theme")??false;
-    print(Global.isSwitchedFT);
+    print("Current Theme : "+Global.isSwitchedFT.toString());
 
 setState(() {
 
@@ -49,7 +49,7 @@ setState(() {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getSwitchState();
+
     startTime();
   }
 }

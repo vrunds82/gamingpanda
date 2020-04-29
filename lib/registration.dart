@@ -40,19 +40,19 @@ SizedBox(height: 20,),
 
 
                  SizedBox(height: 10,),
-                 customtext(text: "Name",),
+                 CustomText(text: "Name",),
                  SizedBox(height: 5,),
                  Customtextfield(controllername: name,focusborder: true,),
                  SizedBox(height: 20,),
-                 customtext(text: "Email",),
+                 CustomText(text: "Email",),
                  SizedBox(height: 5,),
                  Customtextfield(controllername: email,focusborder: true,),
                  SizedBox(height: 20,),
-                 customtext(text: "Password",),
+                 CustomText(text: "Password",),
                  SizedBox(height: 5,),
                  Customtextfield(controllername: password,obsecuretext: true,focusborder: true,),
                  SizedBox(height:20,),
-                 customtext(text: "Confirm password",),
+                 CustomText(text: "Confirm password",),
                  SizedBox(height: 5,),
                  Customtextfield(controllername: confirmpassword,obsecuretext: true,focusborder: true,),
                  SizedBox(height: 20,),
@@ -75,18 +75,16 @@ SizedBox(height: 20,),
                        GestureDetector(onTap: (){
                          Navigator.of(context).pushNamed('registerp');
                        },
-                         child: Text("Already have Account?",style: TextStyle(
-
-                         )),
+                         child: CustomText(text:"Already have Account?"),
                        ),
                       SizedBox(width: 5,),
 
                        GestureDetector(onTap: (){
                          Navigator.of(context).pushNamed('login');
                        },
-                         child: Text("Sign In",style: TextStyle(
+                         child: CustomText(text:"Sign In",
                            fontSize: 18
-                         )),
+                         ),
                        ),
 
                      ],

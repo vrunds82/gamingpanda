@@ -22,7 +22,6 @@ class _cardpageState extends State<cardpage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 30,),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(width: MediaQuery.of(context).size.width,
@@ -34,42 +33,43 @@ class _cardpageState extends State<cardpage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 22,right: 22,top: 10),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.cancel,size: 50,color: Global.greypanda,),
-                      Spacer(),
-                      Container(
-
-                          decoration: BoxDecoration(color: Colors.blueAccent,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-
-
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.star,color: Global.whitepanda,),
-                          )),
-                      Spacer(),
-                      Container(
-
-                          decoration: BoxDecoration(color: Global.greypandaicon,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-
-
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset('assets/images/game.png',height: 30,width: 30,)
-                          )),
-
-                    ],
-                  ),
-                ),
               ],
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 22,right: 22,top: 10),
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.cancel,size: 50,color: Global.greypanda,),
+                Spacer(),
+                Container(
+
+                    decoration: BoxDecoration(color: Colors.blueAccent,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.star,color: Global.whitepanda,),
+                    )),
+                Spacer(),
+                Container(
+
+                    decoration: BoxDecoration(color: Global.greypandaicon,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+
+
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/images/game.png',height: 30,width: 30,)
+                    )),
+
+              ],
+            ),
+          ),
+          SizedBox(height: 30,),
         ],
       ),
     );

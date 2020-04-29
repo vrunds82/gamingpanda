@@ -16,6 +16,10 @@ class _loginpageState extends State<loginpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      backgroundColor:
+      Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+
 body: Center(
   child:   Padding(
     padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,right:  MediaQuery.of(context).size.width*0.1),
@@ -54,15 +58,13 @@ body: Center(
                 GestureDetector(onTap: (){
                   Navigator.of(context).pushNamed('registerp');
                 },
-                  child: Text("Create an Account",style: TextStyle(
+                  child: CustomText(text:"Create an Account",
               decoration: TextDecoration.underline,
-            )),
+            ),
                 ),
                 Spacer(),
-
-                Text("Forgot Password?",style: TextStyle(
-                  decoration: TextDecoration.underline,
-                )),
+                CustomText(text: "Forgot Password?",decoration: TextDecoration.underline,
+                ),
 
               ],
             ),
@@ -70,7 +72,9 @@ body: Center(
 
           Padding(
             padding: const EdgeInsets.only(top:20,bottom: 20),
-            child: Text("OR",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+            child: CustomText(text: "OR",fontSize: 17,fontWeight: FontWeight.bold,),
+
+
           ),
 
           Padding(
