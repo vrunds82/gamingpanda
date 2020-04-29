@@ -481,36 +481,44 @@ class CustomButton extends StatelessWidget {
   Icon icon;
   Color textColor;
   Color backgroundColor;
+  VoidCallback onPressed;
 
 
-  CustomButton({this.text, this.icon, this.textColor, this.backgroundColor});
+
+
+  CustomButton({this.text, this.icon, this.textColor, this.backgroundColor,this.onPressed});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width*.5,
-      decoration: BoxDecoration(
-        color:backgroundColor,
-        borderRadius: BorderRadius.circular(100)
-      ),
-
-      child: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Row(
-          children: <Widget>[
-            Container(
-                decoration: BoxDecoration(
-                    color: Color.fromRGBO(211,211,211, 0.4),
-                    borderRadius: BorderRadius.circular(100)
-                ),
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: icon,
-            )),
-            Expanded(child: Center(child: Text(text,style: TextStyle(fontWeight: FontWeight.w900,color: textColor),))),
-          ],
+    return InkWell(
+      onTap: (){
+        onPressed();
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width*.5,
+        decoration: BoxDecoration(
+          color:backgroundColor,
+          borderRadius: BorderRadius.circular(100)
         ),
-      ),
 
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            children: <Widget>[
+              Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(211,211,211, 0.4),
+                      borderRadius: BorderRadius.circular(100)
+                  ),
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: icon,
+              )),
+              Expanded(child: Center(child: Text(text,style: TextStyle(fontWeight: FontWeight.w900,color: textColor),))),
+            ],
+          ),
+        ),
+
+      ),
     );
   }
 }

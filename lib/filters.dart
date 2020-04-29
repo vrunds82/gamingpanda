@@ -56,10 +56,10 @@ class _filteritemState extends State<filteritem> {
             Row(crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text("Filters",textAlign: TextAlign.left,style: TextStyle(
+                CustomText(text:"Filters",
                   fontWeight: FontWeight.bold,
                   fontSize: 22
-                ),),
+                ,),
 
               ],
             ),
@@ -67,9 +67,9 @@ class _filteritemState extends State<filteritem> {
             Row(crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text("I am looking for:",textAlign: TextAlign.left,style: TextStyle(
+                CustomText(text:"I am looking for:",
                   fontSize:12,
-                ),),
+                ),
               ],
             ),
 SizedBox(height: 10,),
@@ -89,7 +89,7 @@ SizedBox(height: 10,),
                   Expanded(
                     child: DropdownButton(hint: Padding(
                       padding: const EdgeInsets.only(left: 18),
-                      child: Text("Game",style: TextStyle(fontSize: 12),),
+                      child: CustomText(text:"Game",fontSize: 12,),
                     ),underline: SizedBox(),
                       icon: Padding(
                         padding: const EdgeInsets.only(right: 15),
@@ -105,7 +105,7 @@ SizedBox(height: 10,),
                           value: val,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(val,style: TextStyle(fontSize: 12),),
+                            child: CustomText(text:val,fontSize: 12,),
                           ),
                         );
                       }).toList(),
@@ -140,7 +140,7 @@ SizedBox(height: 10,),
                   Expanded(
                     child: DropdownButton(hint: Padding(
                       padding: const EdgeInsets.only(left: 18),
-                      child: Text("Server",style: TextStyle(fontSize: 12),),
+                      child: CustomText(text:"Server",fontSize: 12,),
                     ),underline: SizedBox(),
                       icon: Padding(
                         padding: const EdgeInsets.only(right: 15),
@@ -156,7 +156,7 @@ SizedBox(height: 10,),
                           value: val,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(val,style: TextStyle(fontSize: 12),),
+                            child: CustomText(text:val,fontSize: 12,),
                           ),
                         );
                       }).toList(),
@@ -190,7 +190,7 @@ SizedBox(height: 10,),
                   Expanded(
                     child: DropdownButton(hint: Padding(
                       padding: const EdgeInsets.only(left: 18),
-                      child: Text("Rank",style: TextStyle(fontSize: 12),),
+                      child: CustomText(text:"Rank",fontSize: 12),
                     ),underline: SizedBox(),
                       icon: Padding(
                         padding: const EdgeInsets.only(right: 15),
@@ -206,7 +206,7 @@ SizedBox(height: 10,),
                           value: val,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(val,style: TextStyle(fontSize: 12)),
+                            child: CustomText(text:val,fontSize: 12),
                           ),
                         );
                       }).toList(),
@@ -240,7 +240,7 @@ SizedBox(height: 10,),
                   Expanded(
                     child: DropdownButton(hint: Padding(
                       padding: const EdgeInsets.only(left: 18),
-                      child: Text("Country",style: TextStyle(fontSize: 12),),
+                      child: CustomText(text:"Country",fontSize: 12,),
                     ),underline: SizedBox(),
                       icon: Padding(
                         padding: const EdgeInsets.only(right: 15),
@@ -256,7 +256,7 @@ SizedBox(height: 10,),
                           value: val,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(val,style: TextStyle(fontSize: 12)),
+                            child: CustomText(text:val,fontSize: 12),
                           ),
                         );
                       }).toList(),
@@ -275,10 +275,10 @@ SizedBox(height: 10,),
             Row(crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text("Age",textAlign: TextAlign.left,style: TextStyle(
+                CustomText(text:"Age",
 
                     fontSize: 12
-                ),),
+                ,),
               ],
             ),
 
@@ -294,28 +294,32 @@ Row(
 
         child: Padding(
           padding: const EdgeInsets.only(left: 30,right: 30,top: 10,bottom: 10),
-          child: Text(start.toInt().toString(),style: TextStyle(fontSize: 13),),
+          child: CustomText(text:start.toInt().toString(),fontSize: 13,),
         )),
 
         Expanded(
-          child: Slider(
+          child: Theme(
+            data: ThemeData(backgroundColor:Global.darkBlue),
+            child: Slider(
+
       value: start,
      onChanged: (values){
 
-          start =values;
+            start =values;
 
-          setState(() {
+            setState(() {
 
-          });
+            });
      },
       min: 0,
       max: 100,
-            activeColor: Global.orangepanda,
-            inactiveColor: Global.blackpanda,
+              activeColor: Global.orangepanda,
+              inactiveColor: Global.blackpanda,
 
 
 
     ),
+          ),
         ),
   ],
 ),
@@ -324,7 +328,7 @@ Row(
 
               child:   Row(children: <Widget>[
 
-                Text("Gender",style: TextStyle(fontSize: 12.5),),
+                CustomText(text:"Gender",fontSize: 12.5,),
 
                 Radio(
                   value: 1,
@@ -340,7 +344,7 @@ Row(
 
                 ),
 
-                new Text('Male',style: TextStyle(fontSize: 12,color: Global.greypanda),),
+                new CustomText(text:'Male',fontSize: 12),
 
                 Radio(
 
@@ -360,7 +364,7 @@ Row(
 
                 ),
 
-                new Text('Female',style: TextStyle(fontSize: 12,color: Global.greypanda)),
+                new CustomText(text:'Female',fontSize: 12),
 
                 Radio(
 
@@ -380,7 +384,7 @@ Row(
 
                 ),
 
-                new Text('Unknown',style: TextStyle(fontSize: 12,color: Global.greypanda)),
+                new CustomText(text:'Unknown',fontSize: 12),
 
               ],),
 

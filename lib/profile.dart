@@ -75,6 +75,9 @@ class _profilepageState extends State<profilepage> {
                     text: "FILTERS",
                     icon: Icon(MdiIcons.filter,color: Colors.white,),
                     textColor: Colors.white,
+                    onPressed: (){
+                      Navigator.of(context).pushNamed('filter');
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -84,6 +87,9 @@ class _profilepageState extends State<profilepage> {
                     text: "EDIT PROFILE",
                     icon: Icon(MdiIcons.pencil,color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,),
                     textColor: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+                    onPressed: (){
+                  //    Navigator.of(context).pushNamed(routeName);
+                    },
                   ),
 
                   SizedBox(
