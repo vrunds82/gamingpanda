@@ -18,6 +18,8 @@ class _registerState extends State<register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:
+      Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
        body: Padding(
          padding: EdgeInsets.only(left:  MediaQuery.of(context).size.width*0.1,right:  MediaQuery.of(context).size.width*0.1),
          child: Center(

@@ -417,7 +417,8 @@ class customgradientbuton extends StatelessWidget {
   }
 }
 
-AppBar CustomAppbarforsettings = AppBar(automaticallyImplyLeading: false,
+AppBar CustomAppbarforsettings =
+AppBar(automaticallyImplyLeading: false,
   flexibleSpace: Container(
     decoration: BoxDecoration(
         gradient: LinearGradient(
