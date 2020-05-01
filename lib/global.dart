@@ -146,11 +146,11 @@ class CustomAppbar extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.width * .2,
+          //height: MediaQuery.of(context).size.width * .2,
           color: Global.isSwitchedFT==true?Global.darkBlue:Global.whitepanda ,
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top:8.0,bottom: 8.0),
+              padding: const EdgeInsets.only(top:15.0,bottom: 15.0),
               child: Row(
 
                 children: <Widget>[
@@ -169,7 +169,7 @@ class CustomAppbar extends StatelessWidget {
                           : 'assets/images/usergrey.png',
                       height: MediaQuery.of(context).size.width * .1,
                       width: MediaQuery.of(context).size.width * .1,
-                    ),
+                    fit: BoxFit.contain,),
                   ),
 
                   Expanded(
@@ -184,7 +184,7 @@ class CustomAppbar extends StatelessWidget {
                             : 'assets/images/pandagrey.png',
                         height: MediaQuery.of(context).size.width * .1,
                         width: MediaQuery.of(context).size.width * .1,
-                      ),
+                        fit: BoxFit.contain,  ),
                     ),
                   ),
 
@@ -199,7 +199,7 @@ class CustomAppbar extends StatelessWidget {
 
                       height: MediaQuery.of(context).size.width * .1,
                       width: MediaQuery.of(context).size.width * .1,
-                    ),
+                      fit: BoxFit.contain,   ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*.08,

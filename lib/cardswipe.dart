@@ -31,29 +31,14 @@ class _cardpageState extends State<cardpage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 60,right: 60,bottom: 20,top: 10),
+            padding: const EdgeInsets.only(left: 60,right: 60,bottom: 10,top: 10),
             child: Row(
               children: <Widget>[
-                Icon(Icons.cancel,size: 50,color: Global.greypanda,),
+                Image.asset('assets/images/cancel.png',height: 45,width: 45,),
                 Spacer(),
-                Card(color: Colors.blueAccent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.star,color: Global.whitepanda,size: 20,),
-                  ),
-                ),
+                Image.asset('assets/images/star.png',height: 45,width: 45,),
                 Spacer(),
-                Card(shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/game.png',height: 32,width: 32,)
-                  ),
-                ),
+                Image.asset('assets/images/gamebtn.png',height: 45,width: 45,),
 
               ],
             ),
