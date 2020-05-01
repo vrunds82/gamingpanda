@@ -25,7 +25,7 @@ class _cardpageState extends State<cardpage> {
                 Radius.circular(20)
               ),
                 child: Image.asset('assets/images/user.png',
-                  fit: BoxFit.cover,
+                  fit: BoxFit.cover, 
                 ),
               ),
             ),
