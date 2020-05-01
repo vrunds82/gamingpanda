@@ -20,7 +20,7 @@ class _cardpageState extends State<cardpage> {
           CustomAppbar(),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(8,1,8,0),
+              padding: const EdgeInsets.fromLTRB(5,5,5,10),
               child: ClipRRect(borderRadius: BorderRadius.all(
                 Radius.circular(20)
               ),
@@ -31,20 +31,12 @@ class _cardpageState extends State<cardpage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 60,right: 60,bottom: 10,top: 10),
+            padding: const EdgeInsets.only(left: 60,right: 60,bottom: 20,top: 10),
             child: Row(
               children: <Widget>[
-              Card(elevation: 5.3,color:Global.whitepanda,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.close,color: Global.blackpanda,size: 30,),
-              ),
-            ),
+                Icon(Icons.cancel,size: 50,color: Global.greypanda,),
                 Spacer(),
-                Card(elevation: 5.3,color: Colors.blueAccent,
+                Card(color: Colors.blueAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -54,7 +46,7 @@ class _cardpageState extends State<cardpage> {
                   ),
                 ),
                 Spacer(),
-                Card(elevation: 5,shape: RoundedRectangleBorder(
+                Card(shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                   child: Padding(
