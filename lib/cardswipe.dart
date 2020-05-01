@@ -19,57 +19,45 @@ class _cardpageState extends State<cardpage> {
         children: <Widget>[
           CustomAppbar(),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.center,
-                    child: Image.asset('assets/images/user.png',
-
-
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(3,1,3,0),
+              child: ClipRRect(borderRadius: BorderRadius.all(
+                Radius.circular(20)
+              ),
+                child: Image.asset('assets/images/user.png',
+                  fit: BoxFit.cover,
                 ),
-              ],
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 22,right: 22,top: 10),
+            padding: const EdgeInsets.only(left: 60,right: 60,bottom: 20,top: 10),
             child: Row(
               children: <Widget>[
                 Icon(Icons.cancel,size: 50,color: Global.greypanda,),
                 Spacer(),
-                Container(
-
-                    decoration: BoxDecoration(color: Colors.blueAccent,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-
-
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.star,color: Global.whitepanda,),
-                    )),
+                Card(color: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.star,color: Global.whitepanda,size: 20,),
+                  ),
+                ),
                 Spacer(),
-                Container(
-
-                    decoration: BoxDecoration(color: Global.greypandaicon,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-
-
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset('assets/images/game.png',height: 30,width: 30,)
-                    )),
+                Card(shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset('assets/images/game.png',height: 32,width: 32,)
+                  ),
+                ),
 
               ],
             ),
           ),
-          SizedBox(height: 30,),
         ],
       ),
     );

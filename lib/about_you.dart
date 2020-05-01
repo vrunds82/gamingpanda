@@ -10,61 +10,127 @@ class aboutu extends StatefulWidget {
 class _aboutuState extends State<aboutu> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       body: SingleChildScrollView(
-         child: Padding(
-           padding: const EdgeInsets.all(10.0),
-           child: Column(
-             children: <Widget>[
-               SizedBox(height: 20,),
-               Row(
-                 children: <Widget>[
-                   customcard(),
-                   customcard(),
-                   customcard(),
-                 ],
-               ),
-               SizedBox(height: 20,),
-               Row(
-                 children: <Widget>[
-                   customcard(),
-                   customcard(),
-                   customcard(),
-                 ],
-               ),
-               SizedBox(height: 20,),
-      Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+    return SafeArea(
+      child: Scaffold(appBar: AppBar(automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[Global.yellowpanda, Global.orangepanda])),
+        ),
+        backgroundColor: Global.whitepanda,
+        title: Row(
           children: <Widget>[
-            Text("About You",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Global.whitepanda,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.keyboard_backspace,
+                      color: Global.orangepanda,
+                    ),
+                  )),
+            ),
+            SizedBox(width: 10,),
+            Row(
+              children: <Widget>[
+                Text(
+                  "Edit profile",
+                  style: TextStyle(
+                      color: Global.blackpanda,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Spacer(),
+            Icon(
+              Icons.more_vert,
+              color: Global.orangepanda,
+            ),
           ],
         ),
       ),
-      new Container(height: 250,
-          /*decoration: new BoxDecoration(
+        backgroundColor: Global.isSwitchedFT == true
+            ? Global.blackpanda
+            : Global.whitepanda,
+         body: SingleChildScrollView(
+           child: Padding(
+             padding: const EdgeInsets.all(10.0),
+             child: Column(
+               children: <Widget>[
+                 SizedBox(height: 20,),
+                 Row(
+                   children: <Widget>[
+                     customcard(),
+                     customcard(),
+                     customcard(),
+                   ],
+                 ),
+                 SizedBox(height: 20,),
+                 Row(
+                   children: <Widget>[
+                     customcard(),
+                     customcard(),
+                     customcard(),
+                   ],
+                 ),
+                 SizedBox(height: 20,),
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              CustomText(text: "About You",fontSize: 22,
+                fontWeight: FontWeight.bold,),
 
-              borderRadius: new BorderRadius.all(Radius.circular(30))
-          ),*/
-          child: new Center(
-            child: new TextField(maxLines: 8,
-              decoration: InputDecoration(
-                enabledBorder:  OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-
-                  borderSide:  BorderSide(color: Colors.grey, width: 0.0),
-
-                ),
-                hintText: "Please write at what time you play, what are you looking for, what is your game style...",
-              ),
-            ),
+            ],
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
+          child: new Container(
+              /*decoration: new BoxDecoration(
 
-      ),customgradientbuton(buttontext: "SAVE",)],
+                  borderRadius: new BorderRadius.all(Radius.circular(30))
+              ),*/
+              child: new Center(
+                child: new TextField(
+                  //minLines: 10,
+                  maxLines: 10,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    hintText: "Please write at what time you play, what are you looking for, what is your game style...",
+hintStyle: TextStyle(color: Global.isSwitchedFT == true
+      ? Global.whitepanda
+      : Global.blackpanda,),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Global.greypandaicon),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color:Global.orangepanda),
+                    ),
+                  ),
+                ),
+              ),
+
+          ),
+        ),
+                 SizedBox(height: 10,),customgradientbuton(buttontext: "SAVE",)],
+             ),
            ),
          ),
-       ),
+      ),
     );
   }
 }

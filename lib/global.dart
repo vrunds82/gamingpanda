@@ -304,11 +304,13 @@ class customcard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        height: 200,
-        width: 113,
+        height:MediaQuery.of(context).size.width*.4,
+        width:MediaQuery.of(context).size.width*.3,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Card(
+          child: Card(color: Global.isSwitchedFT == true
+              ? Global.blackpanda.withOpacity(0.2)
+              : Global.whitepanda,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),

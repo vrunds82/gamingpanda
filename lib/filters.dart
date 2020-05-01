@@ -51,7 +51,7 @@ class _filteritemState extends State<filteritem> {
           : Global.whitepanda,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20,right: 20,top: 30),
+          padding: const EdgeInsets.only(left: 20,right: 20,top: 60),
           child: Column(children: <Widget>[
             Row(crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -87,34 +87,40 @@ SizedBox(height: 10,),
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: DropdownButton(hint: Padding(
-                      padding: const EdgeInsets.only(left: 18),
-                      child: CustomText(text:"Game",fontSize: 12,),
-                    ),underline: SizedBox(),
-                      icon: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          color:Global.orangepanda,
-                          size: 20.09,
-                        ),
-                      ),
-                      isExpanded: true,
-                      items: listitems.map((val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: CustomText(text:val,fontSize: 12,),
+                    child: Theme(data: Theme.of(context).copyWith(
+                      canvasColor: Global.isSwitchedFT == true
+                          ? Global.blackpanda
+                          : Global.whitepanda,
+                    ),
+                      child: DropdownButton(hint: Padding(
+                        padding: const EdgeInsets.only(left: 18),
+                        child: CustomText(text:"Game",fontSize: 12,),
+                      ),underline: SizedBox(),
+                        icon: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            color:Global.orangepanda,
+                            size: 20.09,
                           ),
-                        );
-                      }).toList(),
-                      value: _currentSelectedItemgame,
-                      onChanged: (value) {
-                        setState(() {
-                          _currentSelectedItemgame = value;
-                        });
-                      },
+                        ),
+                        isExpanded: true,
+                        items: listitems.map((val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: CustomText(text:val,fontSize: 12,),
+                            ),
+                          );
+                        }).toList(),
+                        value: _currentSelectedItemgame,
+                        onChanged: (value) {
+                          setState(() {
+                            _currentSelectedItemgame = value;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -138,34 +144,40 @@ SizedBox(height: 10,),
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: DropdownButton(hint: Padding(
-                      padding: const EdgeInsets.only(left: 18),
-                      child: CustomText(text:"Server",fontSize: 12,),
-                    ),underline: SizedBox(),
-                      icon: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          color:Global.orangepanda,
-                          size: 20.09,
-                        ),
-                      ),
-                      isExpanded: true,
-                      items: listitems.map((val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: CustomText(text:val,fontSize: 12,),
+                    child: Theme(data: Theme.of(context).copyWith(
+                      canvasColor: Global.isSwitchedFT == true
+                          ? Global.blackpanda
+                          : Global.whitepanda,
+                    ),
+                      child: DropdownButton(hint: Padding(
+                        padding: const EdgeInsets.only(left: 18),
+                        child: CustomText(text:"Server",fontSize: 12,),
+                      ),underline: SizedBox(),
+                        icon: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            color:Global.orangepanda,
+                            size: 20.09,
                           ),
-                        );
-                      }).toList(),
-                      value: _currentSelectedItemserver,
-                      onChanged: (value) {
-                        setState(() {
-                          _currentSelectedItemserver = value;
-                        });
-                      },
+                        ),
+                        isExpanded: true,
+                        items: listitems.map((val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: CustomText(text:val,fontSize: 12,),
+                            ),
+                          );
+                        }).toList(),
+                        value: _currentSelectedItemserver,
+                        onChanged: (value) {
+                          setState(() {
+                            _currentSelectedItemserver = value;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -188,34 +200,40 @@ SizedBox(height: 10,),
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: DropdownButton(hint: Padding(
-                      padding: const EdgeInsets.only(left: 18),
-                      child: CustomText(text:"Rank",fontSize: 12),
-                    ),underline: SizedBox(),
-                      icon: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          color:Global.orangepanda,
-                          size: 20.09,
-                        ),
-                      ),
-                      isExpanded: true,
-                      items: listitems.map((val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: CustomText(text:val,fontSize: 12),
+                    child: Theme(data: Theme.of(context).copyWith(
+                      canvasColor: Global.isSwitchedFT == true
+                          ? Global.blackpanda
+                          : Global.whitepanda,
+                    ),
+                      child: DropdownButton(hint: Padding(
+                        padding: const EdgeInsets.only(left: 18),
+                        child: CustomText(text:"Rank",fontSize: 12),
+                      ),underline: SizedBox(),
+                        icon: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            color:Global.orangepanda,
+                            size: 20.09,
                           ),
-                        );
-                      }).toList(),
-                      value: _currentSelectedItemrank,
-                      onChanged: (value) {
-                        setState(() {
-                          _currentSelectedItemrank = value;
-                        });
-                      },
+                        ),
+                        isExpanded: true,
+                        items: listitems.map((val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: CustomText(text:val,fontSize: 12),
+                            ),
+                          );
+                        }).toList(),
+                        value: _currentSelectedItemrank,
+                        onChanged: (value) {
+                          setState(() {
+                            _currentSelectedItemrank = value;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -237,35 +255,41 @@ SizedBox(height: 10,),
               ),
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: DropdownButton(hint: Padding(
-                      padding: const EdgeInsets.only(left: 18),
-                      child: CustomText(text:"Country",fontSize: 12,),
-                    ),underline: SizedBox(),
-                      icon: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          color:Global.orangepanda,
-                          size: 20.09,
-                        ),
-                      ),
-                      isExpanded: true,
-                      items: listitems.map((val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: CustomText(text:val,fontSize: 12),
+                  Theme(data: Theme.of(context).copyWith(
+                    canvasColor: Global.isSwitchedFT == true
+                        ? Global.blackpanda
+                        : Global.whitepanda,
+                  ),
+                    child: Expanded(
+                      child: DropdownButton(hint: Padding(
+                        padding: const EdgeInsets.only(left: 18),
+                        child: CustomText(text:"Country",fontSize: 12,),
+                      ),underline: SizedBox(),
+                        icon: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            color:Global.orangepanda,
+                            size: 20.09,
                           ),
-                        );
-                      }).toList(),
-                      value: _currentSelectedItemcountry,
-                      onChanged: (value) {
-                        setState(() {
-                          _currentSelectedItemcountry = value;
-                        });
-                      },
+                        ),
+                        isExpanded: true,
+                        items: listitems.map((val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: CustomText(text:val,fontSize: 12),
+                            ),
+                          );
+                        }).toList(),
+                        value: _currentSelectedItemcountry,
+                        onChanged: (value) {
+                          setState(() {
+                            _currentSelectedItemcountry = value;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -314,7 +338,9 @@ Row(
       min: 0,
       max: 100,
               activeColor: Global.orangepanda,
-              inactiveColor: Global.blackpanda,
+              inactiveColor: Global.isSwitchedFT == true
+                  ? Global.whitepanda
+                  : Global.blackpanda,
 
 
 
@@ -399,7 +425,12 @@ Row(
             SizedBox(height: 10,),
             Row(
               children: <Widget>[
-                Expanded(child: customraisedbutton(text: "BACK",bgclr: Global.orangepanda,clr: Global.whitepanda,)),
+                Expanded(child: customraisedbutton(text: "BACK",bgclr: Global.orangepanda,clr: Global.whitepanda,
+                click: (){
+
+                  Navigator.pop(context);
+                },)),
+
               ],
             )
           ],),
