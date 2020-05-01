@@ -20,7 +20,7 @@ class _cardpageState extends State<cardpage> {
           CustomAppbar(),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(5,5,5,10),
+              padding: const EdgeInsets.fromLTRB(4,4,4,14),
               child: ClipRRect(borderRadius: BorderRadius.all(
                 Radius.circular(20)
               ),
@@ -31,13 +31,14 @@ class _cardpageState extends State<cardpage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 60,right: 60,bottom: 10,top: 10),
+            padding: EdgeInsets.only(bottom: 15,top: 15),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Image.asset('assets/images/cancel.png',height: 45,width: 45,),
-                Spacer(),
+
                 Image.asset('assets/images/star.png',height: 45,width: 45,),
-                Spacer(),
+
                 Image.asset('assets/images/gamebtn.png',height: 45,width: 45,),
 
               ],

@@ -13,6 +13,7 @@ class Global {
   static Color yellowpanda = Color(0xffFCCF31);
   static Color darkBlue = Color(0xff16161D);
   static int currentpageindex = 1;
+  static double IconSize =0.06;
 }
 
 class Customtextfield extends StatelessWidget {
@@ -150,14 +151,12 @@ class CustomAppbar extends StatelessWidget {
           color: Global.isSwitchedFT==true?Global.darkBlue:Global.whitepanda ,
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top:15.0,bottom: 15.0),
+              padding: const EdgeInsets.only(top:14.0,bottom: 14.0),
               child: Row(
 
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width*.08,
 
-                  ),
                   GestureDetector(onTap: (){
 
                     Global.currentpageindex = 0;
@@ -167,25 +166,23 @@ class CustomAppbar extends StatelessWidget {
                       Global.currentpageindex == 0
                           ? 'assets/images/userorange.png'
                           : 'assets/images/usergrey.png',
-                      height: MediaQuery.of(context).size.width * .1,
-                      width: MediaQuery.of(context).size.width * .1,
+                      height: MediaQuery.of(context).size.width * Global.IconSize,
+                      width: MediaQuery.of(context).size.width * Global.IconSize,
                     fit: BoxFit.contain,),
                   ),
 
-                  Expanded(
-                    child: GestureDetector(onTap: (){
+                  GestureDetector(onTap: (){
 
-                      Global.currentpageindex = 1;
-                      Navigator.of(context).pushReplacementNamed('cardswipe');
-                    },
-                      child: Image.asset(
-                        Global.currentpageindex == 1
-                            ? 'assets/images/pandaorange.png'
-                            : 'assets/images/pandagrey.png',
-                        height: MediaQuery.of(context).size.width * .1,
-                        width: MediaQuery.of(context).size.width * .1,
-                        fit: BoxFit.contain,  ),
-                    ),
+                    Global.currentpageindex = 1;
+                    Navigator.of(context).pushReplacementNamed('cardswipe');
+                  },
+                    child: Image.asset(
+                      Global.currentpageindex == 1
+                          ? 'assets/images/pandaorange.png'
+                          : 'assets/images/pandagrey.png',
+                      height: MediaQuery.of(context).size.width *  Global.IconSize,
+                      width: MediaQuery.of(context).size.width *  Global.IconSize,
+                      fit: BoxFit.contain,  ),
                   ),
 
                   GestureDetector(onTap: (){
@@ -197,13 +194,11 @@ class CustomAppbar extends StatelessWidget {
                         ? 'assets/images/chatorange.png'
                         : 'assets/images/chatgrey.png',
 
-                      height: MediaQuery.of(context).size.width * .1,
-                      width: MediaQuery.of(context).size.width * .1,
+                      height: MediaQuery.of(context).size.width *  Global.IconSize,
+                      width: MediaQuery.of(context).size.width *  Global.IconSize,
                       fit: BoxFit.contain,   ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width*.08,
-                  ),
+
                 ],
               ),
             ),
