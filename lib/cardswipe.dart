@@ -20,7 +20,7 @@ class _cardpageState extends State<cardpage> {
           CustomAppbar(),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(3,1,3,0),
+              padding: const EdgeInsets.fromLTRB(5,5,5,10),
               child: ClipRRect(borderRadius: BorderRadius.all(
                 Radius.circular(20)
               ),

@@ -11,7 +11,8 @@ class _aboutuState extends State<aboutu> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(appBar: AppBar(automaticallyImplyLeading: false,
+      child: Scaffold(
+        appBar: AppBar(automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -67,7 +68,7 @@ class _aboutuState extends State<aboutu> {
              padding: const EdgeInsets.all(10.0),
              child: Column(
                children: <Widget>[
-                 SizedBox(height: 20,),
+
                  Row(
                    children: <Widget>[
                      customcard(),

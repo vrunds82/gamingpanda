@@ -75,12 +75,12 @@ class _chatscreenState extends State<chatscreen> {
                                 children: <Widget>[
                                   CustomText(
                                     text: "Ivana",
-                                    fontSize: 15,
+                                    fontSize:18,
                                   ),
                                   Text(
                                     'Moze za pola sata',
                                     style: TextStyle(
-                                        fontSize: 12, color: Global.greypandaicon),
+                                        fontSize: 15, color: Global.greypandaicon),
                                     textAlign: TextAlign.left,
                                   ),
                                 ],
