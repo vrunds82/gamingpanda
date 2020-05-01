@@ -28,7 +28,7 @@ body: Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 20,),
-          Image.asset('assets/images/Logo.png',height: 100,width: 100,),
+          Image.asset('assets/images/logo.png',height: 100,width: 100,),
           SizedBox(height: 8,),
           Text("LOGIN",style: TextStyle(
             fontSize: 30,fontWeight: FontWeight.bold,color: Global.orangepanda

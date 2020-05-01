@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
         'livechat': (context) => livechatpage(),
         'settings': (context) => settingpage(),
         'filter': (context) => filteritem(),
+        'editprofile': (context) =>aboutu(),
       },
     );
   }

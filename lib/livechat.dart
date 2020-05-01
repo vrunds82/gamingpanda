@@ -89,7 +89,7 @@ class _livechatpageState extends State<livechatpage> {
                                 image: AssetImage('assets/images/user.png'),
                               ))),
                       Card(
-                          elevation: 5,
+                         // elevation: 5,
                           color: Global.whitepanda,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
@@ -125,7 +125,7 @@ class _livechatpageState extends State<livechatpage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Card(
-                          elevation: 5,
+                         // elevation: 5,
                           color: Global.orangepanda,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(

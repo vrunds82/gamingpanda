@@ -88,7 +88,7 @@ class _profilepageState extends State<profilepage> {
                     icon: Icon(MdiIcons.pencil,color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,),
                     textColor: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
                     onPressed: (){
-                  //    Navigator.of(context).pushNamed(routeName);
+                     Navigator.of(context).pushNamed('editprofile');
                     },
                   ),
 
