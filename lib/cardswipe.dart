@@ -24,7 +24,7 @@ class _cardpageState extends State<cardpage> {
               child: ClipRRect(borderRadius: BorderRadius.all(
                 Radius.circular(20)
               ),
-                child: Image.asset('assets/images/user.png',
+                child: Image.asset('assets/images/user.png', 
                   fit: BoxFit.cover, 
                 ),
               ),
