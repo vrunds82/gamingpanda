@@ -38,30 +38,9 @@ class _loginpageState extends State<loginpage> {
 
   Future <FirebaseUser> signIn(String email, String password) async {
 
-  }void signInWithEmail() async {
-    // marked async
-    FirebaseUser user;
-    try {
-      user = await auth.signInWithEmailAndPassword(
-          email: email.text, password: password.text);
-    } catch (e) {
-      print(e.toString());
-    } finally {
-      if (user != null) {
-        Navigator.of(context).pushNamed('cardswipe');
-      } else {
-        Fluttertoast.showToast(
-            msg: "Something went wrong...",
-            //toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      }
-    }
   }
+
+
 
 
 
@@ -99,7 +78,33 @@ body: Center(
             children: <Widget>[
               Expanded(
                 child: customraisedbutton(click: (){
-                  signInWithEmail();
+                  FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
+                      password: password.text)
+                      .then((user) async {
+
+                    if(user.user!=null)
+                    {
+                      Navigator.of(context).pushReplacementNamed('cardswipe');
+                    }
+                      })
+                      .catchError((error){
+                    if(error!=null)
+                    {
+
+                      switch(error.code){
+                        case "ERROR_USER_NOT_FOUND" :
+                          Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+                          break;
+                        default:
+                          Fluttertoast.showToast(msg:error.toString(),backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+                      }}
+                    else
+                    {
+                      Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+                    }
+                    Navigator.pop(context);
+
+                  });
                   //FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
 
 
