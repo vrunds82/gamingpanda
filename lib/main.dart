@@ -8,6 +8,8 @@ import 'package:gamingpanda/profile.dart';
 import 'package:gamingpanda/registration.dart';
 import 'package:gamingpanda/settings.dart';
 import 'package:gamingpanda/splash.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 import 'global.dart';
 import 'livechat.dart';
@@ -46,5 +48,32 @@ class MyApp extends StatelessWidget {
         'editprofile': (context) =>aboutu(),
       },
     );
+  }
+}
+class MyApplication extends StatefulWidget {
+  @override
+  _MyApplicationState createState() => _MyApplicationState();
+}
+
+class _MyApplicationState extends State<MyApplication> {
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
+  gettoken() async {
+    await firebaseMessaging.getToken().then((token) {
+      print("Token: $token");
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    gettoken();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
   }
 }

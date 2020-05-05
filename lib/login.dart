@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'global.dart';
 
@@ -12,6 +16,54 @@ class _loginpageState extends State<loginpage> {
 
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  var firebaseAuth = FirebaseAuth.instance;
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+  get auth => null;
+
+  Future<void> _handleSignIn(e) async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future <FirebaseUser> signIn(String email, String password) async {
+
+  }void signInWithEmail() async {
+    // marked async
+    FirebaseUser user;
+    try {
+      user = await auth.signInWithEmailAndPassword(
+          email: email.text, password: password.text);
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      if (user != null) {
+        Navigator.of(context).pushNamed('cardswipe');
+      } else {
+        Fluttertoast.showToast(
+            msg: "Something went wrong...",
+            //toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +98,13 @@ body: Center(
           Row(
             children: <Widget>[
               Expanded(
-                child: customraisedbutton(click: (){},clr: Global.whitepanda,text: "LOGIN",bgclr: Global.orangepanda,)
+                child: customraisedbutton(click: (){
+                  signInWithEmail();
+                  //FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
+
+
+
+                },clr: Global.whitepanda,text: "LOGIN",bgclr: Global.orangepanda,)
               ),
             ],
           ),
@@ -83,14 +141,24 @@ body: Center(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
 
-                Card(elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child:Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/g2.png',height: 25,width: 25,),
-                    )
+                GestureDetector(onTap: () async {
+
+                  final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+                  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                  final AuthCredential credential =await GoogleAuthProvider.getCredential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
+                  print(credential);
+                  await FirebaseAuth.instance.signInWithCredential(credential);
+
+                },
+                  child: Card(elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child:Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/images/g2.png',height: 25,width: 25,),
+                      )
+                  ),
                 ),
               ],
             ),

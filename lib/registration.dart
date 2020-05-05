@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'global.dart';
 
@@ -14,6 +16,27 @@ class _registerState extends State<register> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
+
+  checkpassword(){
+
+    if(password.text == confirmpassword.text)
+    {
+      Navigator.of(context).pushNamed('cardswipe');
+    }
+    else
+      {
+        Fluttertoast.showToast(
+            msg: "Password not mached",
+            //toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +85,15 @@ SizedBox(height: 20,),
                    children: <Widget>[
                      Expanded(
                          child: customraisedbutton(click: (){
-                           Navigator.of(context).pushNamed('cardswipe');
+
+                           setState(() {
+                             checkpassword();
+                           });
+
+
+                           FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password:password.text);
+
+
 
                          },clr: Global.whitepanda,text: "REGISTER",bgclr: Global.orangepanda,)
                      ),
