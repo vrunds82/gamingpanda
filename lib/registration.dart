@@ -38,6 +38,9 @@ class _registerState extends State<register> {
 
   }
 
+  final _formKey = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +53,7 @@ class _registerState extends State<register> {
              child: Column(
 
                children: <Widget>[
-SizedBox(height: 20,),
+                SizedBox(height: 20,),
                  Text("REGISTRATION",style: TextStyle(
                      fontSize: 30,fontWeight: FontWeight.bold,color: Global.orangepanda
                  ),),
@@ -87,7 +90,66 @@ SizedBox(height: 20,),
                          child: customraisedbutton(click: (){
 
                            setState(() {
-                             checkpassword();
+
+                             if(name.text == "" )
+                             {
+                               Fluttertoast.showToast(
+                                   msg: "Name filed is required",
+                                   //toastLength: Toast.LENGTH_SHORT,
+                                   gravity: ToastGravity.CENTER,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: Colors.red,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0
+                               );
+
+                             }
+                             else if (email.text == "")
+                               Fluttertoast.showToast(
+                                   msg: "Email filed is required",
+                                   //toastLength: Toast.LENGTH_SHORT,
+                                   gravity: ToastGravity.CENTER,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: Colors.red,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0
+                               );
+
+                             else if (password.text == "")
+                               Fluttertoast.showToast(
+                                   msg: "password filed is required",
+                                   //toastLength: Toast.LENGTH_SHORT,
+                                   gravity: ToastGravity.CENTER,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: Colors.red,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0
+                               );
+                             else if (confirmpassword.text == "")
+                               Fluttertoast.showToast(
+                                   msg: "Confirmpassword filed is required",
+                                   //toastLength: Toast.LENGTH_SHORT,
+                                   gravity: ToastGravity.CENTER,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: Colors.red,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0
+                               );
+                             else if (password.text != confirmpassword.text)
+                               Fluttertoast.showToast(
+                                   msg: "Password not matched",
+                                   //toastLength: Toast.LENGTH_SHORT,
+                                   gravity: ToastGravity.CENTER,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: Colors.red,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0
+                               );
+
+                             else{
+                               Navigator.of(context).pushNamed('cardswipe');
+
+                             }
                            });
 
 
