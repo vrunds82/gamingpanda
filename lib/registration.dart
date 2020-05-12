@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 import 'global.dart';
 
@@ -39,6 +42,29 @@ class _registerState extends State<register> {
   }
 
   final _formKey = GlobalKey<FormState>();
+
+  Signup() async {
+
+
+    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register?=&=&=", body: {
+      "UserId": 1,
+      "UserName": name.text.toString(),
+      "Password": password.text.toString().trim(),
+      "Email": email.text.toString(),
+
+    }).then((response) {
+
+      print(response.body.toString());
+
+      var statuss = jsonDecode(response.body);
+      print("result from Server : "+statuss['status'].toString());
+
+
+    });
+
+
+  }
+
 
 
   @override
@@ -152,10 +178,13 @@ class _registerState extends State<register> {
                              }
                            });
 
+                           var result;
+                           FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password:password.text).
+                           then(result);
+                           FirebaseUser user = result.user;
+                           print("user id is "+ user.uid) ;
 
-                           FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password:password.text);
-
-
+                           Signup();
 
                          },clr: Global.whitepanda,text: "REGISTER",bgclr: Global.orangepanda,)
                      ),
