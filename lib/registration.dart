@@ -43,11 +43,11 @@ class _registerState extends State<register> {
 
   final _formKey = GlobalKey<FormState>();
 
-  Signup() async {
+  Signup(String Userid) async {
 
 
     await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register?=&=&=", body: {
-      "UserId": 1,
+      "UserId": Userid,
       "UserName": name.text.toString(),
       "Password": password.text.toString().trim(),
       "Email": email.text.toString(),
@@ -58,7 +58,7 @@ class _registerState extends State<register> {
 
       var statuss = jsonDecode(response.body);
       print("result from Server : "+statuss['status'].toString());
-
+      Navigator.of(context).pushNamed('cardswipe');
 
     });
 
@@ -173,18 +173,25 @@ class _registerState extends State<register> {
                                );
 
                              else{
-                               Navigator.of(context).pushNamed('cardswipe');
+                               FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password:password.text).
+                               then((result){
+                                 if(result.user!=null) {
+                                   result.user.uid;
+                                   print("${result.user.uid}");
+                                   Signup(result.user.uid);
+                                 }else{
+
+                                 }
+
+                               }).catchError((error){
+                                 Fluttertoast.showToast(msg: error.toString());
+                               });
+
 
                              }
                            });
 
-                           var result;
-                           FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password:password.text).
-                           then(result);
-                           FirebaseUser user = result.user;
-                           print("user id is "+ user.uid) ;
 
-                           Signup();
 
                          },clr: Global.whitepanda,text: "REGISTER",bgclr: Global.orangepanda,)
                      ),
