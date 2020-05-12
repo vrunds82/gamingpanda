@@ -42,7 +42,7 @@ class _loginpageState extends State<loginpage> {
 
 
 
-  
+
 
 
   @override
@@ -79,6 +79,37 @@ body: Center(
             children: <Widget>[
               Expanded(
                 child: customraisedbutton(click: (){
+
+                 /* if(email.text == "" )
+                  {
+                    Fluttertoast.showToast(
+                        msg: "Email filed is required",
+                        //toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
+
+                  }
+                  else if (password.text == "")
+                    Fluttertoast.showToast(
+                        msg: "Password filed is required",
+                        //toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
+
+                  else{
+                    Navigator.of(context).pushReplacementNamed('cardswipe');
+                  }
+*/
+
+
                   FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
                       password: password.text)
                       .then((user) async {
@@ -104,6 +135,10 @@ body: Center(
                       Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
                     }
                     Navigator.pop(context);
+
+
+
+
 
                   });
                   //FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);

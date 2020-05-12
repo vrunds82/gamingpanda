@@ -26,13 +26,18 @@ class Customtextfield extends StatelessWidget {
   bool obsecuretext;
   bool align;
   bool focusborder;
+  var validate;
 
   Customtextfield(
       {this.controllername,
       this.obsecuretext,
       this.hinttext,
       this.align,
-      this.focusborder});
+      this.focusborder,
+      this.validate});
+
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
