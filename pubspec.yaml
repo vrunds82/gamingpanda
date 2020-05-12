@@ -25,6 +25,9 @@ dependencies:
   google_sign_in: ^4.4.4
   firebase_auth: ^0.15.0+1
   fluttertoast: ^4.0.1
+  fluttery_dart2:
+  http:
+  overlay_support: ^1.0.1
 
 
 

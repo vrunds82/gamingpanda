@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Global {
+  static double width = 100;
+  static double height = 500;
+
   static bool isSwitchedFT = false;
   static double fontsize = 14;
   static Color orangepanda = Color(0xffFF781E);
