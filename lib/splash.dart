@@ -36,10 +36,10 @@ setState(() {
 });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
+    Global.height = MediaQuery.of(context).size.height;
+    Global.width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(child: Image.asset('assets/images/logo.png',height: MediaQuery.of(context).size.width*.4,width: MediaQuery.of(context).size.width*.4,)),
 
