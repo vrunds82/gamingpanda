@@ -79,7 +79,7 @@ body: Center(
             children: <Widget>[
               Expanded(
                 child: customraisedbutton(click: (){
-
+                  Navigator.of(context).pushReplacementNamed('cardswipe');
                  /* if(email.text == "" )
                   {
                     Fluttertoast.showToast(
@@ -110,7 +110,7 @@ body: Center(
 */
 
 
-                  FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
+               /*   FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
                       password: password.text)
                       .then((user) async {
 
@@ -140,7 +140,7 @@ body: Center(
 
 
 
-                  });
+                  });*/
                   //FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
 
 

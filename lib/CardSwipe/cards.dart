@@ -625,6 +625,9 @@ class ProfileCard extends StatefulWidget {
 }
 
 class _ProfileCardState extends State<ProfileCard> {
+
+  bool showDetail=false;
+
   Widget _buildBackground() {
     return new PhotoBrowser(
       photoAssetPaths: widget.profile.photos,
@@ -721,6 +724,20 @@ class _ProfileCardState extends State<ProfileCard> {
 
                     ],
                   ),
+                  SizedBox(height: 5,),
+                  showDetail?Row(
+                    children: <Widget>[
+
+                      new Text(
+                        "information about the User",
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+
+                    ],
+                  ):SizedBox(),
                 ],
               ),
             ),
@@ -760,6 +777,9 @@ class _ProfileCardState extends State<ProfileCard> {
                   onTap: (){
 
 
+                    showDetail=!showDetail;
+
+               //     Fluttertoast.showToast(msg: showDetail.toString());
                     setState(() {
 
                     });
@@ -767,7 +787,7 @@ class _ProfileCardState extends State<ProfileCard> {
              //       _showUserDetails(widget.profile.index);
                   },
                   child: new Icon(
-               Icons.info,
+                     showDetail?Icons.keyboard_arrow_down:Icons.info,
                     color: Colors.white,
                   ),
                 ),
@@ -779,127 +799,6 @@ class _ProfileCardState extends State<ProfileCard> {
     );
   }
 
-
-/*  void _showUserDetails(String index) {
-    Actions("0",Globaldata.MyDetails.id,Globaldata.otherUsers[int.parse(index)].id,"View",Globaldata.otherUsers[int.parse(index)].firstname + " Requested for Friendship" );
-    print(index+" Index");
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AnchoredOverlay(
-            showOverlay: true,
-            overlayBuilder: (BuildContext context, Rect anchorBounds, Offset anchor)
-            { return BackdropFilter(
-              filter:  ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: SafeArea(
-                child: Stack(
-
-                  children: <Widget>[
-
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: AlertDialog(
-                        content: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                InfoCards(Title: "Username",Description: Globaldata.otherUsers[int.parse(index)].username),
-                                InfoCards(Title: "Mobile",Description: Globaldata.otherUsers[int.parse(index)].mobile),
-                                InfoCards(Title: "Date of Birth",Description: Globaldata.otherUsers[int.parse(index)].dob),
-                                InfoCards(Title: "Status",Description: Globaldata.otherUsers[int.parse(index)].status),
-                                InfoCards(Title: "Headline",Description: Globaldata.otherUsers[int.parse(index)].headline),
-                                InfoCards(Title: "First Name",Description: Globaldata.otherUsers[int.parse(index)].firstname),
-                                InfoCards(Title: "Height",Description: Globaldata.otherUsers[int.parse(index)].height),
-                                InfoCards(Title: "Weight",Description: Globaldata.otherUsers[int.parse(index)].weight),
-                                InfoCards(Title: "BodyType",Description: Globaldata.otherUsers[int.parse(index)].bodytype),
-                                InfoCards(Title: "Eye Color",Description: Globaldata.otherUsers[int.parse(index)].eyecolor),
-                                InfoCards(Title: "Hair Color",Description: Globaldata.otherUsers[int.parse(index)].haircolor),
-                                InfoCards(Title: "Ethinicity",Description: Globaldata.otherUsers[int.parse(index)].ethinicity),
-                                InfoCards(Title: "Religion",Description: Globaldata.otherUsers[int.parse(index)].religion),
-                                InfoCards(Title: "Gender",Description: Globaldata.otherUsers[int.parse(index)].gender),
-                                InfoCards(Title: "Looking",Description: Globaldata.otherUsers[int.parse(index)].looking),
-                                InfoCards(Title: "For Purpose",Description: Globaldata.otherUsers[int.parse(index)].for_purpose),
-                                InfoCards(Title: "Occupation",Description: Globaldata.otherUsers[int.parse(index)].occupation),
-                                InfoCards(Title: "Drinking",Description: Globaldata.otherUsers[int.parse(index)].drinking),
-                                InfoCards(Title: "Marital Status",Description: Globaldata.otherUsers[int.parse(index)].marital),
-                                InfoCards(Title: "Education",Description: Globaldata.otherUsers[int.parse(index)].education),
-                                InfoCards(Title: "Childrens",Description: Globaldata.otherUsers[int.parse(index)].havechildren),
-                                InfoCards(Title: "Want Childrens ?",Description: Globaldata.otherUsers[int.parse(index)].wantchildren),
-                                InfoCards(Title: "Car",Description: Globaldata.otherUsers[int.parse(index)].car),
-                                InfoCards(Title: "Income",Description: Globaldata.otherUsers[int.parse(index)].income),
-                                InfoCards(Title: "Pet",Description: Globaldata.otherUsers[int.parse(index)].pet),
-                                InfoCards(Title: "Intention",Description: Globaldata.otherUsers[int.parse(index)].intention),
-                                InfoCards(Title: "About",Description: Globaldata.otherUsers[int.parse(index)].about),
-                                InfoCards(Title: "Interests",Description: Globaldata.otherUsers[int.parse(index)].interests),
-                                InfoCards(Title: "Smoking",Description: Globaldata.otherUsers[int.parse(index)].smoking),
-                              ],
-                            ),
-                          ),
-                        )
-                      ),
-                    ),
-                    Positioned(top: 33,right: 33,child:   GestureDetector(onTap: (){Navigator.of(context).pop();},child: Icon(Icons.cancel,color: Colors.red,size: 25,),),),
-                  ],
-                ),
-              ),
-            );},
-            child: Center()
-        );
-      },
-    );
-  }*/
-
-/*  void _showActions({String content,String Title}) {
-
-
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AnchoredOverlay(
-            showOverlay: true,
-            overlayBuilder: (BuildContext context, Rect anchorBounds, Offset anchor)
-            { return BackdropFilter(
-              filter:  ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: SafeArea(
-                child: Center(
-                  child: Container(
-
-                    child: AlertDialog(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(side: BorderSide(color: maincolor,style: BorderStyle.solid,width: 3),borderRadius: BorderRadius.all(Radius.circular(10))),
-                      title: Text(Title,style: TextStyle(color: maincolor),textAlign: TextAlign.center,),
-                      actions: <Widget>[
-                        FlatButton(onPressed: (){
-                          Navigator.of(context).pop();
-                        }, child: Text("Close",style: TextStyle(color: maincolor),))
-                      ],
-                        content: Container(
-
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                              Text(content)
-                              ],
-                            ),
-                          ),
-                        )
-                    ),
-                  ),
-                ),
-              ),
-            );},
-            child: Center()
-        );
-      },
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
