@@ -28,6 +28,9 @@ dependencies:
   fluttery_dart2:
   http:
   overlay_support: ^1.0.1
+  image_picker: ^0.6.6+1
+
+
 
 
 

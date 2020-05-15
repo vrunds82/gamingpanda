@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class Global {
   static double width = 100;
@@ -303,8 +307,14 @@ class _CustomDropdownState extends State<CustomDropdown> {
 }
 
 class customcard extends StatelessWidget {
+
+  VoidCallback onclick;
+
+   customcard({this.onclick});
+
   @override
   Widget build(BuildContext context) {
+    var _image;
     return Stack(children: [
       Container(
         height:MediaQuery.of(context).size.width*.4,
@@ -314,6 +324,8 @@ class customcard extends StatelessWidget {
           child: Card(color: Global.isSwitchedFT == true
               ? Global.blackpanda.withOpacity(0.2)
               : Global.whitepanda,
+
+
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),
@@ -324,10 +336,14 @@ class customcard extends StatelessWidget {
           bottom: 0,
           left: 70,
           right: 30,
-          child: Icon(
-            Icons.add_circle,
-            color: Global.orangepanda,
-            size: 28,
+          child: GestureDetector(onTap: () async {
+    onclick();
+          },
+            child: Icon(
+              Icons.add_circle,
+              color: Global.orangepanda,
+              size: 28,
+            ),
           )),
     ]);
   }

@@ -79,8 +79,8 @@ body: Center(
             children: <Widget>[
               Expanded(
                 child: customraisedbutton(click: (){
-                  Navigator.of(context).pushReplacementNamed('cardswipe');
-                 /* if(email.text == "" )
+
+                  if(email.text == "" )
                   {
                     Fluttertoast.showToast(
                         msg: "Email filed is required",
@@ -105,42 +105,36 @@ body: Center(
                     );
 
                   else{
-                    Navigator.of(context).pushReplacementNamed('cardswipe');
+                    FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
+                        password: password.text)
+                        .then((user) async {
+
+                      if(user.user!=null)
+                      {
+                        Navigator.of(context).pushReplacementNamed('cardswipe');
+                      }
+                    })
+                        .catchError((error){
+                      if(error!=null)
+                      {
+                        switch(error.code){
+                          case "ERROR_USER_NOT_FOUND" :
+                            Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+                            break;
+                          default:
+                            Fluttertoast.showToast(msg:error.toString(),backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+                        }}
+                      else
+                      {
+                        Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+                      }
+                     // Navigator.pop(context);
+                    });
                   }
-*/
-
-
-               /*   FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
-                      password: password.text)
-                      .then((user) async {
-
-                    if(user.user!=null)
-                    {
-                      Navigator.of(context).pushReplacementNamed('cardswipe');
-                    }
-                      })
-                      .catchError((error){
-                    if(error!=null)
-                    {
-
-                      switch(error.code){
-                        case "ERROR_USER_NOT_FOUND" :
-                          Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-                          break;
-                        default:
-                          Fluttertoast.showToast(msg:error.toString(),backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-                      }}
-                    else
-                    {
-                      Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-                    }
-                    Navigator.pop(context);
 
 
 
 
-
-                  });*/
                   //FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
 
 
