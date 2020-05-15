@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/global.dart';
+import 'package:image_picker/image_picker.dart';
 
 class aboutu extends StatefulWidget {
   @override
@@ -8,6 +9,15 @@ class aboutu extends StatefulWidget {
 }
 
 class _aboutuState extends State<aboutu> {
+
+  Future<void> getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery,maxHeight: 20,maxWidth: 20);
+    setState(() {
+      var _image = image;
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,7 +81,9 @@ class _aboutuState extends State<aboutu> {
 
                  Row(
                    children: <Widget>[
-                     customcard(),
+                     customcard(onclick: () async {
+                       getImage();
+                     }),
                      customcard(),
                      customcard(),
                    ],

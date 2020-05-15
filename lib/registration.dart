@@ -183,8 +183,8 @@ class _registerState extends State<register> {
 
                                  }
 
-                               }).catchError((error){
-                                 Fluttertoast.showToast(msg: error.toString());
+                               }).catchError((e){
+                                return e.message;
                                });
 
 
