@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -903,6 +904,11 @@ class _settingpageState extends State<settingpage> {
                             children: <Widget>[
                               Expanded(
                                   child: customraisedbutton(
+                                    click: (){
+                                      FirebaseAuth.instance.signOut();
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil('login', (r) => false);
+                                    },
                                 text: "LOGOUT",
                                 clr: Global.whitepanda,
                                 bgclr: Global.darkgrey,

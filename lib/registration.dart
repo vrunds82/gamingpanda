@@ -115,7 +115,7 @@ class _registerState extends State<register> {
                      Expanded(
                          child: customraisedbutton(click: (){
 
-                           setState(() {
+
 
                              if(name.text == "" )
                              {
@@ -189,7 +189,7 @@ class _registerState extends State<register> {
 
 
                              }
-                           });
+
 
 
 

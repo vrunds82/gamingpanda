@@ -84,7 +84,6 @@ class _cardpageState extends State<cardpage> {
                   onTap: (){
                   matchEngine.currentMatch.nope();
                 },
-
                   child: Image.asset('assets/images/cancel.png',height: 45,width: 45,),
                 ),
 

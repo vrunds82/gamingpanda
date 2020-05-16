@@ -1,13 +1,15 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 
 class Global {
+
+  static String BaseURL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
-
   static bool isSwitchedFT = false;
   static double fontsize = 14;
   static Color orangepanda = Color(0xffFF781E);
@@ -21,6 +23,9 @@ class Global {
   static Color darkBlue = Color(0xff16161D);
   static int currentpageindex = 1;
   static double IconSize =0.06;
+
+  static FirebaseUser User;
+
 }
 
 class Customtextfield extends StatelessWidget {
@@ -309,6 +314,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
 class customcard extends StatelessWidget {
 
   VoidCallback onclick;
+  String ImageURL;
 
    customcard({this.onclick});
 

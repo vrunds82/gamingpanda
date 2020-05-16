@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/global.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class aboutu extends StatefulWidget {
@@ -9,11 +13,48 @@ class aboutu extends StatefulWidget {
 }
 
 class _aboutuState extends State<aboutu> {
+  String URL ="";
+  File croppedFile;
+  Future<File> GetImage() async {
 
-  Future<void> getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery,maxHeight: 20,maxWidth: 20);
+
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+
+
+      croppedFile = await ImageCropper.cropImage(
+          sourcePath: image.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Image',
+              toolbarColor: Global.blackpanda,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          )
+      );
+
+      final StorageReference storageReferencem = FirebaseStorage()
+          .ref()
+          .child("Users/"+Global.User.email+ "/${DateTime.now().millisecondsSinceEpoch}");
+      final StorageUploadTask uploadTaskm =
+      storageReferencem.putFile(croppedFile);
+      await uploadTaskm.onComplete;
+      await storageReferencem.getDownloadURL().then((url) {
+        URL=url;
+      });
+
+
+
+
+
+    }
     setState(() {
-      var _image = image;
 
     });
   }
@@ -82,7 +123,7 @@ class _aboutuState extends State<aboutu> {
                  Row(
                    children: <Widget>[
                      customcard(onclick: () async {
-                       getImage();
+                       GetImage();
                      }),
                      customcard(),
                      customcard(),

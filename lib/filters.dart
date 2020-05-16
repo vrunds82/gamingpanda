@@ -14,7 +14,7 @@ class _filteritemState extends State<filteritem> {
 
   List<String> listitems = ['A', 'B', 'C', 'D'];
 
-  double start=5,end;
+  double start=18,end=23;
 
   var _currentSelectedItemserver;
 
@@ -318,18 +318,19 @@ Row(
 
         child: Padding(
           padding: const EdgeInsets.only(left: 30,right: 30,top: 10,bottom: 10),
-          child: CustomText(text:start.toInt().toString(),fontSize: 13,),
+          child: CustomText(text:start.toInt().toString()+" - "+end.toInt().toString(),fontSize: 13,),
         )),
 
         Expanded(
           child: Theme(
             data: ThemeData(backgroundColor:Global.darkBlue),
-            child: Slider(
+            child: RangeSlider(
 
-      value: start,
+values: RangeValues(start,end),
      onChanged: (values){
 
-            start =values;
+            start=values.start;
+            end=values.end;
 
             setState(() {
 

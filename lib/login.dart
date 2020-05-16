@@ -66,7 +66,6 @@ body: Center(
             fontSize: 30,fontWeight: FontWeight.bold,color: Global.orangepanda
           ),),
           SizedBox(height: 30,),
-
           customtext(text: "Email"),
           SizedBox(height: 5,),
           Customtextfield(controllername: email,),
@@ -78,7 +77,7 @@ body: Center(
           Row(
             children: <Widget>[
               Expanded(
-                child: customraisedbutton(click: (){
+                child: customraisedbutton(click: () async {
 
                   if(email.text == "" )
                   {
@@ -105,6 +104,11 @@ body: Center(
                     );
 
                   else{
+
+               await     FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
+                      print("$value");
+                    });
+
                     FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
                         password: password.text)
                         .then((user) async {
@@ -117,6 +121,8 @@ body: Center(
                         .catchError((error){
                       if(error!=null)
                       {
+                        print(error.toString());
+
                         switch(error.code){
                           case "ERROR_USER_NOT_FOUND" :
                             Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
@@ -162,14 +168,12 @@ body: Center(
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(top:20,bottom: 20),
             child: CustomText(text: "OR",fontSize: 17,fontWeight: FontWeight.bold,),
 
 
           ),
-
           Padding(
             padding: const EdgeInsets.only(left: 20,right: 20),
             child: Row(crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,13 +181,11 @@ body: Center(
               children: <Widget>[
 
                 GestureDetector(onTap: () async {
-
                   final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
                   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
                   final AuthCredential credential =await GoogleAuthProvider.getCredential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
                   print(credential);
                   await FirebaseAuth.instance.signInWithCredential(credential);
-
                 },
                   child: Card(elevation: 3,
                       shape: RoundedRectangleBorder(
