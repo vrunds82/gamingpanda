@@ -26,15 +26,14 @@ class _aboutuState extends State<aboutu> {
     // TODO: implement initState
     super.initState();
     myImagesFiles = [null,null,null,null,null,null];
+    myImagesURL = [null,null,null,null,null,null];
     myImagesURL[0] = Global.userData.image1==""?null:Global.userData.image1;
     myImagesURL[1] = Global.userData.image2==""?null:Global.userData.image2;
     myImagesURL[2] = Global.userData.image3==""?null:Global.userData.image3;
     myImagesURL[3] = Global.userData.image4==""?null:Global.userData.image4;
     myImagesURL[4] = Global.userData.image5==""?null:Global.userData.image5;
     myImagesURL[5] = Global.userData.image6==""?null:Global.userData.image6;
-
-    print(myImagesURL.length);
-
+    print(myImagesURL.toString());
   }
 
   @override
@@ -208,7 +207,6 @@ class _aboutuState extends State<aboutu> {
     ProgressDialog(context);
 
     print(myImagesURL);
-    print(myImagesFiles);
     print(AboutUsController.text);
 
     await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/image",body: {
@@ -224,6 +222,9 @@ class _aboutuState extends State<aboutu> {
       print(value.body);
     });
     GetUserDeatils();
+    setState(() {
+
+    });
     Navigator.of(context).pop();
     Fluttertoast.showToast(msg: "Details Updated");
   }
@@ -266,17 +267,12 @@ class _aboutuState extends State<aboutu> {
         URL=url;
       });
 
-      if(myImagesURL[index]!=null){
+
         myImagesURL[index]=URL;
         myImagesFiles[index]=croppedFile;
-      }else{
-
-        int i =myImagesFiles.indexOf(null);
-        myImagesURL[i]=URL;
-        myImagesFiles[i]=croppedFile;
 
 
-      }
+        print(myImagesURL);
 
       Navigator.of(context).pop();
 

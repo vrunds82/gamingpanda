@@ -11,6 +11,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+
+  void callback(){
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +99,11 @@ class _HomeState extends State<Home> {
   myViews(){
     switch (Global.currentpageindex){
       case 0:
-        return profilepage();
+        return GestureDetector(child: profilepage(callback: this.callback),onTap: (){
+          setState(() {
+
+          });
+        },);
       case 1:
         return cardpage();
       case 2:

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/Home.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
 class profilepage extends StatefulWidget {
+
+  Function callback;
+
+  profilepage({this.callback});
+
   @override
   _profilepageState createState() => _profilepageState();
 }
@@ -151,12 +157,15 @@ class _profilepageState extends State<profilepage> {
                           onChanged: (bool value) async {
                             Global.isSwitchedFT = value;
 
+
+
                             SharedPreferences pref =
                                 await SharedPreferences.getInstance();
                             await pref.setBool('theme', Global.isSwitchedFT);
 
                             setState(() {
                             });
+                            widget.callback();
 
                             //print(isSwitchedFT);
                           },
