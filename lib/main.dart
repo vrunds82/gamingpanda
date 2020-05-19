@@ -11,6 +11,7 @@ import 'package:gamingpanda/splash.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 
+import 'Home.dart';
 import 'global.dart';
 import 'livechat.dart';
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         'settings': (context) => settingpage(),
         'filter': (context) => filteritem(),
         'editprofile': (context) =>aboutu(),
+        'home':(context)=>Home()
       },
     );
   }

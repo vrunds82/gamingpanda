@@ -1,5 +1,11 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/global.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,6 +15,9 @@ class profilepage extends StatefulWidget {
 }
 
 class _profilepageState extends State<profilepage> {
+
+  File croppedFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +27,7 @@ class _profilepageState extends State<profilepage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            CustomAppbar(),
+        /*    CustomAppbar(),*/
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +35,16 @@ class _profilepageState extends State<profilepage> {
                   SizedBox(
                     height: 20,
                   ),
-                  CircleAvatar(
+                  Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+
+                      image: DecorationImage(image: NetworkImage(Global.User.photoUrl))
+
+                    ),
+                    width: 84,
+                    height: 84,
+                  ):CircleAvatar(
                     radius: 42,
                     child: ClipOval(
                         child: Icon(
@@ -38,8 +56,8 @@ class _profilepageState extends State<profilepage> {
                     height: 20,
                   ),
 
-                  CustomText(text: "Toni",fontSize: 18),
-                  CustomText(text: "25",fontSize: 18,color: Global.orangepanda,  fontWeight: FontWeight.bold,),
+                  CustomText(text: Global.userData.userName,fontSize: 18),
+                  CustomText(text: (DateTime.now().year-Global.userData.year).toString(),fontSize: 18,color: Global.orangepanda,  fontWeight: FontWeight.bold,),
 
                   SizedBox(
                     height: 30,
@@ -52,18 +70,44 @@ class _profilepageState extends State<profilepage> {
                   SizedBox(
                     height: 5,
                   ),
+                  (Global.userData.game1==""||Global.userData.game1==null)&&(Global.userData.game2==""||Global.userData.game2==null)?
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushNamed('settings');
+                    },
+                    child: Column(
+                      children: [
+                        CustomText(
+                          text:  "No Games Selected",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
 
-                  CustomText(
-                    text:  "League of Legends, Gears of War,",
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                        ),
+                        CustomText(
+                          text:  "Click here to edit",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+
+                        ),
+                      ],
+                    ),
+                  ):
+                  Column(
+                    children: [
+                      CustomText(
+                        text:  Global.userData.game1==""||Global.userData.game1==null?"": Global.userData.game1,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+
+                      CustomText(
+                        text:   Global.userData.game2==""||Global.userData.game2==null?"": Global.userData.game2,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
                   ),
 
-                  CustomText(
-                    text:  "Super Mario, Forza Moto...",
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
 
 
                   SizedBox(
@@ -154,4 +198,67 @@ class _profilepageState extends State<profilepage> {
       ),
     );
   }
+
+  Future<File> GetImage(int index) async {
+    String URL ="";
+
+
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+
+      croppedFile = await ImageCropper.cropImage(
+          sourcePath: image.path,
+          compressQuality: 70,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Image',
+              toolbarColor: Global.blackpanda,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          )
+      );
+
+      ProgressDialog(context);
+
+      final StorageReference storageReferencem = FirebaseStorage()
+          .ref()
+          .child("Users/"+Global.User.email+ "/${DateTime.now().millisecondsSinceEpoch}");
+      final StorageUploadTask uploadTaskm =
+      storageReferencem.putFile(croppedFile);
+      await uploadTaskm.onComplete;
+      await storageReferencem.getDownloadURL().then((url) {
+        URL=url;
+      });
+
+      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+      userUpdateInfo.photoUrl = URL;
+     FirebaseUser u;
+      await FirebaseAuth.instance.currentUser().then((User) {
+        u = User;
+      });
+      await u.updateProfile(
+          userUpdateInfo);
+      await u.reload();
+      await FirebaseAuth.instance
+          .currentUser()
+          .then((User) {
+        Global.User = User;
+      });
+        Navigator.of(context).pop();
+
+
+
+    }
+
+
+    setState(() {
+
+    });
+  }
+
 }

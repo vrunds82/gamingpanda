@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class aboutu extends StatefulWidget {
   @override
@@ -13,50 +16,25 @@ class aboutu extends StatefulWidget {
 }
 
 class _aboutuState extends State<aboutu> {
-  String URL ="";
-  File croppedFile;
-  Future<File> GetImage() async {
 
+  List<File> myImagesFiles= new List();
+  List<String> myImagesURL = new List();
+  TextEditingController AboutUsController = new TextEditingController(text: Global.userData.aboutUs);
 
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    myImagesFiles = [null,null,null,null,null,null];
+    myImagesURL[0] = Global.userData.image1==""?null:Global.userData.image1;
+    myImagesURL[1] = Global.userData.image2==""?null:Global.userData.image2;
+    myImagesURL[2] = Global.userData.image3==""?null:Global.userData.image3;
+    myImagesURL[3] = Global.userData.image4==""?null:Global.userData.image4;
+    myImagesURL[4] = Global.userData.image5==""?null:Global.userData.image5;
+    myImagesURL[5] = Global.userData.image6==""?null:Global.userData.image6;
 
+    print(myImagesURL.length);
 
-      croppedFile = await ImageCropper.cropImage(
-          sourcePath: image.path,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-
-          ],
-          androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Image',
-              toolbarColor: Global.blackpanda,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          iosUiSettings: IOSUiSettings(
-            minimumAspectRatio: 1.0,
-          )
-      );
-
-      final StorageReference storageReferencem = FirebaseStorage()
-          .ref()
-          .child("Users/"+Global.User.email+ "/${DateTime.now().millisecondsSinceEpoch}");
-      final StorageUploadTask uploadTaskm =
-      storageReferencem.putFile(croppedFile);
-      await uploadTaskm.onComplete;
-      await storageReferencem.getDownloadURL().then((url) {
-        URL=url;
-      });
-
-
-
-
-
-    }
-    setState(() {
-
-    });
   }
 
   @override
@@ -123,18 +101,52 @@ class _aboutuState extends State<aboutu> {
                  Row(
                    children: <Widget>[
                      customcard(onclick: () async {
-                       GetImage();
-                     }),
-                     customcard(),
-                     customcard(),
+                       print("asdasdfadf");
+                       GetImage(0);
+                     },
+                     file: myImagesFiles[0],
+                       ImageURL: myImagesURL[0],
+                     ),
+                     customcard(onclick: () async {
+                       print("asdasdfadf");
+                       GetImage(1);
+                     },
+                       file: myImagesFiles[1],
+                       ImageURL: myImagesURL[1],
+                     ),
+                     customcard(onclick: () async {
+                       print("asdasdfadf");
+                       GetImage(2);
+                     },
+                       file: myImagesFiles[2],
+                       ImageURL: myImagesURL[2],
+                     ),
+
                    ],
                  ),
                  SizedBox(height: 20,),
                  Row(
                    children: <Widget>[
-                     customcard(),
-                     customcard(),
-                     customcard(),
+                     customcard(onclick: () async {
+                       print("asdasdfadf");
+                       GetImage(3);
+                     },
+                       file: myImagesFiles[3],
+                       ImageURL: myImagesURL[3],
+                     ),customcard(onclick: () async {
+                       print("asdasdfadf");
+                       GetImage(4);
+                     },
+                       file: myImagesFiles[4],
+                       ImageURL: myImagesURL[4],
+                     ),customcard(onclick: () async {
+                       print("asdasdfadf");
+                       GetImage(5);
+                     },
+                       file: myImagesFiles[5],
+                       ImageURL: myImagesURL[5],
+                     ),
+
                    ],
                  ),
                  SizedBox(height: 20,),
@@ -158,12 +170,13 @@ class _aboutuState extends State<aboutu> {
               ),*/
               child: new Center(
                 child: new TextField(
+                  controller: AboutUsController,
                   //minLines: 10,
                   maxLines: 10,
                   autocorrect: false,
                   decoration: InputDecoration(
                     hintText: "Please write at what time you play, what are you looking for, what is your game style...",
-hintStyle: TextStyle(color: Global.isSwitchedFT == true
+      hintStyle: TextStyle(color: Global.isSwitchedFT == true
       ? Global.whitepanda
       : Global.blackpanda,),
                     enabledBorder: OutlineInputBorder(
@@ -180,11 +193,103 @@ hintStyle: TextStyle(color: Global.isSwitchedFT == true
 
           ),
         ),
-                 SizedBox(height: 10,),customgradientbuton(buttontext: "SAVE",)],
+                 SizedBox(height: 10,),customgradientbuton(buttontext: "SAVE",onClicked: (){onSubmit();},
+                 )],
              ),
            ),
          ),
       ),
     );
   }
+
+  onSubmit()
+  async {
+
+    ProgressDialog(context);
+
+    print(myImagesURL);
+    print(myImagesFiles);
+    print(AboutUsController.text);
+
+    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/image",body: {
+      "UserId":Global.User.uid,
+      "image1":myImagesURL[0]??"null",
+      "image2":myImagesURL[1]??"null",
+      "image3":myImagesURL[2]??"null",
+      "image4":myImagesURL[3]??"null",
+      "image5":myImagesURL[4]??"null",
+      "image6":myImagesURL[5]??"null",
+      "AboutUs":AboutUsController.text.toString()
+    }).then((value){
+      print(value.body);
+    });
+    GetUserDeatils();
+    Navigator.of(context).pop();
+    Fluttertoast.showToast(msg: "Details Updated");
+  }
+
+
+
+  Future<File> GetImage(int index) async {
+    String URL ="";
+    File croppedFile;
+
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+
+      croppedFile = await ImageCropper.cropImage(
+          sourcePath: image.path,
+          compressQuality: 70,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Image',
+              toolbarColor: Global.blackpanda,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          )
+      );
+
+      ProgressDialog(context);
+
+      final StorageReference storageReferencem = FirebaseStorage()
+          .ref()
+          .child("Users/"+Global.User.email+ "/${DateTime.now().millisecondsSinceEpoch}");
+      final StorageUploadTask uploadTaskm =
+      storageReferencem.putFile(croppedFile);
+      await uploadTaskm.onComplete;
+      await storageReferencem.getDownloadURL().then((url) {
+        URL=url;
+      });
+
+      if(myImagesURL[index]!=null){
+        myImagesURL[index]=URL;
+        myImagesFiles[index]=croppedFile;
+      }else{
+
+        int i =myImagesFiles.indexOf(null);
+        myImagesURL[i]=URL;
+        myImagesFiles[i]=croppedFile;
+
+
+      }
+
+      Navigator.of(context).pop();
+
+
+
+
+    }
+
+
+    setState(() {
+
+    });
+  }
+
+
 }

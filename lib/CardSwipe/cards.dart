@@ -571,34 +571,38 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
       {
         if(cardOffset.dx>0)
           {
-            return Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
+            return Material(
+              child: Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
 
-                  ),
-                  Center(child: Text("Like",style: TextStyle(fontSize: 40,color: Colors.green),))
-                ],
+                    ),
+                    Center(child: Text("Let's Play",style: TextStyle(fontSize: 40,color: Colors.green),))
+                  ],
+                ),
               ),
             );
           }
         else
           {
-            return    Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
+            return    Material(
+              child: Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
 
-                  ),
-                  Center(child: Text("Dislike",style: TextStyle(fontSize: 40,color: Colors.red),))
-                ],
+                    ),
+                    Center(child: Text("Nope",style: TextStyle(fontSize: 40,color: Colors.red),))
+                  ],
 
+                ),
               ),
             );
           }
@@ -687,7 +691,7 @@ class _ProfileCardState extends State<ProfileCard> {
                         "${widget.profile.name}  25",
                         style: new TextStyle(
                           color: Colors.white,
-                          fontSize: 24.0,
+                          fontSize:18.0,
                         ),
                       ),
                       VerticalDivider(thickness: 2,color: Global.orangepanda,width: 10,),
@@ -703,7 +707,7 @@ class _ProfileCardState extends State<ProfileCard> {
                         "LoL, DotA, Call of Duty 4",
                         style: new TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 13,
                         ),
                       ),
 
@@ -718,7 +722,7 @@ class _ProfileCardState extends State<ProfileCard> {
                         "Croatia",
                         style: new TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 13,
                         ),
                       ),
 

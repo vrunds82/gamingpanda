@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
+  <meta name="google-signin-client_id" content="YOUR_GOOGLE_SIGN_IN_OAUTH_CLIENT_ID.apps.googleusercontent.com">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,6 +19,29 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+<!-- Other firebase SDKs/config here -->
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBW2NTFhzbWBZ1rNNTk7bbEqabP_OzZfoI",
+    authDomain: "gamingpanda-5d844.firebaseapp.com",
+    databaseURL: "https://gamingpanda-5d844.firebaseio.com",
+    projectId: "gamingpanda-5d844",
+    storageBucket: "gamingpanda-5d844.appspot.com",
+    messagingSenderId: "86142882871",
+    appId: "1:86142882871:web:2e9febbe2cbea297055bb2",
+    measurementId: "G-V9DWHYFTQJ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
@@ -28,6 +52,12 @@
       });
     }
   </script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-firestore.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ class _chatscreenState extends State<chatscreen> {
           Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
       body: Column(
         children: <Widget>[
-          CustomAppbar(),
+        /*  CustomAppbar(),*/
           Expanded(
             child: ListView.builder(
 

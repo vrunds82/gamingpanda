@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart' as frs;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamingpanda/Lists.dart';
+import 'package:http/http.dart' as http;
+
 
 
 import 'global.dart';
@@ -12,18 +15,15 @@ class filteritem extends StatefulWidget {
 
 class _filteritemState extends State<filteritem> {
 
-  List<String> listitems = ['A', 'B', 'C', 'D'];
 
-  double start=18,end=23;
 
-  var _currentSelectedItemserver;
+  double start=Global.userData.filterAgeStart==""||Global.userData.filterAgeStart==null?18: Global.userData.filterAgeStart.toDouble();
+  double end=Global.userData.filterAgeEnd==""||Global.userData.filterAgeEnd==null?18: Global.userData.filterAgeEnd.toDouble();
 
-  var _currentSelectedItemrank;
-
-  var _currentSelectedItemcountry;
-
-  var _currentSelectedItemgame;
-
+  var _currentSelectedItemserver= Global.userData.filterServer;
+  var _currentSelectedItemrank = Global.userData.filterRank;
+  var _currentSelectedItemcountry = Global.userData.country;
+  var _currentSelectedItemgame = Global.userData.filterGame;
 
 
   int selectedRadio;
@@ -31,7 +31,7 @@ class _filteritemState extends State<filteritem> {
   @override
   void initState() {
     super.initState();
-    selectedRadio = 0;
+    selectedRadio = Global.userData.filterGender==null||Global.userData.filterGender==""?0:gender.indexOf(Global.userData.filterGender);
   }
 
 // Changes the selected value on 'onChanged' click on each radio button
@@ -105,7 +105,7 @@ SizedBox(height: 10,),
                           ),
                         ),
                         isExpanded: true,
-                        items: listitems.map((val) {
+                        items: Games.map((val) {
                           return DropdownMenuItem(
                             value: val,
                             child: Padding(
@@ -162,7 +162,7 @@ SizedBox(height: 10,),
                           ),
                         ),
                         isExpanded: true,
-                        items: listitems.map((val) {
+                        items: Server.map((val) {
                           return DropdownMenuItem(
                             value: val,
                             child: Padding(
@@ -218,7 +218,7 @@ SizedBox(height: 10,),
                           ),
                         ),
                         isExpanded: true,
-                        items: listitems.map((val) {
+                        items: Rank.map((val) {
                           return DropdownMenuItem(
                             value: val,
                             child: Padding(
@@ -274,7 +274,7 @@ SizedBox(height: 10,),
                           ),
                         ),
                         isExpanded: true,
-                        items: listitems.map((val) {
+                        items: countryList.map((val) {
                           return DropdownMenuItem(
                             value: val,
                             child: Padding(
@@ -420,7 +420,9 @@ values: RangeValues(start,end),
             SizedBox(height: 20,),
             Row(
               children: <Widget>[
-                Expanded(child: customraisedbutton(text: "SAVE",bgclr: Global.orangepanda,clr: Global.whitepanda,)),
+                Expanded(child: customraisedbutton(text: "SAVE",bgclr: Global.orangepanda,clr: Global.whitepanda,click: (){
+                  onSubmit();
+                },)),
               ],
             ),
             SizedBox(height: 10,),
@@ -439,4 +441,42 @@ values: RangeValues(start,end),
       ),
     );
   }
+
+  onSubmit(){
+
+
+    ProgressDialog(context);
+
+    print(Global.User.uid);
+    print(_currentSelectedItemgame);
+    print(_currentSelectedItemcountry);
+    print(_currentSelectedItemrank);
+    print(_currentSelectedItemserver);
+    print(_currentSelectedItemserver);
+    print(gender[selectedRadio]);
+    print(start);
+    print(end);
+
+    print("calling..");
+    http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/profile/updateFilter",
+      body:{
+        "UserId": Global.User.uid,
+        "Game":_currentSelectedItemgame??"null",
+        "Server":_currentSelectedItemserver??"null",
+        "Rank":_currentSelectedItemrank??"null",
+        "Country":_currentSelectedItemcountry??"null",
+        "Gender":gender[selectedRadio]??"male",
+        "AgeStart":start.toInt().toString()??"0",
+        "AgeEnd":end.toInt().toString()??"0"
+      }
+    ).then((response){
+      print(response.statusCode);
+      print(response.body);
+    }).catchError((error){print("Error : "+error.toString());});
+
+    Fluttertoast.showToast(msg : "Details Updated");
+
+    Navigator.of(context).pop();
+  }
+
 }

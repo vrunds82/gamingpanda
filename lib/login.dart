@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -92,6 +94,16 @@ body: Center(
                     );
 
                   }
+                  else if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(email.text))
+                    Fluttertoast.showToast(
+                        msg: "Invalid email address.",
+                        //toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
                   else if (password.text == "")
                     Fluttertoast.showToast(
                         msg: "Password filed is required",
@@ -104,38 +116,9 @@ body: Center(
                     );
 
                   else{
+                    Login();
 
-               await     FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
-                      print("$value");
-                    });
 
-                    FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
-                        password: password.text)
-                        .then((user) async {
-
-                      if(user.user!=null)
-                      {
-                        Navigator.of(context).pushReplacementNamed('cardswipe');
-                      }
-                    })
-                        .catchError((error){
-                      if(error!=null)
-                      {
-                        print(error.toString());
-
-                        switch(error.code){
-                          case "ERROR_USER_NOT_FOUND" :
-                            Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-                            break;
-                          default:
-                            Fluttertoast.showToast(msg:error.toString(),backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-                        }}
-                      else
-                      {
-                        Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-                      }
-                     // Navigator.pop(context);
-                    });
                   }
 
 
@@ -155,7 +138,7 @@ body: Center(
             child: Row(
               children: <Widget>[
                 GestureDetector(onTap: (){
-                  Navigator.of(context).pushNamed('registerp');
+                  Navigator.of(context).pushReplacementNamed('registerp');
                 },
                   child: CustomText(text:"Create an Account",
               decoration: TextDecoration.underline,
@@ -179,13 +162,25 @@ body: Center(
             child: Row(crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 GestureDetector(onTap: () async {
                   final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
                   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
                   final AuthCredential credential =await GoogleAuthProvider.getCredential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
                   print(credential);
-                  await FirebaseAuth.instance.signInWithCredential(credential);
+                  await FirebaseAuth.instance.signInWithCredential(credential).then((result) async {
+
+                    if(result.user!=null){
+                      Global.User=result.user;
+                      await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register",body:{
+                        "UserId": Global.User.uid,
+                        "UserName": Global.User.uid,
+                        "Email" : Global.User.email
+                      });
+                      await GetUserDeatils();
+                      Navigator.of(context).pushReplacementNamed('cardswipe');
+                    }
+
+                  });
                 },
                   child: Card(elevation: 3,
                       shape: RoundedRectangleBorder(
@@ -210,4 +205,69 @@ body: Center(
 ),
     );
   }
+
+
+  Login() async {
+    String login;
+
+    ProgressDialog(context);
+
+    await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
+      login=value[0];
+    });
+
+
+    if(login!=null && login=="password"){
+
+    FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
+        password: password.text)
+        .then((user) async {
+
+      if(user.user!=null)
+      {
+
+        Global.User=user.user;
+
+
+
+
+        await GetUserDeatils();
+
+        Navigator.of(context).pushReplacementNamed('home');
+      }
+    })
+        .catchError((error){
+      if(error!=null)
+      {
+        print(error.toString());
+
+        switch(error.code){
+          case "ERROR_USER_NOT_FOUND" :
+            Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+            break;
+          default:
+            Fluttertoast.showToast(msg:error.toString(),backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+        }}
+      else
+      {
+        Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+      }
+      // Navigator.pop(context);
+    });
+    }else
+      {
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(
+            msg: "Please use Google SingIn",
+            //toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+  }
+
+
 }

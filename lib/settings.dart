@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamingpanda/Lists.dart';
 
 import 'global.dart';
+import 'package:http/http.dart' as http;
 
 class settingpage extends StatefulWidget {
   @override
@@ -10,11 +13,14 @@ class settingpage extends StatefulWidget {
 }
 
 class _settingpageState extends State<settingpage> {
-  TextEditingController username = TextEditingController();
 
-  List<String> listitems = ['A', 'B', 'C', 'D'];
 
-  List<String> Monthlist = [
+
+  TextEditingController username = TextEditingController(text: Global.userData.userName);
+
+
+
+ static List<String> Monthlist = [
     "January",
     "February",
     "March",
@@ -44,6 +50,7 @@ class _settingpageState extends State<settingpage> {
     "12"
   ];
 
+  List<String> listitems = ['A', 'B', 'C', 'D'];
   List<String> yearlist = [
     "1990",
     "1991",
@@ -56,27 +63,36 @@ class _settingpageState extends State<settingpage> {
     "1998",
     "1999",
     "2000",
-    "2001"
+    "2001",
+    "2002",
+    "2003",
+    "2004",
+    "2005",
+    "2006",
+    "2007",
+    "2008",
+    "2009",
+    "2010",
   ];
 
-  String day, month, year;
+  String day = Global.userData.day.toString();
+  String month = Monthlist[Global.userData.month+1];
+  String year = Global.userData.year.toString();
+  String _currentSelectedItemserver = Global.userData.server;
+  String _currentSelectedItemrank = Global.userData.rank;
+  String _currentSelectedItemcountry = Global.userData.country;
+  String _currentSelectedItemgame = Global.userData.game1;
+  String _currentSelectedItemgame2 = Global.userData.game2;
+  String _currentSelectedItemleg;
 
-  var _currentSelectedItemserver;
 
-  var _currentSelectedItemrank;
-
-  var _currentSelectedItemcountry;
-
-  var _currentSelectedItemgame;
-
-  var _currentSelectedItemleg;
 // Declare this variable
   int selectedRadio;
 
   @override
   void initState() {
     super.initState();
-    selectedRadio = 0;
+    selectedRadio = Global.userData.gender==null||Global.userData.gender==""?0:gender.indexOf(Global.userData.gender);
   }
 
 // Changes the selected value on 'onChanged' click on each radio button
@@ -185,7 +201,6 @@ class _settingpageState extends State<settingpage> {
                 SizedBox(
                   height: 10,
                 ),
-
                 //dropdown1
                 Row(
                   children: <Widget>[
@@ -228,7 +243,7 @@ class _settingpageState extends State<settingpage> {
                                     ),
                                   ),
                                   isExpanded: true,
-                                  items: listitems.map((val) {
+                                  items: Games.map((val) {
                                     return DropdownMenuItem(
                                       value: val,
                                       child: Padding(
@@ -237,10 +252,10 @@ class _settingpageState extends State<settingpage> {
                                       ),
                                     );
                                   }).toList(),
-                                  value: _currentSelectedItemleg,
+                                  value: _currentSelectedItemgame,
                                   onChanged: (value) {
                                     setState(() {
-                                      _currentSelectedItemleg = value;
+                                      _currentSelectedItemgame = value;
                                     });
                                   },
                                 ),
@@ -263,7 +278,6 @@ class _settingpageState extends State<settingpage> {
                   height: 10,
                 ),
 //dropdown2
-
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -318,10 +332,10 @@ class _settingpageState extends State<settingpage> {
                                       ),
                                     );
                                   }).toList(),
-                                  value: _currentSelectedItemgame,
+                                  value: _currentSelectedItemgame2,
                                   onChanged: (value) {
                                     setState(() {
-                                      _currentSelectedItemgame = value;
+                                      _currentSelectedItemgame2 = value;
                                     });
                                   },
                                 ),
@@ -384,7 +398,7 @@ class _settingpageState extends State<settingpage> {
                                     ),
                                   ),
                                   isExpanded: true,
-                                  items: listitems.map((val) {
+                                  items: Server.map((val) {
                                     return DropdownMenuItem(
                                       value: val,
                                       child: Padding(
@@ -461,7 +475,7 @@ class _settingpageState extends State<settingpage> {
                                     ),
                                   ),
                                   isExpanded: true,
-                                  items: listitems.map((val) {
+                                  items: Rank.map((val) {
                                     return DropdownMenuItem(
                                       value: val,
                                       child: Padding(
@@ -536,7 +550,7 @@ class _settingpageState extends State<settingpage> {
                                     ),
                                   ),
                                   isExpanded: true,
-                                  items: listitems.map((val) {
+                                  items: countryList.map((val) {
                                     return DropdownMenuItem(
                                       value: val,
                                       child: Padding(
@@ -862,7 +876,7 @@ class _settingpageState extends State<settingpage> {
                           SizedBox(
                             height: 10,
                           ),
-                          Customtextfield(
+                       /*   Customtextfield(
                             hinttext: "Change E-mail...",
                           ),
                           SizedBox(
@@ -870,7 +884,7 @@ class _settingpageState extends State<settingpage> {
                           ),
                           Customtextfield(obsecuretext: true,
                             hinttext: "Change Password...",
-                          ),
+                          ),*/
                           SizedBox(
                             height: 10,
                           ),
@@ -878,6 +892,9 @@ class _settingpageState extends State<settingpage> {
                             children: <Widget>[
                               Expanded(
                                   child: customraisedbutton(
+                                    click: (){
+                                      onSubmit();
+                                    },
                                 text: "Save",
                                 clr: Global.whitepanda,
                                 bgclr: Global.orangepanda,
@@ -943,4 +960,48 @@ class _settingpageState extends State<settingpage> {
       ),
     );
   }
+
+  onSubmit(){
+
+    ProgressDialog(context);
+
+    print(username.text);
+    print(_currentSelectedItemgame);
+    print(_currentSelectedItemgame2);
+    print(_currentSelectedItemcountry);
+    print(_currentSelectedItemrank);
+    print(_currentSelectedItemserver);
+    print(_currentSelectedItemserver);
+    print(day);
+    print(month);
+    print(year);
+    print(gender[selectedRadio]);
+
+    http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/OwnUserProfile",
+        body:{
+        "UserId": Global.User.uid,
+        "UserName": username.text.toString(),
+        "Game":_currentSelectedItemgame,
+        "Game2":_currentSelectedItemgame2,
+        "Server":_currentSelectedItemserver,
+        "Rank":_currentSelectedItemrank,
+        "Country":_currentSelectedItemcountry,
+        "Gender":gender[selectedRadio],
+        "Email":Global.User.email,
+        "Password":"",
+        "Day":day,
+        "Month":(Monthlist.indexOf(month)+1).toString(),
+        "Year":year,
+        }
+    ).then((response){
+      print("There is no Response : "+response.body);
+    });
+
+    Navigator.of(context).pop();
+    Fluttertoast.showToast(msg: "Details Updated");
+
+
+  }
+
+
 }

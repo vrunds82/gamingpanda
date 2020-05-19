@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "86142882871-347jrr0vjoe025t98qf7bc326ul9cn7j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saurabhinfosys.gamingpanda",
+            "certificate_hash": "5b8db4d84e6cc172861a2f0a9edb48aae8a59dbc"
+          }
+        },
+        {
+          "client_id": "86142882871-f3f85j640nbtggqbscdhjl7a2to3qhfa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saurabhinfosys.gamingpanda",
+            "certificate_hash": "ca1b7f2f0d481c0ea59036a0225b4e96988bd11c"
+          }
+        },
+        {
           "client_id": "86142882871-20osfuh19tj5v7oo9sis1a24leamc5sc.apps.googleusercontent.com",
           "client_type": 3
         }

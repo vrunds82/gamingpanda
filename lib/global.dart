@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/models/UserData.dart';
 import 'package:image_picker/image_picker.dart';
 
 
@@ -23,8 +24,8 @@ class Global {
   static Color darkBlue = Color(0xff16161D);
   static int currentpageindex = 1;
   static double IconSize =0.06;
-
   static FirebaseUser User;
+  static UserData userData;
 
 }
 
@@ -314,9 +315,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
 class customcard extends StatelessWidget {
 
   VoidCallback onclick;
+  VoidCallback onRemove;
   String ImageURL;
-
-   customcard({this.onclick});
+  File file;
+  customcard({this.onclick,this.file,this.ImageURL});
 
   @override
   Widget build(BuildContext context) {
@@ -327,13 +329,18 @@ class customcard extends StatelessWidget {
         width:MediaQuery.of(context).size.width*.3,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Card(color: Global.isSwitchedFT == true
-              ? Global.blackpanda.withOpacity(0.2)
-              : Global.whitepanda,
-
-
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
+          child: GestureDetector(onTap: (){
+            onclick();
+          },
+            child: Card(color: Global.isSwitchedFT == true
+                ? Global.blackpanda.withOpacity(0.2)
+                : Global.whitepanda,
+               child: ClipRRect(
+                   borderRadius: BorderRadius.circular(15.0),
+                   child: file!=null?Image.file(file,fit: BoxFit.cover,) :ImageURL==null||ImageURL==""?SizedBox():Image.network("https://images.pexels.com/photos/3563888/pexels-photo-3563888.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",fit: BoxFit.cover,)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
             ),
           ),
         ),
@@ -343,7 +350,8 @@ class customcard extends StatelessWidget {
           left: 70,
           right: 30,
           child: GestureDetector(onTap: () async {
-    onclick();
+            print("asdfasdf");
+               onclick();
           },
             child: Icon(
               Icons.add_circle,
@@ -351,6 +359,28 @@ class customcard extends StatelessWidget {
               size: 28,
             ),
           )),
+     /* Positioned(
+          top: 0,
+          left: 70,
+          right: 30,
+          child: GestureDetector(onTap: () async {
+
+            print("minusClicke");
+
+          },
+            child: IconButton(
+
+
+              *//*Icons.remove_circle,
+              color: Global.orangepanda,
+              size: 28,*//*
+              icon: Icon(Icons.remove_circle,size: 28,color: Global.orangepanda,),
+              onPressed: (){
+                print("On Removed Clicked");
+                onRemove();
+              },
+            ),
+          )),*/
     ]);
   }
 }
@@ -413,13 +443,16 @@ AppBar(
 
 class customgradientbuton extends StatelessWidget {
   String buttontext;
+  VoidCallback onClicked;
 
-  customgradientbuton({this.buttontext});
+  customgradientbuton({this.buttontext,this.onClicked});
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      onPressed: () {},
+      onPressed: () {
+        onClicked();
+      },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
       padding: EdgeInsets.all(0.0),
       child: Ink(
@@ -567,4 +600,46 @@ class CustomText extends StatelessWidget {
     return Text(text,style: TextStyle(color: color==null?Global.isSwitchedFT ==false ? Global.blackpanda : Global.whitepanda:color,fontWeight: fontWeight??FontWeight.normal,fontSize:  fontSize??14,decoration: decoration??TextDecoration.none),);
   }
 }
+
+// user defined function
+
+
+
+
+
+  void ProgressDialog(context,{String msg}) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Card(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: CircularProgressIndicator(),
+                    ),
+
+                    Text(msg??"")
+                  ],
+                ),
+              ),
+
+            ),
+          ],
+        );
+      },
+    );
+  }
 

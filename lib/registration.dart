@@ -1,11 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamingpanda/API_Calls/api.dart';
+import 'package:gamingpanda/global.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
-import 'global.dart';
+import 'package:http/http.dart' as http;
 
 class register extends StatefulWidget {
   @override
@@ -13,8 +19,8 @@ class register extends StatefulWidget {
 }
 
 class _registerState extends State<register> {
-
-
+  File croppedFile,image;
+  String URL ="";
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -43,27 +49,7 @@ class _registerState extends State<register> {
 
   final _formKey = GlobalKey<FormState>();
 
-  Signup(String Userid) async {
 
-
-    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register?=&=&=", body: {
-      "UserId": Userid,
-      "UserName": name.text.toString(),
-      "Password": password.text.toString().trim(),
-      "Email": email.text.toString(),
-
-    }).then((response) {
-
-      print(response.body.toString());
-
-      var statuss = jsonDecode(response.body);
-      print("result from Server : "+statuss['status'].toString());
-      Navigator.of(context).pushNamed('cardswipe');
-
-    });
-
-
-  }
 
 
 
@@ -84,10 +70,56 @@ class _registerState extends State<register> {
                      fontSize: 30,fontWeight: FontWeight.bold,color: Global.orangepanda
                  ),),
                  SizedBox(height: 15,),
-                 CircleAvatar(
-                   radius: 38,
-                   child: ClipOval(
-                     child: Icon(Icons.person,size: 40,)
+                 GestureDetector(
+                 onTap: () async {
+                   image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                   if (image != null) {
+
+                     croppedFile = await ImageCropper.cropImage(
+                         sourcePath: image.path,
+                         compressQuality: 70,
+                         maxHeight: 300,
+                         maxWidth: 300,
+                         aspectRatioPresets: [
+                           CropAspectRatioPreset.square,
+                         ],
+                         androidUiSettings: AndroidUiSettings(
+                             toolbarTitle: 'Image',
+                             toolbarColor: Global.blackpanda,
+                             toolbarWidgetColor: Colors.white,
+                             initAspectRatio: CropAspectRatioPreset.original,
+                             lockAspectRatio: false),
+                         iosUiSettings: IOSUiSettings(
+                           minimumAspectRatio: 1.0,
+                         )
+                     );
+
+
+
+
+
+
+                   }
+                   setState(() {
+
+                   });
+                 },
+                   child: image!=null?Container(
+                     decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(100),
+
+                         image: DecorationImage(image: FileImage(image),fit: BoxFit.cover)
+
+                     ),
+                     width: 84,
+                     height: 84,
+                   ):CircleAvatar(
+                     radius: 42,
+                     child: ClipOval(
+                         child: Icon(
+                           Icons.person,
+                           size: 40,
+                         )),
                    ),
                  ),
 
@@ -115,8 +147,6 @@ class _registerState extends State<register> {
                      Expanded(
                          child: customraisedbutton(click: (){
 
-
-
                              if(name.text == "" )
                              {
                                Fluttertoast.showToast(
@@ -140,7 +170,16 @@ class _registerState extends State<register> {
                                    textColor: Colors.white,
                                    fontSize: 16.0
                                );
-
+                             else if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(email.text))
+                               Fluttertoast.showToast(
+                                   msg: "Invalid email address.",
+                                   //toastLength: Toast.LENGTH_SHORT,
+                                   gravity: ToastGravity.CENTER,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: Colors.red,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0
+                               );
                              else if (password.text == "")
                                Fluttertoast.showToast(
                                    msg: "password filed is required",
@@ -151,6 +190,7 @@ class _registerState extends State<register> {
                                    textColor: Colors.white,
                                    fontSize: 16.0
                                );
+
                              else if (confirmpassword.text == "")
                                Fluttertoast.showToast(
                                    msg: "Confirmpassword filed is required",
@@ -173,19 +213,7 @@ class _registerState extends State<register> {
                                );
 
                              else{
-                               FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password:password.text).
-                               then((result){
-                                 if(result.user!=null) {
-                                   result.user.uid;
-                                   print("${result.user.uid}");
-                                   Signup(result.user.uid);
-                                 }else{
-
-                                 }
-
-                               }).catchError((e){
-                                return e.message;
-                               });
+                               SignUp();
 
 
                              }
@@ -228,6 +256,94 @@ class _registerState extends State<register> {
        ),
     );
   }
+
+
+  SignupAPI(String Userid) async {
+
+    print("Trying to Register");
+
+    if(croppedFile!=null) {
+      final StorageReference storageReferencem = FirebaseStorage()
+          .ref()
+          .child("Users/" + Global.User.email + "/${DateTime
+          .now()
+          .millisecondsSinceEpoch}");
+      final StorageUploadTask uploadTaskm =
+      storageReferencem.putFile(croppedFile);
+      await uploadTaskm.onComplete;
+      await storageReferencem.getDownloadURL().then((url) {
+        URL = url;
+      });
+
+      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+      userUpdateInfo.photoUrl = URL;
+      FirebaseUser u;
+      await FirebaseAuth.instance.currentUser().then((User) {
+        u = User;
+      });
+      await u.updateProfile(
+          userUpdateInfo);
+      await u.reload();
+      await FirebaseAuth.instance
+          .currentUser()
+          .then((User) {
+        Global.User = User;
+      });
+    }
+
+    print("Calling API");
+
+    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register",
+        body: {
+          "UserId": Global.User.uid,
+          "UserName": Global.User.displayName??name.text,
+          "Email" : Global.User.email??email.text
+
+        }).then((response) async {
+      print("Response from Body : "+response.body.toString());
+      await GetUserDeatils();
+      Navigator.of(context).pop();
+   //   Navigator.of(context).pushReplacementNamed('cardswipe');
+      Navigator.of(context).pushReplacementNamed('home');
+
+    }).catchError((onError){
+      print(onError);
+    });
+
+
+  }
+
+  SignUp() async {
+
+    ProgressDialog(context);
+
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email.text,
+        password:password.text).
+    then((result) async {
+      if(result.user!=null) {
+        Global.User=result.user;
+
+        print("User Id : ${result.user.uid}");
+        await SignupAPI(result.user.uid);
+      }else{
+      }
+
+    }).catchError((e){
+      print(e.message);
+    });
+
+
+
+  }
+
+
+
+
+
+
+
+
 }
 
 

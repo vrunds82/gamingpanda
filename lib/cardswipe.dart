@@ -60,7 +60,7 @@ class _cardpageState extends State<cardpage> {
           : Global.whitepanda,
       body: Column(
         children: <Widget>[
-          CustomAppbar(),
+       /*   CustomAppbar(),*/
           Expanded(
             child: CardStack(
               matchEngine: matchEngine,),
