@@ -47,7 +47,26 @@ class _settingpageState extends State<settingpage> {
     "9",
     "10",
     "11",
-    "12"
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30"
+
   ];
 
   List<String> listitems = ['A', 'B', 'C', 'D'];
@@ -76,7 +95,7 @@ class _settingpageState extends State<settingpage> {
   ];
 
   String day = Global.userData.day.toString();
-  String month = Monthlist[Global.userData.month+1];
+  String month = Monthlist[Global.userData.month>10?11:Global.userData.month+1];
   String year = Global.userData.year.toString();
   String _currentSelectedItemserver = Global.userData.server;
   String _currentSelectedItemrank = Global.userData.rank;

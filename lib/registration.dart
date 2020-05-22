@@ -298,19 +298,15 @@ class _registerState extends State<register> {
           "UserId": Global.User.uid,
           "UserName": Global.User.displayName??name.text,
           "Email" : Global.User.email??email.text
-
         }).then((response) async {
-      print("Response from Body : "+response.body.toString());
+    //  print("Response from Body : "+response.body.toString());
       await GetUserDeatils();
       Navigator.of(context).pop();
    //   Navigator.of(context).pushReplacementNamed('cardswipe');
       Navigator.of(context).pushReplacementNamed('home');
-
     }).catchError((onError){
       print(onError);
     });
-
-
   }
 
   SignUp() async {

@@ -21,10 +21,7 @@ class _aboutuState extends State<aboutu> {
   List<String> myImagesURL = new List();
   TextEditingController AboutUsController = new TextEditingController(text: Global.userData.aboutUs);
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  setAllValues(){
     myImagesFiles = [null,null,null,null,null,null];
     myImagesURL = [null,null,null,null,null,null];
     myImagesURL[0] = Global.userData.image1==""?null:Global.userData.image1;
@@ -34,6 +31,16 @@ class _aboutuState extends State<aboutu> {
     myImagesURL[4] = Global.userData.image5==""?null:Global.userData.image5;
     myImagesURL[5] = Global.userData.image6==""?null:Global.userData.image6;
     print(myImagesURL.toString());
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  setAllValues();
   }
 
   @override
