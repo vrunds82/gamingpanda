@@ -102,7 +102,6 @@ class _settingpageState extends State<settingpage> {
   String _currentSelectedItemcountry = Global.userData.country;
   String _currentSelectedItemgame = Global.userData.game1;
   String _currentSelectedItemgame2 = Global.userData.game2;
-  String _currentSelectedItemleg;
 
 
 // Declare this variable
