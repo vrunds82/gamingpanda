@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:gamingpanda/Lists.dart';
 
 import 'global.dart';
@@ -52,6 +53,7 @@ class _settingpageState extends State<settingpage> {
 
   List<String> listitems = ['A', 'B', 'C', 'D'];
   List<String> yearlist = [
+
     "1990",
     "1991",
     "1992",
@@ -89,9 +91,20 @@ class _settingpageState extends State<settingpage> {
 // Declare this variable
   int selectedRadio;
 
+  setyears(){
+    yearlist.clear();
+
+    int currentYear = DateTime.now().year;
+    for(int i =0;i<60;i++)
+      {
+        yearlist.add((currentYear-i).toString());
+      }
+  }
+
   @override
   void initState() {
     super.initState();
+    setyears();
     selectedRadio = Global.userData.gender==null||Global.userData.gender==""?0:gender.indexOf(Global.userData.gender);
   }
 
@@ -123,7 +136,12 @@ class _settingpageState extends State<settingpage> {
             children: <Widget>[
               GestureDetector(
                 onTap: (){
-                  Navigator.of(context).pop();
+
+                  if(Global.isweb){
+                    Navigator.of(context).pushReplacementNamed('webHome');
+                  }else {
+                    Navigator.of(context).pop();
+                  }
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -229,7 +247,7 @@ class _settingpageState extends State<settingpage> {
                                   hint: Padding(
                                     padding: const EdgeInsets.only(left: 18),
                                     child: CustomText(
-                                      text:"League of Legends",
+                                      text:"Game 1",
                                       fontSize: 12,
                                     ),
                                   ),
@@ -267,9 +285,17 @@ class _settingpageState extends State<settingpage> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Icon(
-                        Icons.cancel,
-                        color: Global.greypandaicon,
+                      child: GestureDetector(
+                        onTap: (){
+                          _currentSelectedItemgame=null;
+                          setState(() {
+
+                          });
+                        },
+                        child:_currentSelectedItemgame==null?SizedBox(): Icon(
+                          Icons.cancel,
+                          color: Global.greypandaicon,
+                        ),
                       ),
                     ),
                   ],
@@ -306,7 +332,7 @@ class _settingpageState extends State<settingpage> {
                                     padding: const EdgeInsets.only(left: 18),
                                     child: CustomText(
                                       text:
-                                      "Game2",
+                                      "Game 2",
                                       fontSize: 12,
                                     ),
                                   ),
@@ -320,7 +346,7 @@ class _settingpageState extends State<settingpage> {
                                     ),
                                   ),
                                   isExpanded: true,
-                                  items: listitems.map((val) {
+                                  items: Games.map((val) {
                                     return DropdownMenuItem(
                                       value: val,
                                       child: Padding(
@@ -347,7 +373,12 @@ class _settingpageState extends State<settingpage> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Icon(Icons.cancel, color: Global.greypandaicon),
+                      child: GestureDetector(onTap:(){
+                        _currentSelectedItemgame2=null;
+                        setState(() {
+
+                        });
+                      },child: _currentSelectedItemgame2==null?SizedBox():Icon(Icons.cancel, color: Global.greypandaicon)),
                     ),
                   ],
                 ),
@@ -361,7 +392,9 @@ class _settingpageState extends State<settingpage> {
                   children: <Widget>[
                     Expanded(
                       flex: 1,
-                      child: Icon(Icons.cancel, color: Colors.transparent),
+                      child: GestureDetector(onTap: (){
+
+                      },child: Icon(Icons.cancel, color: Colors.transparent)),
                     ),
                     Expanded(
                       flex: 8,
@@ -425,7 +458,12 @@ class _settingpageState extends State<settingpage> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Icon(Icons.cancel, color: Global.greypandaicon),
+                      child: GestureDetector(onTap: (){
+                        _currentSelectedItemserver=null;
+                        setState(() {
+
+                        });
+                      },child:_currentSelectedItemserver==null?SizedBox(): Icon(Icons.cancel, color: Global.greypandaicon)),
                     ),
                   ],
                 ),
@@ -500,7 +538,12 @@ class _settingpageState extends State<settingpage> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Icon(Icons.cancel, color: Global.greypandaicon),
+                      child: GestureDetector(onTap: (){
+                        _currentSelectedItemrank=null;
+                        setState(() {
+
+                        });
+                      },child:_currentSelectedItemrank==null?SizedBox(): Icon(Icons.cancel, color: Global.greypandaicon)),
                     ),
                   ],
                 ),
@@ -575,7 +618,12 @@ class _settingpageState extends State<settingpage> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Icon(Icons.cancel, color: Global.greypandaicon),
+                      child: GestureDetector(onTap: (){
+                        _currentSelectedItemcountry=null;
+                        setState(() {
+
+                        });
+                      },child: _currentSelectedItemcountry==null?SizedBox():Icon(Icons.cancel, color: Global.greypandaicon)),
                     ),
                   ],
                 ),
@@ -908,6 +956,7 @@ class _settingpageState extends State<settingpage> {
                             children: <Widget>[
                               Expanded(
                                   child: customraisedbutton(
+                                    click: (){_showDialog();},
                                 text: "About US",
                                 clr: Global.whitepanda,
                                 bgclr: Global.darkgrey,
@@ -961,7 +1010,7 @@ class _settingpageState extends State<settingpage> {
     );
   }
 
-  onSubmit(){
+  onSubmit() async {
 
     ProgressDialog(context);
 
@@ -977,7 +1026,7 @@ class _settingpageState extends State<settingpage> {
     print(year);
     print(gender[selectedRadio]);
 
-    http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/OwnUserProfile",
+    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/OwnUserProfile",
         body:{
         "UserId": Global.User.uid,
         "UserName": username.text.toString(),
@@ -997,10 +1046,41 @@ class _settingpageState extends State<settingpage> {
       print("There is no Response : "+response.body);
     });
 
+    await GetUserDeatils();
+
     Navigator.of(context).pop();
     Fluttertoast.showToast(msg: "Details Updated");
+    setState(() {
+
+    });
 
 
+  }
+
+
+
+// user defined function
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("About Us"),
+          content: SingleChildScrollView(child: new Text("is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
 

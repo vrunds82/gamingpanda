@@ -1,19 +1,20 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:gamingpanda/API_Calls/api.dart';
+import 'package:gamingpanda/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'global.dart';
 
-class splashscreen extends StatefulWidget {
+
+class webSplashScreen extends StatefulWidget {
   @override
-  _splashscreenState createState() => _splashscreenState();
+  _webSplashScreenState createState() => _webSplashScreenState();
 }
 
-class _splashscreenState extends State<splashscreen> {
+class _webSplashScreenState extends State<webSplashScreen> {
 
   startTime() async {
 
@@ -24,17 +25,16 @@ class _splashscreenState extends State<splashscreen> {
         Global.User = value;
         print("Calling");
         await GetUserDeatils();
-
-        Navigator.of(context).pushReplacementNamed('home');
+        Navigator.of(context).pushNamed('weblogin');
       }else
-        {
-          var _duration = new Duration(seconds: 3);
-          new Timer(_duration, navigationPage);
-        }
+      {
+        var _duration = new Duration(seconds: 3);
+        new Timer(_duration, navigationPage);
+      }
     });
   }
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('login');
+    Navigator.of(context).pushNamed('weblogin');
   }
 
   Future<bool> getSwitchState ()
@@ -52,12 +52,11 @@ class _splashscreenState extends State<splashscreen> {
 
   @override
   Widget build(BuildContext context) {
-    Global.height = MediaQuery.of(context).size.height;
-    Global.width = MediaQuery.of(context).size.width;
+
+    Global.isweb = true;
+    Global.webwidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Center(child: Image.asset('assets/images/logo.png',height: MediaQuery.of(context).size.width*.4,width: MediaQuery.of(context).size.width*.4,)),
-
-
+      body: Center(child: Image.asset('assets/images/logo.png',height: MediaQuery.of(context).size.height*.3,width: MediaQuery.of(context).size.height*.3,)),
     );
   }
 

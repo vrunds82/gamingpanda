@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/models/UserData.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,7 +13,7 @@ class Global {
   static String BaseURL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
-  static bool isSwitchedFT = false;
+  static bool isSwitchedFT = true;
   static double fontsize = 14;
   static Color orangepanda = Color(0xffFF781E);
   static Color whitepanda = Color(0xffF8F8F8);
@@ -22,11 +24,100 @@ class Global {
   static Color darkgrey = Color(0xff9F9F9F);
   static Color yellowpanda = Color(0xffFCCF31);
   static Color darkBlue = Color(0xff16161D);
+  static Color SuperLikeBlue = Color(0xff6B73FF);
   static int currentpageindex = 1;
   static double IconSize =0.06;
   static FirebaseUser User;
   static UserData userData;
+  static Profile OtherUserProfile;
+  static String OtherUserId="arunarun";
 
+
+
+// web Globals
+  static bool isweb=false;
+  static double webwidth;
+  static int webCurrentPageIndex;
+
+}
+
+class myMessagesTile extends StatelessWidget {
+
+  DocumentSnapshot documentSnapshot;
+
+
+  myMessagesTile({this.documentSnapshot});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                      height: 70,
+                      width: 70,
+                      margin: EdgeInsets.only(
+                          left: 20, top: 15, bottom: 10),
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          image: new DecorationImage(
+                            fit: BoxFit.cover,
+                            image:documentSnapshot.data['image']==null||documentSnapshot.data['image']==""?AssetImage('assets/images/logo.png'): NetworkImage(documentSnapshot.data['image']),
+                          ))),
+                  Positioned(
+                    right: 8,
+                    bottom: 5,
+                    child: Card(
+                      elevation: 5.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Container(
+                            child: Icon(
+                              Icons.brightness_1,
+                              color: Global.orangepanda,
+                              size: 13,
+                            )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CustomText(
+                        text: documentSnapshot.data['name']??"",
+                        fontSize:18,
+                      ),
+                      Text(
+                        documentSnapshot.data['message']??"",
+                        style: TextStyle(
+                            fontSize: 15, color: Global.greypandaicon),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class Customtextfield extends StatelessWidget {
@@ -325,8 +416,8 @@ class customcard extends StatelessWidget {
     var _image;
     return Stack(children: [
       Container(
-        height:MediaQuery.of(context).size.width*.4,
-        width:MediaQuery.of(context).size.width*.3,
+        height:Global.isweb?MediaQuery.of(context).size.width*.1:MediaQuery.of(context).size.width*.4,
+        width:Global.isweb?MediaQuery.of(context).size.width*.075:MediaQuery.of(context).size.width*.3,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(onTap: (){

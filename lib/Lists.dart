@@ -1,4 +1,5 @@
 const countryList = [
+  "WorldWide",
   "Afghanistan",
   "Albania",
   "Algeria",
@@ -283,5 +284,18 @@ const List<String> Rank =[
   "Platinum",
   "Diamond",
   "Master"
+];
 
+
+List<String> ShortName = [
+  "LoL",
+  "Fortnite",
+  "PUBG",
+  "Apex",
+  "CS:GO",
+  "Overwatch",
+  "COD MW",
+  "GTA V",
+  "Dota2",
+  "WOW"
 ];

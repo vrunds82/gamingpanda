@@ -1,23 +1,30 @@
 
 class Profile {
+  final String id;
   final List<String> photos;
   final String name;
+  final String age;
+  final String gender;
+  final String games;
+  final String country;
   final String bio;
-  final String id;
-  final String match;
   final String dp;
-  final String index;
+  final bool liked;
+
+
+
 
   Profile({
     this.photos,
     this.name,
     this.bio,
     this.id,
-
-    this.match,
     this.dp,
-    this.index
-
+    this.liked,
+    this.gender,
+    this.country,
+    this.age,
+    this.games
   });
 
 
@@ -26,9 +33,12 @@ class Profile {
         photos = json['photos'],
         id = json['id'],
         bio = json['bio'],
-        match = json['match'],
         dp=json['dp'],
-        index=json['index']
+        liked=json['liked'],
+  games=json['games'],
+  country=json['country'],
+  age=json['age'],
+  gender=json['gender']
   ;
 
   Map<String, dynamic> toJson() =>
@@ -37,9 +47,8 @@ class Profile {
         'photos': photos,
         'bio':bio,
         'id':id,
-        'match':match,
         'dp':dp,
-        'index':index
+        'liked':liked
       };
 
 

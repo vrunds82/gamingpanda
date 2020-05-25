@@ -89,13 +89,13 @@ class _PhotoBrowserState extends State<PhotoBrowser> {
         ),
 
         // Photo Indicator
-        new Positioned(
-          top: 0.0,
-          left: 0.0,
-          right: 0.0,
-          child: new SelectedPhotoIndicator(
-            photoCount: widget.photoAssetPaths.length,
-            visiblePhotoIndex: visiblePhotoIndex,
+        new Positioned.fill(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: new SelectedPhotoIndicator(
+              photoCount: widget.photoAssetPaths.length,
+              visiblePhotoIndex: visiblePhotoIndex,
+            ),
           ),
         ),
 
@@ -114,16 +114,15 @@ class SelectedPhotoIndicator extends StatelessWidget {
     this.photoCount,
     this.visiblePhotoIndex,
   });
-
   Widget _buildInactiveIndicator() {
     return new Padding(
       padding: const EdgeInsets.only(left: 2.0, right: 2.0),
       child: SizedBox(
-        height: 8,
-        width: 8,
+        height: 10,
+        width: 10,
         child: new Container(
-          height: 6,
-          width: 6,
+          height: 8,
+          width: 8,
           decoration: new BoxDecoration(
             color: Colors.black.withOpacity(0.2),
             borderRadius: new BorderRadius.circular(2.5),
@@ -132,16 +131,15 @@ class SelectedPhotoIndicator extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildActiveIndicator() {
     return new Padding(
       padding: const EdgeInsets.only(left: 2.0, right: 2.0),
       child: SizedBox(
-        height: 8,
-        width: 8,
+        height: 10,
+        width: 10,
         child: new Container(
-          height: 6,
-          width: 6,
+          height: 8,
+          width: 8,
           decoration: new BoxDecoration(
             color: Colors.white,
             borderRadius: new BorderRadius.circular(2.5),
@@ -150,7 +148,6 @@ class SelectedPhotoIndicator extends StatelessWidget {
       ),
     );
   }
-
   List<Widget> _buildIndicators() {
     List<Widget> indicators = [];
     for (int i = 0; i < photoCount; ++i) {
@@ -160,12 +157,12 @@ class SelectedPhotoIndicator extends StatelessWidget {
     }
     return indicators;
   }
-
   @override
   Widget build(BuildContext context) {
     return new Padding(
       padding: const EdgeInsets.all(8.0),
       child: new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: _buildIndicators(),
       ),
     );

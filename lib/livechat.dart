@@ -10,6 +10,19 @@ class livechatpage extends StatefulWidget {
 class _livechatpageState extends State<livechatpage> {
   TextEditingController chatcontroll = new TextEditingController();
 
+  void clicked(BuildContext context, menu) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(menu),
+        action: SnackBarAction(
+            label: 'UNDO',
+            onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +76,20 @@ class _livechatpageState extends State<livechatpage> {
           ),
           centerTitle: true,
           actions: <Widget>[
-            Icon(
-              Icons.more_vert,
-              color: Global.orangepanda,
-            ),
+
+            PopupMenuButton(
+              color:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+              padding: EdgeInsets.all(0),
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(
+                    child: CustomText(text:"Show Profile"),
+                  ),
+                  PopupMenuItem(
+                    child: CustomText(text:"Delete Conversation"),),
+                ];
+              },
+            )
           ],
         ),
         body: Column(

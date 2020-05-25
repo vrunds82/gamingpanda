@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:gamingpanda/Lists.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,7 +32,7 @@ class _filteritemState extends State<filteritem> {
   @override
   void initState() {
     super.initState();
-    selectedRadio = Global.userData.filterGender==null||Global.userData.filterGender==""?0:gender.indexOf(Global.userData.filterGender);
+    selectedRadio = Global.userData.filterGender==null||Global.userData.filterGender==""?0:["","Male","Female","Any"].indexOf(Global.userData.filterGender);
   }
 
 // Changes the selected value on 'onChanged' click on each radio button
@@ -60,7 +61,6 @@ class _filteritemState extends State<filteritem> {
                   fontWeight: FontWeight.bold,
                   fontSize: 22
                 ,),
-
               ],
             ),
             SizedBox(height: 10,),
@@ -326,7 +326,7 @@ Row(
             data: ThemeData(backgroundColor:Global.darkBlue),
             child: RangeSlider(
 
-values: RangeValues(start,end),
+              values: RangeValues(start,end),
      onChanged: (values){
 
             start=values.start;
@@ -337,7 +337,7 @@ values: RangeValues(start,end),
             });
      },
       min: 0,
-      max: 100,
+      max: 60,
               activeColor: Global.orangepanda,
               inactiveColor: Global.isSwitchedFT == true
                   ? Global.whitepanda
@@ -411,7 +411,7 @@ values: RangeValues(start,end),
 
                 ),
 
-                new CustomText(text:'Unknown',fontSize: 12),
+                new CustomText(text:'Any',fontSize: 12),
 
               ],),
 
@@ -442,7 +442,7 @@ values: RangeValues(start,end),
     );
   }
 
-  onSubmit(){
+  onSubmit() async {
 
 
     ProgressDialog(context);
@@ -458,7 +458,7 @@ values: RangeValues(start,end),
     print(end);
 
     print("calling..");
-    http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/profile/updateFilter",
+ await   http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/profile/updateFilter",
       body:{
         "UserId": Global.User.uid,
         "Game":_currentSelectedItemgame??"null",
@@ -475,6 +475,7 @@ values: RangeValues(start,end),
     }).catchError((error){print("Error : "+error.toString());});
 
     Fluttertoast.showToast(msg : "Details Updated");
+    await GetUserDeatils();
 
     Navigator.of(context).pop();
   }

@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/CardSwipe/matches.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/cardswipe.dart';
-import 'package:gamingpanda/chat.dart';
+import 'package:gamingpanda/Messages.dart';
 import 'package:gamingpanda/global.dart';
+import 'package:gamingpanda/models/SwipeUser.dart';
 import 'package:gamingpanda/profile.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   @override
@@ -13,11 +18,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
 
+
   void callback(){
     setState(() {
 
     });
   }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,50 +48,65 @@ class _HomeState extends State<Home> {
                   //height: MediaQuery.of(context).size.width * .2,
                   color: Global.isSwitchedFT==true?Global.darkBlue:Global.whitepanda ,
                   child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top:14.0,bottom: 14.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          GestureDetector(onTap: (){
-                            Global.currentpageindex = 0;
-                            setState(() {});
-                          },
-                            child: Image.asset(
-                              Global.currentpageindex == 0
-                                  ? 'assets/images/userorange.png'
-                                  : 'assets/images/usergrey.png',
-                              height: MediaQuery.of(context).size.width * Global.IconSize,
-                              width: MediaQuery.of(context).size.width * Global.IconSize,
-                              fit: BoxFit.contain,),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        GestureDetector(onTap: (){
+                          Global.currentpageindex = 0;
+                          setState(() {});
+                        },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: Image.asset(
+                                Global.currentpageindex == 0
+                                    ? 'assets/images/userorange.png'
+                                    : 'assets/images/usergrey.png',
+                                height: MediaQuery.of(context).size.width * Global.IconSize,
+                                width: MediaQuery.of(context).size.width * Global.IconSize,
+                                fit: BoxFit.contain,),
+                            ),
                           ),
-                          GestureDetector(onTap: (){
-                            Global.currentpageindex = 1;
-                            setState(() {});
-                          },
-                            child: Image.asset(
-                              Global.currentpageindex == 1
-                                  ? 'assets/images/pandaorange.png'
-                                  : 'assets/images/pandagrey.png',
-                              height: MediaQuery.of(context).size.width *  Global.IconSize,
-                              width: MediaQuery.of(context).size.width *  Global.IconSize,
-                              fit: BoxFit.contain,  ),
+                        ),
+                        GestureDetector(onTap: (){
+                          Global.currentpageindex = 1;
+                          setState(() {});
+                        },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: Image.asset(
+                                Global.currentpageindex == 1
+                                    ? 'assets/images/pandaorange.png'
+                                    : 'assets/images/pandagrey.png',
+                                height: MediaQuery.of(context).size.width *  Global.IconSize,
+                                width: MediaQuery.of(context).size.width *  Global.IconSize,
+                                fit: BoxFit.contain,  ),
+                            ),
                           ),
+                        ),
 
-                          GestureDetector(onTap: (){
-                            Global.currentpageindex = 2;
-                            setState(() {});
-                          },
-                            child: Image.asset(   Global.currentpageindex == 2
-                                ? 'assets/images/chatorange.png'
-                                : 'assets/images/chatgrey.png',
-                              height: MediaQuery.of(context).size.width *  Global.IconSize,
-                              width: MediaQuery.of(context).size.width *  Global.IconSize,
-                              fit: BoxFit.contain,   ),
+                        GestureDetector(onTap: (){
+                          Global.currentpageindex = 2;
+                          setState(() {});
+                        },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: Image.asset(   Global.currentpageindex == 2
+                                  ? 'assets/images/chatorange.png'
+                                  : 'assets/images/chatgrey.png',
+                                height: MediaQuery.of(context).size.width *  Global.IconSize,
+                                width: MediaQuery.of(context).size.width *  Global.IconSize,
+                                fit: BoxFit.contain,   ),
+                            ),
                           ),
+                        ),
 
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ),
@@ -105,9 +134,9 @@ class _HomeState extends State<Home> {
           });
         },);
       case 1:
-        return cardpage();
+        return cardpage(callback: this.callback,);
       case 2:
-        return chatscreen();
+        return Messages();
     }
   }
 

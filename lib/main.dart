@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/Chat.dart';
 import 'package:gamingpanda/about_you.dart';
 import 'package:gamingpanda/cardswipe.dart';
-import 'package:gamingpanda/chat.dart';
+import 'package:gamingpanda/Messages.dart';
 import 'package:gamingpanda/filters.dart';
 import 'package:gamingpanda/login.dart';
 import 'package:gamingpanda/profile.dart';
@@ -9,6 +10,11 @@ import 'package:gamingpanda/registration.dart';
 import 'package:gamingpanda/settings.dart';
 import 'package:gamingpanda/splash.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:gamingpanda/website/webChatting.dart';
+import 'package:gamingpanda/website/webSettingPage.dart';
+import 'package:gamingpanda/website/webSplashScreen.dart';
+import 'package:gamingpanda/website/webhome.dart';
+import 'package:gamingpanda/website/weblogin.dart';
 
 
 import 'Home.dart';
@@ -42,12 +48,17 @@ class MyApp extends StatelessWidget {
         'registerp': (context) => register(),
         'cardswipe': (context) => cardpage(),
         'profile': (context) => profilepage(),
-        'chat': (context) => chatscreen(),
+        'Messages': (context) => Messages(),
         'livechat': (context) => livechatpage(),
         'settings': (context) => settingpage(),
         'filter': (context) => filteritem(),
         'editprofile': (context) =>aboutu(),
-        'home':(context)=>Home()
+        'home':(context)=>Home(),
+        'chat':(context)=>Chat(),
+        'weblogin':(context)=>webloginpage(),
+        'webHome':(context)=>webHome(),
+        'webSettingPage':(context)=>webSettingpage(),
+        'webChattingPage':(context)=>webChatting()
       },
     );
   }

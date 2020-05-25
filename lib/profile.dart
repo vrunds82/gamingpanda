@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:gamingpanda/Home.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class profilepage extends StatefulWidget {
 
@@ -41,12 +43,21 @@ class _profilepageState extends State<profilepage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
+                GestureDetector(
+                  onTap: (){
+                    GetImage();
+                  },
+                  child:   Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-
-                      image: DecorationImage(image: NetworkImage(Global.User.photoUrl))
-
+                        borderRadius: BorderRadius.circular(100),
+                        image: DecorationImage(image: NetworkImage(Global.User.photoUrl))
+                    ),
+                    width: 84,
+                    height: 84,
+                  ):croppedFile!=null?Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        image: DecorationImage(image: FileImage(croppedFile))
                     ),
                     width: 84,
                     height: 84,
@@ -54,17 +65,16 @@ class _profilepageState extends State<profilepage> {
                     radius: 42,
                     child: ClipOval(
                         child: Icon(
-                      Icons.person,
-                      size: 40,
-                    )),
+                          Icons.person,
+                          size: 40,
+                        )),
                   ),
+                ),
                   SizedBox(
                     height: 20,
                   ),
-
                   CustomText(text: Global.userData.userName,fontSize: 18),
                   CustomText(text: (DateTime.now().year-Global.userData.year).toString(),fontSize: 18,color: Global.orangepanda,  fontWeight: FontWeight.bold,),
-
                   SizedBox(
                     height: 30,
                   ),
@@ -208,7 +218,7 @@ class _profilepageState extends State<profilepage> {
     );
   }
 
-  Future<File> GetImage(int index) async {
+  Future<File> GetImage() async {
     String URL ="";
 
 
@@ -217,6 +227,8 @@ class _profilepageState extends State<profilepage> {
 
       croppedFile = await ImageCropper.cropImage(
           sourcePath: image.path,
+          maxWidth: 500,
+          maxHeight: 500,
           compressQuality: 70,
           aspectRatioPresets: [
             CropAspectRatioPreset.square,
@@ -258,10 +270,20 @@ class _profilepageState extends State<profilepage> {
           .then((User) {
         Global.User = User;
       });
+
+
+      await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/profileImage",
+          body:{
+            "UserId": Global.User.uid,
+            "ProfilePicture": URL,
+          }
+      ).then((response){
+        print("There is no Response : "+response.body);
+      });
+
+      await GetUserDeatils();
+
         Navigator.of(context).pop();
-
-
-
     }
 
 

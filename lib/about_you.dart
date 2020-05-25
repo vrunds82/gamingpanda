@@ -40,7 +40,7 @@ class _aboutuState extends State<aboutu> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(automaticallyImplyLeading: false,
+       /* appBar: Global.isweb?SizedBox():AppBar(automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -87,115 +87,172 @@ class _aboutuState extends State<aboutu> {
             ),
           ],
         ),
-      ),
+      ),*/
         backgroundColor: Global.isSwitchedFT == true
             ? Global.blackpanda
             : Global.whitepanda,
-         body: SingleChildScrollView(
-           child: Padding(
-             padding: const EdgeInsets.all(10.0),
-             child: Column(
-               children: <Widget>[
-
-                 Row(
+         body: Column(
+           children: [
+             Global.isweb?SizedBox():
+             Container(
+                 decoration: BoxDecoration(
+                     gradient: LinearGradient(
+                         begin: Alignment.topLeft,
+                         end: Alignment.bottomRight,
+                         colors: <Color>[Global.yellowpanda, Global.orangepanda])
+                 ),
+               child: Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Row(
                    children: <Widget>[
-                     customcard(onclick: () async {
-                       print("asdasdfadf");
-                       GetImage(0);
-                     },
-                     file: myImagesFiles[0],
-                       ImageURL: myImagesURL[0],
+                     GestureDetector(
+                       onTap: (){
+                         Navigator.of(context).pop();
+                       },
+                       child: Container(
+                           decoration: BoxDecoration(
+                             color: Global.whitepanda,
+                             borderRadius: BorderRadius.all(Radius.circular(30)),
+                           ),
+                           child: Padding(
+                             padding: const EdgeInsets.all(8.0),
+                             child: Icon(
+                               Icons.keyboard_backspace,
+                               color: Global.orangepanda,
+                             ),
+                           )),
                      ),
-                     customcard(onclick: () async {
-                       print("asdasdfadf");
-                       GetImage(1);
-                     },
-                       file: myImagesFiles[1],
-                       ImageURL: myImagesURL[1],
+                     SizedBox(width: 10,),
+                     Row(
+                       children: <Widget>[
+                         Text(
+                           "Edit profile",
+                           style: TextStyle(
+                               color: Global.blackpanda,
+                               fontSize: 18,
+                               fontWeight: FontWeight.bold),
+                         ),
+                       ],
                      ),
-                     customcard(onclick: () async {
-                       print("asdasdfadf");
-                       GetImage(2);
-                     },
-                       file: myImagesFiles[2],
-                       ImageURL: myImagesURL[2],
+                     Spacer(),
+                     Icon(
+                       Icons.more_vert,
+                       color: Global.orangepanda,
                      ),
-
                    ],
                  ),
-                 SizedBox(height: 20,),
-                 Row(
-                   children: <Widget>[
-                     customcard(onclick: () async {
-                       print("asdasdfadf");
-                       GetImage(3);
-                     },
-                       file: myImagesFiles[3],
-                       ImageURL: myImagesURL[3],
-                     ),customcard(onclick: () async {
-                       print("asdasdfadf");
-                       GetImage(4);
-                     },
-                       file: myImagesFiles[4],
-                       ImageURL: myImagesURL[4],
-                     ),customcard(onclick: () async {
-                       print("asdasdfadf");
-                       GetImage(5);
-                     },
-                       file: myImagesFiles[5],
-                       ImageURL: myImagesURL[5],
-                     ),
+               ),
 
-                   ],
-                 ),
-                 SizedBox(height: 20,),
-        Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              CustomText(text: "About You",fontSize: 22,
-                fontWeight: FontWeight.bold,),
-
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
-          child: new Container(
-              /*decoration: new BoxDecoration(
-
-                  borderRadius: new BorderRadius.all(Radius.circular(30))
-              ),*/
-              child: new Center(
-                child: new TextField(
-                  controller: AboutUsController,
-                  //minLines: 10,
-                  maxLines: 10,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    hintText: "Please write at what time you play, what are you looking for, what is your game style...",
-      hintStyle: TextStyle(color: Global.isSwitchedFT == true
-      ? Global.whitepanda
-      : Global.blackpanda,),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      borderSide: BorderSide(color: Global.greypandaicon),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      borderSide: BorderSide(color:Global.orangepanda),
-                    ),
-                  ),
-                ),
-              ),
-
-          ),
-        ),
-                 SizedBox(height: 10,),customgradientbuton(buttontext: "SAVE",onClicked: (){onSubmit();},
-                 )],
              ),
-           ),
+             Expanded(
+               child: SingleChildScrollView(
+                 child: Padding(
+                   padding: const EdgeInsets.all(10.0),
+                   child: Column(
+                     children: <Widget>[
+
+                       Row(
+                         children: <Widget>[
+                           customcard(onclick: () async {
+                             print("asdasdfadf");
+                             GetImage(0);
+                           },
+                           file: myImagesFiles[0],
+                             ImageURL: myImagesURL[0],
+                           ),
+                           customcard(onclick: () async {
+                             print("asdasdfadf");
+                             GetImage(1);
+                           },
+                             file: myImagesFiles[1],
+                             ImageURL: myImagesURL[1],
+                           ),
+                           customcard(onclick: () async {
+                             print("asdasdfadf");
+                             GetImage(2);
+                           },
+                             file: myImagesFiles[2],
+                             ImageURL: myImagesURL[2],
+                           ),
+
+                         ],
+                       ),
+                       SizedBox(height: 20,),
+                       Row(
+                         children: <Widget>[
+                           customcard(onclick: () async {
+                             print("asdasdfadf");
+                             GetImage(3);
+                           },
+                             file: myImagesFiles[3],
+                             ImageURL: myImagesURL[3],
+                           ),customcard(onclick: () async {
+                             print("asdasdfadf");
+                             GetImage(4);
+                           },
+                             file: myImagesFiles[4],
+                             ImageURL: myImagesURL[4],
+                           ),customcard(onclick: () async {
+                             print("asdasdfadf");
+                             GetImage(5);
+                           },
+                             file: myImagesFiles[5],
+                             ImageURL: myImagesURL[5],
+                           ),
+
+                         ],
+                       ),
+                       SizedBox(height: 20,),
+        Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    CustomText(text: "About You",fontSize: 22,
+                      fontWeight: FontWeight.bold,),
+
+                  ],
+                ),
+        ),
+        Padding(
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
+                child: new Container(
+                    /*decoration: new BoxDecoration(
+
+                        borderRadius: new BorderRadius.all(Radius.circular(30))
+                    ),*/
+                    child: new Center(
+                      child: new TextField(
+                        controller: AboutUsController,
+                        //minLines: 10,
+                        maxLines: 10,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          hintText: "Please write at what time you play, what are you looking for, what is your game style...",
+      hintStyle: TextStyle(color: Global.isSwitchedFT == true
+      ? Global.orangepanda
+      : Global.blackpanda,),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            borderSide: BorderSide(color: Global.greypandaicon),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            borderSide: BorderSide(color:Global.orangepanda),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                ),
+        ),
+                       SizedBox(height: 10,),customgradientbuton(buttontext: "SAVE",onClicked: (){onSubmit();},
+                       )],
+                   ),
+                 ),
+               ),
+             ),
+           ],
          ),
       ),
     );
@@ -203,12 +260,9 @@ class _aboutuState extends State<aboutu> {
 
   onSubmit()
   async {
-
     ProgressDialog(context);
-
     print(myImagesURL);
     print(AboutUsController.text);
-
     await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/image",body: {
       "UserId":Global.User.uid,
       "image1":myImagesURL[0]??"null",
@@ -221,7 +275,7 @@ class _aboutuState extends State<aboutu> {
     }).then((value){
       print(value.body);
     });
-    GetUserDeatils();
+    await GetUserDeatils();
     setState(() {
 
     });

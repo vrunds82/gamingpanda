@@ -120,14 +120,7 @@ body: Center(
 
 
                   }
-
-
-
-
                   //FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text);
-
-
-
                 },clr: Global.whitepanda,text: "LOGIN",bgclr: Global.orangepanda,)
               ),
             ],
@@ -177,7 +170,7 @@ body: Center(
                         "Email" : Global.User.email
                       });
                       await GetUserDeatils();
-                      Navigator.of(context).pushReplacementNamed('cardswipe');
+                      Navigator.of(context).pushReplacementNamed('home');
                     }
 
                   });

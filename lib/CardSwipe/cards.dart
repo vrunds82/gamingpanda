@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttery_dart2/layout.dart';
@@ -13,9 +15,11 @@ import 'profiles.dart';
 import 'package:http/http.dart' as http;
 class CardStack extends StatefulWidget {
   final MatchEngine matchEngine;
+  Function Callback;
 
   CardStack({
     this.matchEngine,
+    this.Callback
   });
 
   @override
@@ -26,6 +30,8 @@ class _CardStackState extends State<CardStack> {
   Key _frontCard;
   DateMatch _currentMatch;
   double _nextCardScale = 0.9;
+
+
 
   @override
   void initState() {
@@ -82,11 +88,11 @@ class _CardStackState extends State<CardStack> {
   }
 
   void _onMatchChange() {
-    setState(() {
+  /*  setState(() {
 
       print(_currentMatch.profile.id);
 
-    });
+    });*/
   }
 
   Widget _buildBackCard() {
@@ -125,36 +131,90 @@ class _CardStackState extends State<CardStack> {
     });
   }
 
-  Future Actions(String action,String user1,String user2)
-  {
-/*
 
-  http.post("http://admin.mysuitors.com/app/likedislike.php",body:{
-    "user1":user1,
-    "user2":user2,
-    "action":action,
-    "name":Globaldata.MyDetails.username
-  }).then((response){
-    print(response.body.toString());
-  });
-*/
+
+  Future Actions({String action,String user1,String user2})
+  {
+    String URL = "";
+  if(action=="like"){
+    URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/like";
+  }else if(action == "dislike"){
+    URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/dislike";
+  }else if(action == "superlike"){
+    URL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/superlike";
+  }
+    http.post(URL,body:{
+      "fromUserId":user1,
+      "toUserId":user2,
+    }).then((response){
+      print(response.body.toString());
+    });
 
   }
 
+  void _onSlideOutComplete(SlideDirection direction) {
+    DateMatch currentMatch = widget.matchEngine.currentMatch;
 
-  // user defined function
- /* void _showDialog(String otherUserID,String Name,String Image) {
+  // print(Globaldata.MyDetails.id);
+  //  print(_currentMatch.profile.name);
 
-    if(int.parse(Globaldata.MyDetails.id)<int.parse(otherUserID))
+    switch (direction) {
+      case SlideDirection.left:
+        currentMatch.nope();
+        Actions(action: "dislike",user1: Global.userData.userId,user2: currentMatch.profile.id);
+        break;
+      case SlideDirection.right:
+        currentMatch.like();
+        Actions(action: "like",user1: Global.userData.userId,user2: currentMatch.profile.id);
+        CreateChat(false);
+        break;
+      case SlideDirection.up:
+        currentMatch.superLike();
+        Actions(action: "superlike",user1: Global.userData.userId,user2: currentMatch.profile.id);
+        CreateChat(true);
+        break;
+    }
+
+    widget.matchEngine.cycleMatch();
+  }
+
+
+  CreateChat(bool SuperLike){
+
+    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(_currentMatch.profile.id).setData({
+      "uid":_currentMatch.profile.id,
+      "image":_currentMatch.profile.dp,
+      "name":_currentMatch.profile.name,
+      "msg":"It's a Match",
+      'time': Timestamp.now(),
+    });
+    Firestore.instance.collection('inbox/messages/${_currentMatch.profile.id}').document(Global.User.uid).setData({
+      "uid":_currentMatch.profile.id,
+      "image":_currentMatch.profile.dp,
+      "name":_currentMatch.profile.name,
+      "msg":"It's a Match",
+      'time': Timestamp.now(),
+    });
+
+
+    if(SuperLike){
+      Global.OtherUserProfile = _currentMatch.profile;
+      Global.currentpageindex=2;
+      widget.Callback();
+      Navigator.of(context).pushNamed('chat');
+    }else
       {
-        Globaldata.ChatSelction=Globaldata.MyDetails.id+"+"+otherUserID;
-      }else
-        {
-          Globaldata.ChatSelction=otherUserID+"+"+Globaldata.MyDetails.id;
-        }
-    Globaldata.ChatDisplayName=Name;
-    Globaldata.UserDP=Image;
-    Globaldata.other_user_id=otherUserID;
+      _showDialog();
+      }
+
+
+    //Navigator.of(context).pushReplacementNamed(SuperLike?'chat':'Messages');
+    //Navigator.of(context).pushNamed('chat');
+
+  }
+
+  void _showDialog() {
+
 
 
     // flutter defined function
@@ -163,120 +223,81 @@ class _CardStackState extends State<CardStack> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AnchoredOverlay(
-          showOverlay: true,
-          overlayBuilder: (BuildContext context, Rect anchorBounds, Offset anchor)
+            showOverlay: true,
+            overlayBuilder: (BuildContext context, Rect anchorBounds, Offset anchor)
             { return BackdropFilter(
               filter:  ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Container(
                 color: Colors.transparent,
                 child: AlertDialog(
-                content: Container(
-                  height: MediaQuery.of(context).size.height*.6,
-                  padding: EdgeInsets.all(0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: (){
-                                Navigator.of(context).pop();
-                              },
-                                child: Icon(Icons.cancel,color: maincolor,semanticLabel:"Invite"),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30,),
+                  title: Text("Match"),
+                  content: Container(
+                    height: MediaQuery.of(context).size.height*.6,
+                    padding: EdgeInsets.all(0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pop();
 
-                      Text('It\'s  a  Match',style: TextStyle(color: maincolor,fontFamily: 'Afternoon',fontSize: 25),),
 
-                      Container(
-                        height: MediaQuery.of(context).size.width*.6,
-                        width: MediaQuery.of(context).size.width*.6,
-                        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/heart.gif')))
-                        ,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: (){
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                                NavigateToChat(
-                                  otherUserID: Globaldata.other_user_id,
-                                  Name: Globaldata.ChatDisplayName,
-                                  Image: Globaldata.UserDP
-                                );
-                              },
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(Icons.chat,color: maincolor,semanticLabel: "Chat",),
-                                  Text("Message",style: TextStyle(color: maincolor),)
-                                ],
+                                },
+                                child: Icon(Icons.cancel,semanticLabel:"Invite"),
                               ),
                             ),
-                          ),
+                          ],
+                        ),
+                        SizedBox(height: 30,),
+
+                        Text('It\'s  a  Match',style: TextStyle(fontSize: 25),),
 
 
-                        ],
-                      )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
 
-                    ],
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pop();
+
+                                  Global.OtherUserProfile = _currentMatch.profile;
+                                  Global.currentpageindex=2;
+                                  widget.Callback();
+                                  Navigator.of(context).pushNamed('chat');
+
+                                },
+                                child: Column(
+                                  children: <Widget>[
+                                    Icon(Icons.chat,color: Colors.green,semanticLabel: "Chat",),
+                                    Text("Message")
+                                  ],
+                                ),
+                              ),
+                            ),
+
+
+                          ],
+                        )
+
+                      ],
+                    ),
                   ),
-                ),
 
-               ),
+                ),
               ),
             );},
-          child: Center()
+            child: Center()
         );
       },
     );
   }
 
-
-
-
- NavigateToChat({String otherUserID,String Name,String Image}){
-    if(int.parse(Globaldata.MyDetails.id)<int.parse(otherUserID))
-    {
-      Globaldata.ChatSelction=Globaldata.MyDetails.id+"+"+otherUserID;
-    }else
-    {
-      Globaldata.ChatSelction=otherUserID+"+"+Globaldata.MyDetails.id;
-    }
-    Globaldata.ChatDisplayName=Name;
-    Globaldata.UserDP=Image;
-    Globaldata.other_user_id=otherUserID;
-    Navigator.of(context).pushNamed('firestoretest');
-  }
-*/
-  void _onSlideOutComplete(SlideDirection direction) {
-    DateMatch currentMatch = widget.matchEngine.currentMatch;
-
-  // print(Globaldata.MyDetails.id);
-    print(_currentMatch.profile.name);
-
-    switch (direction) {
-      case SlideDirection.left:
-        currentMatch.nope();
-        break;
-      case SlideDirection.right:
-        currentMatch.like();
-        break;
-      case SlideDirection.up:
-        currentMatch.superLike();
-        break;
-    }
-
-    widget.matchEngine.cycleMatch();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -326,6 +347,7 @@ class DraggableCard extends StatefulWidget {
 }
 
 class _DraggableCardState extends State<DraggableCard> with TickerProviderStateMixin {
+  final GlobalKey<OverlayState> CardscaffoldKey = new GlobalKey<OverlayState>();
   Decision decision;
   GlobalKey profileCardKey = new GlobalKey(debugLabel: 'profile_card_key');
   Offset cardOffset = const Offset(0.0, 0.0);
@@ -423,9 +445,14 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
   }
 
   Offset _chooseRandomDragStart() {
-    final cardContext = profileCardKey.currentContext;
+/*    final cardContext = profileCardKey.currentContext;
     final cardTopLeft =
         (cardContext.findRenderObject() as RenderBox).localToGlobal(const Offset(0.0, 0.0));
+    final dragStartY =
+        Global.height * (new Random().nextDouble() < 0.5 ? 0.25 : 0.75) + cardTopLeft.dy;
+    return new Offset(Global.width / 2 + cardTopLeft.dx, dragStartY);*/
+
+    final cardTopLeft =Offset(0.0, 0.0);
     final dragStartY =
         Global.height * (new Random().nextDouble() < 0.5 ? 0.25 : 0.75) + cardTopLeft.dy;
     return new Offset(Global.width / 2 + cardTopLeft.dx, dragStartY);
@@ -461,7 +488,6 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
     dragStart = details.globalPosition;
     print("Slide :::::::::: "+(cardOffset.dx / context.size.width).toString());
 
-
     if (slideBackAnimation.isAnimating) {
       slideBackAnimation.stop(canceled: true);
     }
@@ -480,9 +506,9 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
 
   void _onPanEnd(DragEndDetails details) {
     final dragVector = cardOffset / cardOffset.distance;
-    final isInLeftRegion = (cardOffset.dx / context.size.width) < -0.45;
-    final isInRightRegion = (cardOffset.dx / context.size.width) > 0.45;
-    final isInTopRegion = (cardOffset.dy / context.size.height) < -0.40;
+    final isInLeftRegion = (cardOffset.dx / context.size.width) < -0.25;
+    final isInRightRegion = (cardOffset.dx / context.size.width) > 0.25;
+    final isInTopRegion = (cardOffset.dy / context.size.height) < -0.20;
 
     setState(() {
       if (isInLeftRegion || isInRightRegion) {
@@ -525,6 +551,7 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
  return LayoutBuilder(
    builder: (c,b){
      return new AnchoredOverlay(
+
        showOverlay: true,
        child: new Center(),
        overlayBuilder: (BuildContext context, Rect anchorBounds, Offset anchor) {
@@ -535,7 +562,11 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
                ..rotateZ(_rotation(anchorBounds)),
              origin: _rotationOrigin(anchorBounds),
              child: LayoutBuilder(
-               builder: (context,BoxCon){return  Container(
+               builder: (context,BoxCon){
+
+                 print("qweasdf"+cardOffset.dy.toString());
+
+                 return  Container(
                  key: profileCardKey,
                  width: anchorBounds.width,
                  height: anchorBounds.height,
@@ -548,8 +579,8 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
                      children: <Widget>[
                        widget.card,
                        Center(
-                         child: Opacity(
-                             opacity:cardOffset.dx.abs()!=0.0?(cardOffset.dx.abs()/400)>1?1.0:cardOffset.dx.abs()/400:0.01 ,child: likedislike()) ,
+                         child: likedislike() ,
+
                        )
                      ],
                    ),
@@ -567,50 +598,62 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
 
   Widget likedislike(){
 
-    if(cardOffset.dx!=0.0)
-      {
-        if(cardOffset.dx>0)
-          {
-            return Material(
-              child: Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
 
-                    ),
-                    Center(child: Text("Let's Play",style: TextStyle(fontSize: 40,color: Colors.green),))
-                  ],
+
+    print("DYYYYYY : "+cardOffset.dy.abs().toString()
+    );
+
+
+    return Stack(
+      children: [
+        cardOffset.dx>50?Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(),
+                Text("Let's Play",style: TextStyle(fontSize: 40,color: Global.orangepanda),)
+              ],
+
+            ),
+          ),
+        ):SizedBox(),
+        cardOffset.dx<-50?Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Column(
+
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Center(),
+
+                Text("Nope",style: TextStyle(fontSize: 40,color: Global.darkBlue),)
+              ],
+
+            ),
+          ),
+        ):SizedBox(),
+        cardOffset.dy<-50?Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
                 ),
-              ),
-            );
-          }
-        else
-          {
-            return    Material(
-              child: Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
+                Center(child: Text("Super Like",style: TextStyle(fontSize: 40,color: Global.SuperLikeBlue),))
+              ],
+            ),
+          ),
+        ):SizedBox(),
+      ],
+    );
 
-                    ),
-                    Center(child: Text("Nope",style: TextStyle(fontSize: 40,color: Colors.red),))
-                  ],
-
-                ),
-              ),
-            );
-          }
-      }
-    else
-      {
-       return Text("");
-      }
 
   }
 
@@ -640,164 +683,156 @@ class _ProfileCardState extends State<ProfileCard> {
   }
 
 
-  Future Actions(String action,String user1,String user2,String Title,String Content)
-  {
-
-  /*  http.post("http://admin.mysuitors.com/app/likedislike.php",body:{
-      "user1":user1,
-      "user2":user2,
-      "action":action,
-      "name":Globaldata.MyDetails.username
-    }).then((response){
-      print(response.body.toString());
-
-         _showActions(content: Content,Title: Title);
-
-
-    });
-*/
-  }
 
   Widget _buildProfileSynopsis() {
+
+
 
      return new Positioned(
       left: 0.0,
       right: 0.0,
       bottom: 0.0,
-      child: new Container(
-        decoration: new BoxDecoration(
-          gradient: new LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Colors.black.withOpacity(0.8),
-            ],
-          ),
-        ),
-        padding: const EdgeInsets.all(24.0),
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            new Expanded(
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      new Text(
-                        "${widget.profile.name}  25",
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontSize:18.0,
-                        ),
-                      ),
-                      VerticalDivider(thickness: 2,color: Global.orangepanda,width: 10,),
-                      Icon(MdiIcons.genderMale,color: Colors.white,)
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    children: <Widget>[
-                      Image.asset("assets/images/gamegrey.png",height: 15,),
-                      SizedBox(width: 10,),
-                      new Text(
-                        "LoL, DotA, Call of Duty 4",
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    children: <Widget>[
-                      Image.asset("assets/images/country.png",height: 15,),
-                      SizedBox(width: 10,),
-                      new Text(
-                        "Croatia",
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  showDetail?Row(
-                    children: <Widget>[
-
-                      new Text(
-                        "information about the User",
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-
-                    ],
-                  ):SizedBox(),
-                ],
-              ),
-            ),
-            Column(
-              children: <Widget>[
-                /*GestureDetector(
-                  onTap: (){
-                    Actions("3",Globaldata.MyDetails.id,widget.profile.id,"HotList",widget.profile.name + " is Hot Listed" );
-                  },
-                  child: new Icon(
-                    Icons.whatshot,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 10,),
-                GestureDetector(
-                  onTap: (){
-                    Actions("4",Globaldata.MyDetails.id,widget.profile.id,"Friend Request",widget.profile.name + " Requested for Friendship" );
-                  },
-                  child: new Icon(
-                    Icons.supervised_user_circle,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 10,),
-                GestureDetector(
-                  onTap: (){
-                    Actions("5",Globaldata.MyDetails.id,widget.profile.id,"Wink","You winked "+widget.profile.name);
-                  },
-                  child: new Icon(
-                    Icons.remove_red_eye,
-                    color: Colors.white,
-                  ),
-                ),*/
-                SizedBox(height: 10,),
-                GestureDetector(
-                  onTap: (){
-
-
-                    showDetail=!showDetail;
-
-               //     Fluttertoast.showToast(msg: showDetail.toString());
-                    setState(() {
-
-                    });
-
-             //       _showUserDetails(widget.profile.index);
-                  },
-                  child: new Icon(
-                     showDetail?Icons.keyboard_arrow_down:Icons.info,
-                    color: Colors.white,
-                  ),
-                ),
+      child: GestureDetector(
+        onTap: (){
+          showDetail=!showDetail;
+          setState(() {
+          });
+        },
+        child: new Container(
+          decoration: new BoxDecoration(
+            gradient: new LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.transparent,
+                Colors.black.withOpacity(0.8),
               ],
             ),
-          ],
+          ),
+          padding: const EdgeInsets.all(24.0),
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              new Expanded(
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        new Text(
+                          "${widget.profile.name}  ${widget.profile.age}",
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize:18.0,
+                          ),
+                        ),
+                        VerticalDivider(thickness: 2,color: Global.orangepanda,width: 10,),
+                        Icon(widget.profile.gender=="Male"?MdiIcons.genderMale:widget.profile.gender!="Female"?MdiIcons.genderTransgender:MdiIcons.genderFemale,color: Colors.white,)
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      children: <Widget>[
+                        Image.asset("assets/images/gamegrey.png",height: 15,),
+                        SizedBox(width: 10,),
+                        new Text(
+                          widget.profile.games,
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      children: <Widget>[
+                        //Flag('AD', height: 15, width: 20, fit: BoxFit.fill),
+                        SizedBox(width: 10,),
+                        new Text(
+                          widget.profile.country,
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    showDetail?Row(
+                      children: <Widget>[
+                        new Text(
+                          widget.profile.bio,
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+
+                      ],
+                    ):SizedBox(),
+                  ],
+                ),
+              ),
+              Column(
+                children: <Widget>[
+                  /*GestureDetector(
+                    onTap: (){
+                      Actions("3",Globaldata.MyDetails.id,widget.profile.id,"HotList",widget.profile.name + " is Hot Listed" );
+                    },
+                    child: new Icon(
+                      Icons.whatshot,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: (){
+                      Actions("4",Globaldata.MyDetails.id,widget.profile.id,"Friend Request",widget.profile.name + " Requested for Friendship" );
+                    },
+                    child: new Icon(
+                      Icons.supervised_user_circle,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: (){
+                      Actions("5",Globaldata.MyDetails.id,widget.profile.id,"Wink","You winked "+widget.profile.name);
+                    },
+                    child: new Icon(
+                      Icons.remove_red_eye,
+                      color: Colors.white,
+                    ),
+                  ),*/
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: (){
+
+
+                      showDetail=!showDetail;
+                      setState(() {
+
+                      });
+
+                 //     Fluttertoast.showToast(msg: showDetail.toString());
+
+
+               //       _showUserDetails(widget.profile.index);
+                    },
+                    child: new Icon(
+                       showDetail?Icons.keyboard_arrow_down:Icons.info,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

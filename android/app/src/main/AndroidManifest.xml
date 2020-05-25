@@ -7,8 +7,8 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="gamingpanda"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Gaming Panda"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
