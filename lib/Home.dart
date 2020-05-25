@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  PageController controller = new PageController(initialPage: Global.currentpageindex);
 
 
   void callback(){
@@ -117,22 +118,35 @@ class _HomeState extends State<Home> {
               ],
             ),
             Expanded(
-              child:  myViews(),
+              child: myViews()
             )
           ],
         ),
       ),
     );
   }
+/*
+  PageView(
+  controller: controller,
+  onPageChanged: (value){
+  Global.currentpageindex=value;
+  setState(() {
+
+  });
+  },
+  children: [
+
+
+  profilepage(callback: this.callback),
+  cardpage(),
+  chatscreen(),
+  ],
+  )*/
 
   myViews(){
     switch (Global.currentpageindex){
       case 0:
-        return GestureDetector(child: profilepage(callback: this.callback),onTap: (){
-          setState(() {
-
-          });
-        },);
+        return profilepage(callback: this.callback);
       case 1:
         return cardpage(callback: this.callback,);
       case 2:

@@ -428,7 +428,7 @@ class customcard extends StatelessWidget {
                 : Global.whitepanda,
                child: ClipRRect(
                    borderRadius: BorderRadius.circular(15.0),
-                   child: file!=null?Image.file(file,fit: BoxFit.cover,) :ImageURL==null||ImageURL==""?SizedBox():Image.network("https://images.pexels.com/photos/3563888/pexels-photo-3563888.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",fit: BoxFit.cover,)),
+                   child: file!=null?Image.file(file,fit: BoxFit.cover,) :ImageURL==null||ImageURL==""?SizedBox():Image.network(ImageURL,fit: BoxFit.cover,)),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
