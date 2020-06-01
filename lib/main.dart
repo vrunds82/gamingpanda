@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamingpanda/CardsNew.dart';
 import 'package:gamingpanda/Chat.dart';
 import 'package:gamingpanda/about_you.dart';
 import 'package:gamingpanda/cardswipe.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         'editprofile': (context) =>aboutu(),
         'home':(context)=>Home(),
         'chat':(context)=>Chat(),
+        'cardSwipeNew':(context)=> CardsNew(),
         'weblogin':(context)=>webloginpage(),
         'webHome':(context)=>webHome(),
         'webSettingPage':(context)=>webSettingpage(),

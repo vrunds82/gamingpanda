@@ -13,11 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class profilepage extends StatefulWidget {
-
   Function callback;
-
   profilepage({this.callback});
-
   @override
   _profilepageState createState() => _profilepageState();
 }
@@ -25,7 +22,6 @@ class profilepage extends StatefulWidget {
 class _profilepageState extends State<profilepage> {
 
   File croppedFile;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +41,12 @@ class _profilepageState extends State<profilepage> {
                   ),
                 GestureDetector(
                   onTap: (){
-                    GetImage();
+                 //   GetImage();
                   },
                   child:   Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        image: DecorationImage(image: NetworkImage(Global.User.photoUrl))
+                        image: DecorationImage(image: NetworkImage(Global.userData.profilePicture),fit: BoxFit.cover)
                     ),
                     width: 84,
                     height: 84,

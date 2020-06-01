@@ -16,8 +16,8 @@ class webloginpage extends StatefulWidget {
 
 class _webloginpageState extends State<webloginpage> {
 
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController email = TextEditingController(text: "ramram1@gmail.com");
+  TextEditingController password = TextEditingController(text: "ramram@gmail.com");
 
   var firebaseAuth = FirebaseAuth.instance;
 

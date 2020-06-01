@@ -9,6 +9,9 @@ import 'package:http/http.dart' as http;
 GetUserDeatils() async {
   await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/GetOwnUserProfile",
       body:{"UserId":Global.User.uid}).then((response){
+
+        print(response.body);
+
         var parsedjson=jsonDecode(response.body);
         Global.userData= UserData.fromJson(parsedjson);
 

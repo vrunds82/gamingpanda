@@ -158,6 +158,7 @@ body: Center(
                 GestureDetector(onTap: () async {
                   final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
                   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                  ProgressDialog(context);
                   final AuthCredential credential =await GoogleAuthProvider.getCredential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
                   print(credential);
                   await FirebaseAuth.instance.signInWithCredential(credential).then((result) async {
@@ -174,6 +175,7 @@ body: Center(
                     }
 
                   });
+
                 },
                   child: Card(elevation: 3,
                       shape: RoundedRectangleBorder(
@@ -206,11 +208,26 @@ body: Center(
     ProgressDialog(context);
 
     await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
-      login=value[0];
+      print(value.toString());
+      if(value!=null && value.isNotEmpty) {
+        login = value[0];
+      }
     });
+    print(login);
 
-
-    if(login!=null && login=="password"){
+    if(login==null){
+      Navigator.of(context).pop();
+      Fluttertoast.showToast(
+          msg: "Invalid Email Address or Password",
+          //toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }else
+    if(login=="password"){
 
     FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
         password: password.text)
@@ -236,14 +253,14 @@ body: Center(
 
         switch(error.code){
           case "ERROR_USER_NOT_FOUND" :
-            Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+            Fluttertoast.showToast(msg:"Invalid Email Address or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
             break;
           default:
-            Fluttertoast.showToast(msg:error.toString(),backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+            Fluttertoast.showToast(msg:"Invalid Email Address or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
         }}
       else
       {
-        Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+        Fluttertoast.showToast(msg:"Invalid Email Address or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
       }
       // Navigator.pop(context);
     });

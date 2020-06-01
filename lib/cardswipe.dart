@@ -181,7 +181,8 @@ loading = true;
         children: <Widget>[
        /*   CustomAppbar(),*/
           Expanded(
-            child: loading?Center(child: SizedBox(width: 50,height: 50,child: CircularProgressIndicator()),):CardStack(
+            child: loading?Center(child: SizedBox(width: 50,height: 50,child: CircularProgressIndicator()),):
+            CardStack(
               Callback: this.callback,
               matchEngine: matchEngine,),
             /*child: Padding(

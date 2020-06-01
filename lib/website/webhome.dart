@@ -4,11 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/matches.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
+import 'package:gamingpanda/CardsNew.dart';
+import 'package:gamingpanda/Lists.dart';
 import 'package:gamingpanda/cardswipe.dart';
 import 'package:gamingpanda/Messages.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:gamingpanda/models/SwipeUser.dart';
-import 'package:gamingpanda/profile.dart';
+import 'package:gamingpanda/models/UserData.dart';
+import 'package:gamingpanda/website/webChatting.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,8 +22,92 @@ class webHome extends StatefulWidget {
 
 class _webHomeState extends State<webHome> {
 
+
+  PageController controller = new PageController(initialPage: Global.currentpageindex);
+  UserData OtherUserProfile = new UserData();
+  Profile UserProfile = new Profile();
+  String games ="";
+  bool loadingUserDeatils = false;
+
   void callback(){
+    userDetails();
     setState(() {
+
+    });
+
+  }
+
+  userDetails() async {
+    UserProfile = null;
+    loadingUserDeatils=true;
+    setState(() {
+
+    });
+
+    print("Getting UserDetails of : ${Global.OtherUserProfile.id}");
+
+   await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/otherUser",
+       body: {"UserId":Global.OtherUserProfile.id}).then((value) {
+
+
+
+      OtherUserProfile = UserData.fromJson(jsonDecode(value.body));
+    });
+
+   print(jsonEncode(OtherUserProfile));
+
+
+    if(OtherUserProfile.game1!=null && OtherUserProfile.game1!="" && Games.indexOf(OtherUserProfile.game1)!=-1 ){
+      games = ShortName[Games.indexOf(OtherUserProfile.game1)];
+
+    }
+    if(OtherUserProfile.game1!=null && OtherUserProfile.game2!="" && Games.indexOf(OtherUserProfile.game2)!=-1){
+      if(games==""){
+        games = ShortName[Games.indexOf(OtherUserProfile.game2)];
+      }else{
+        games +=","+ ShortName[Games.indexOf(OtherUserProfile.game2)];
+      }
+    }
+
+    List<String> pics = new List();
+    if (OtherUserProfile.profilePicture != "" && OtherUserProfile.profilePicture != "null" && OtherUserProfile.profilePicture != null) {
+      pics.add(OtherUserProfile.profilePicture);
+    }
+    if (OtherUserProfile.image1 != "" && OtherUserProfile.image1 != "null") {
+      pics.add(OtherUserProfile.image1);
+    }
+    if (OtherUserProfile.image2 != "" && OtherUserProfile.image2 != "null") {
+      pics.add(OtherUserProfile.image2);
+    }
+    if (OtherUserProfile.image3 != "" && OtherUserProfile.image3 != "null") {
+      pics.add(OtherUserProfile.image3);
+    }
+    if (OtherUserProfile.image4 != "" && OtherUserProfile.image4 != "null") {
+      pics.add(OtherUserProfile.image4);
+    }
+    if (OtherUserProfile.image5 != "" && OtherUserProfile.image5 != "null") {
+      pics.add(OtherUserProfile.image5);
+    }
+    if (OtherUserProfile.image6 != "" && OtherUserProfile.image6 != "null") {
+      pics.add(OtherUserProfile.image6);
+    }
+
+   UserProfile= Profile(bio: OtherUserProfile.aboutUs,
+        name: OtherUserProfile.userName,
+        photos: pics,
+        id: OtherUserProfile.userId,
+        dp: OtherUserProfile.profilePicture,
+        age: (DateTime.now().year-OtherUserProfile.year).toString(),
+        country: OtherUserProfile.country,
+        games: games,
+        gender: OtherUserProfile.gender
+    );
+
+    print(jsonEncode(UserProfile));
+
+    loadingUserDeatils =false;
+    setState(() {
+
     });
   }
 
@@ -36,7 +123,7 @@ class _webHomeState extends State<webHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-      Global.isSwitchedFT == true ? Colors.black : Global.whitepanda,
+      Global.isSwitchedFT == true ? Colors.black : Colors.grey.withOpacity(0.2),
       body: Row(
         children: [
           Container(
@@ -83,6 +170,9 @@ class _webHomeState extends State<webHome> {
                         GestureDetector(
                           onTap: (){
 
+
+                            Navigator.of(context).pushReplacementNamed('webSettingPage');
+
                           },
                           child: Container(
                             height: 40,
@@ -100,7 +190,10 @@ class _webHomeState extends State<webHome> {
                         SizedBox(width: 10,),
                         GestureDetector(
                           onTap: (){
-                            Navigator.of(context).pushReplacementNamed('webChattingPage');
+                          Global.webCurrentPageIndex=0;
+                          setState(() {
+
+                          });
                           },
                           child: Container(
                             height: 40,
@@ -146,9 +239,8 @@ class _webHomeState extends State<webHome> {
                                     );
                                    // Navigator.of(context).pushNamed('chat');
                                     Global.webCurrentPageIndex=1;
-                                    Navigator.of(context).pushReplacementNamed('webChattingPage');
-                                    setState(() {
-                                    });
+                                   //  Navigator.of(context).pushReplacementNamed('webChattingPage');
+                                   userDetails();
 
                                   },child: myMessagesTile(documentSnapshot: document,));
                                 }).toList(),
@@ -201,20 +293,7 @@ class _webHomeState extends State<webHome> {
           ),
           Expanded(
             child: Center(
-              child: SizedBox(
-                width: Global.webwidth*.5,
-                child: Padding(
-                  padding: const EdgeInsets.all(100.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: myViews(),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              child: myViews(),
             ),
           ),
         ],
@@ -225,9 +304,23 @@ class _webHomeState extends State<webHome> {
   myViews(){
     switch (Global.webCurrentPageIndex){
       case 0:
-        return cardpage();
+        return SizedBox(
+          width: Global.webwidth*.4,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(100,75,100,75),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: CardsNew(callback: this.callback,),
+                )
+              ],
+            ),
+          ),
+        );
+
       case 1:
-        return Center(child: Text("asdfaseras"));
+        return webChatting(games: games,loadingUserDeatils: loadingUserDeatils,UserProfile: UserProfile);
       case 2:
         return Messages();
     }

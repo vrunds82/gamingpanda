@@ -19,6 +19,8 @@ class _ChatState extends State<Chat> {
   TextEditingController textEditingController = new TextEditingController();
   FirebaseUser firebaseUser;
 
+
+
   ChkFirebaseUSer() async {
     await FirebaseAuth.instance.currentUser().then((user) {
       if (user == null) {
@@ -36,13 +38,17 @@ class _ChatState extends State<Chat> {
     // TODO: implement initState
     super.initState();
     ChkFirebaseUSer();
+    Global.dates.clear();
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
+
+      backgroundColor:Global.isweb? Colors.transparent: Global.isSwitchedFT == true ?  Global.blackpanda: Global.whitepanda,
+
+   /*   appBar: AppBar(
         backgroundColor:
       Global.isweb?Colors.transparent:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
         brightness:
@@ -93,9 +99,128 @@ class _ChatState extends State<Chat> {
             },
           )
         ],
-      ),
+      ),*/
       body : Column(
         children: <Widget>[
+          Global.isweb? Container(
+        height: 80,
+        color: Global.isSwitchedFT == true ? Global.blackpanda: Global.whitepanda,
+          child:
+          Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Row(
+                    children: [
+                      SizedBox(width: 20,),
+                      GestureDetector(
+                      onTap: () {
+                        Global.webCurrentPageIndex = 0;
+                        setState(() {
+                        });
+                      }
+    ,child: Image.asset(Global.isSwitchedFT?"assets/images/backDark.png":"assets/images/backLight.png",height: 50,)),
+                      Expanded(
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: 50,
+                                  width: 50,
+
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image:  Global.OtherUserProfile.dp==null|| Global.OtherUserProfile.dp==""?AssetImage('assets/images/user.png'):NetworkImage( Global.OtherUserProfile.dp),
+                                      ))),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              CustomText(
+                                text: Global.OtherUserProfile.name.length>12?Global.OtherUserProfile.name.substring(0,12):Global.OtherUserProfile.name,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Opacity(opacity: 0,child: Image.asset(Global.isSwitchedFT?"assets/images/backDark.png":"assets/images/backLight.png",height: 40,)),
+                      PopupMenuButton(
+                        color:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+                        padding: EdgeInsets.all(0),
+                        itemBuilder: (BuildContext context) {
+                          return [
+                            PopupMenuItem(
+                              child: CustomText(text:"Show Profile"),
+                            ),
+                            PopupMenuItem(
+                              child: CustomText(text:"Delete Conversation"),),
+                          ];
+                        },
+                      ),
+                      SizedBox(width: 20,),
+                    ],
+                  ),
+                ),
+              ),
+              Container(color:  Global.isSwitchedFT == true ? Colors.black : Colors.grey.withOpacity(0.2),height: 1,)
+            ],
+          ),
+        ):AppBar(
+            backgroundColor:
+            Global.isweb?Colors.transparent:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+            brightness:
+            Global.isSwitchedFT == false ? Brightness.light : Brightness.dark,
+            title: Row(
+
+              children: <Widget>[
+                Container(
+                    height: 30,
+                    width: 30,
+                    margin: EdgeInsets.only(left: 20, top: 15, bottom: 10),
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                          fit: BoxFit.cover,
+                          image:  Global.OtherUserProfile.dp==null|| Global.OtherUserProfile.dp==""?AssetImage('assets/images/user.png'):NetworkImage( Global.OtherUserProfile.dp),
+                        ))),
+                SizedBox(
+                  width: 15,
+                ),
+                CustomText(
+                  text: Global.OtherUserProfile.name.length>12?Global.OtherUserProfile.name.substring(0,12):Global.OtherUserProfile.name,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+
+                // For Adjusting Space
+
+                SizedBox(
+                  width: 5,
+                ),
+              ],
+            ),
+            centerTitle: true,
+            actions: <Widget>[
+
+              PopupMenuButton(
+                color:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+                padding: EdgeInsets.all(0),
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      child: CustomText(text:"Show Profile"),
+                    ),
+                    PopupMenuItem(
+                      child: CustomText(text:"Delete Conversation"),),
+                  ];
+                },
+              )
+            ],
+          ),
           Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
@@ -126,6 +251,12 @@ class _ChatState extends State<Chat> {
                            SizedBox(width: 10,),
               Expanded(child:
               TextField(
+                onSubmitted: (va){
+                  sendMessage();
+                  textEditingController.text="";
+                  setState(() {
+                  });
+                },
                 style: TextStyle(color: Global.orangepanda),
                 controller: textEditingController,
                 keyboardType: TextInputType.text,
@@ -187,12 +318,12 @@ class _ChatState extends State<Chat> {
                       setState(() {
 
                       });
-                      Fluttertoast.showToast(msg: "Clicked");
+                   //   Fluttertoast.showToast(msg: "Clicked");
                     },
                     splashColor: Global.orangepanda,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.send),
+                      child: Icon(Icons.send,color: Global.isSwitchedFT?Global.orangepanda:Global.blackpanda,),
                     ),
                   ),
                 ),
@@ -213,7 +344,8 @@ class _ChatState extends State<Chat> {
         .setData({
       'msg': textEditingController.text.toString(),
       'time': Timestamp.now(),
-      'uid': Global.User.email
+      'sendby': Global.User.email,
+      "uid":Global.User.uid,
     });
 
     Firestore.instance
@@ -222,21 +354,22 @@ class _ChatState extends State<Chat> {
         .setData({
       'msg': textEditingController.text.toString(),
       'time': Timestamp.now(),
-      'uid': Global.User.email
+      'sendby': Global.User.email,
+      "uid":Global.User.uid,
     });
 
-    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(Global.OtherUserProfile.id).setData({
+    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(Global.OtherUserProfile.id).updateData({
       "uid":Global.OtherUserProfile.id,
       "image":Global.OtherUserProfile.dp,
       "name":Global.OtherUserProfile.name,
-      "msg":"It's a Match",
+      "msg":textEditingController.text.toString(),
     });
 
-    Firestore.instance.collection('inbox/messages/${Global.OtherUserProfile.id}').document(Global.User.uid).setData({
-      "uid":Global.OtherUserProfile.id,
+    Firestore.instance.collection('inbox/messages/${Global.OtherUserProfile.id}').document(Global.User.uid).updateData({
+      "uid":Global.User.uid,
       "image":Global.userData.profilePicture,
       "name":Global.userData.userName,
-      "msg":"It's a Match",
+      "msg":textEditingController.text.toString(),
     });
 
 
@@ -252,84 +385,122 @@ class _ChatState extends State<Chat> {
 
 Widget Mychatbox(context, DocumentSnapshot document) {
 
+
   Timestamp  timestamp= document['time'];
-  var date = (timestamp.toDate().hour%12).toString().length==1?"0"+(timestamp.toDate().hour%12).toString():(timestamp.toDate().hour%12).toString() +":"+
+  DateTime time = timestamp.toDate();
+  String ampm = (time.hour/12).toInt()==0?"am":"pm";
+  String hour = /*(time.hour%12).toInt().toString().length==1?"0"+(time.hour%12).toInt().toString():*/(time.hour%12).toInt().toString();
+  String min = (time.minute).toInt().toString().length==1?"0"+(time.minute).toInt().toString():(time.minute).toInt().toString();
+  String date = hour +":"+min+" "+ampm;
+  String day = time.day.toString().length==0?"0"+ time.day.toString(): time.day.toString();
+  String month = time.month.toString().length==0?"0"+ time.month.toString(): time.month.toString();
+  String ChatDay = "$day/$month/${time.year}";
+
+  bool ispresent =true;
+
+
+if(!Global.dates.contains(ChatDay)){
+  ispresent=false;
+  Global.dates.add(ChatDay);
+}
+
+  /*String date =
+  ((timestamp.toDate().hour%12).toString()).length==1?"0"+((timestamp.toDate().hour%12).toString()):((timestamp.toDate().hour%12).toString() )+":"+
       (timestamp.toDate().minute.toString().length==1?"0"+timestamp.toDate().minute.toString():timestamp.toDate().minute.toString())+" "+
       ((timestamp.toDate().hour%12)==1? "am  ":"pm  ")+
       timestamp.toDate().day.toString()+"/"+
       timestamp.toDate().month.toString()+"/"+
-      timestamp.toDate().year.toString();
-  return Row(
-    mainAxisAlignment: document['uid'].toString() == Global.User.email
-        ? MainAxisAlignment.end
-        : MainAxisAlignment.start,
-    children: <Widget>[
-      document['uid'].toString() != Global.User.email ?Container(
-          height: 30,
-          width: 30,
-          margin:
-          EdgeInsets.only(left: 20, top: 15, bottom: 10),
-          decoration: new BoxDecoration(
-              shape: BoxShape.circle,
-              image: new DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/images/user.png'),
-              ))):SizedBox(),
-      Column(
-        crossAxisAlignment: document['uid'].toString() == Global.User.email
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+      timestamp.toDate().year.toString();*/
+
+  print("Date : "+date);
+
+  return Column(
+    children: [
+      /*
+      !ispresent?Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Card(
-            shape:document['uid'].toString() != Global.User.email ?  RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(18),
-                  topRight: Radius.circular(18),
-                  bottomLeft: Radius.circular(10),
-                  topLeft: Radius.circular(24)),
-
-              /* side: BorderSide(width: 1, color: Colors.green)*/
-            ):
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(10),
-                  topRight: Radius.circular(24),
-                  bottomLeft: Radius.circular(18),
-                  topLeft: Radius.circular(18)),
-
-              /* side: BorderSide(width: 1, color: Colors.green)*/
-            ),
-            color: document['uid'].toString() != Global.User.email
-                ? Global.greypanda
-                : Global.orangepanda,
-            child: Container(
-              child: Padding(
-                padding:  EdgeInsets.all(document['type']==null||document['type']=='text'?8.0:2),
-                child: ConstrainedBox(constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.7),child: Padding(
-                  padding:  EdgeInsets.all(document['type']==null||document['type']=='text'?4.0:2),
-                  child:document['type']==null||document['type']=='text'?
-                  Text(document['msg'].toString(),style: TextStyle(color:Colors.white,))
-                      :GestureDetector(onTap: (){
-                    // GlobalData.ZoomImage=document['msg'].toString();
-                    Navigator.of(context).pushNamed('zoomImage');
-                  },child: Image.network(document['msg'].toString())),
-                )),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: document['uid'].toString() != Global.User.uid
-                ? MainAxisAlignment.end
-                : MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20,0,20,0),
-                child: Text(date.toString(),style: TextStyle(color: Colors.white,fontSize: 10),),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20,20,20,20),
+            child: Text(ChatDay,style: TextStyle(color: Global.orangepanda,fontSize: 20),),
           )
         ],
-      )
+      ):SizedBox(),*/
+      Row(
+        mainAxisAlignment: document['uid'].toString() == Global.User.uid
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
+        children: <Widget>[
+          document['uid'].toString() != Global.User.uid ?Container(
+              height: 30,
+              width: 30,
+              margin:
+              EdgeInsets.only(left: 20, top: 15, bottom: 10),
+              decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: new DecorationImage(
+                    fit: BoxFit.cover,
+                    image: Global.OtherUserProfile.dp==null?AssetImage('assets/images/logo.png'):NetworkImage(Global.OtherUserProfile.dp),
+                  ))):SizedBox(),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: document['uid'].toString() == Global.User.uid
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: <Widget>[
+                Card(
+                  shape:document['uid'].toString() != Global.User.uid ?  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(18),
+                        topRight: Radius.circular(18),
+                        bottomLeft: Radius.circular(10),
+                        topLeft: Radius.circular(24)),
+
+                    /* side: BorderSide(width: 1, color: Colors.green)*/
+                  ):
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(10),
+                        topRight: Radius.circular(24),
+                        bottomLeft: Radius.circular(18),
+                        topLeft: Radius.circular(18)),
+
+                    /* side: BorderSide(width: 1, color: Colors.green)*/
+                  ),
+                  color: document['uid'].toString() != Global.User.uid
+                      ? Global.greypanda
+                      : Global.orangepanda,
+                  child: Container(
+                    child: Padding(
+                      padding:  EdgeInsets.all(document['type']==null||document['type']=='text'?8.0:2),
+                      child: ConstrainedBox(constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.7),child: Padding(
+                        padding:  EdgeInsets.all(document['type']==null||document['type']=='text'?4.0:2),
+                        child:document['type']==null||document['type']=='text'?
+                        Text(document['msg'].toString(),style: TextStyle(color:Colors.white,))
+                            :GestureDetector(onTap: (){
+                          // GlobalData.ZoomImage=document['msg'].toString();
+                          Navigator.of(context).pushNamed('zoomImage');
+                        },child: Image.network(document['msg'].toString())),
+                      )),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: document['uid'].toString() == Global.User.uid
+                      ? MainAxisAlignment.end
+                      : MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20,0,20,0),
+                      child: Text(date.toString(),style: TextStyle(color: Colors.white,fontSize: 10),),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     ],
   );
 }

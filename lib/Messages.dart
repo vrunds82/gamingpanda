@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
@@ -58,6 +60,8 @@ class _MessagesState extends State<Messages> {
                               id: document.data['uid'],
                               dp: document.data['image']
                             );
+
+                            print(jsonEncode(Global.OtherUserProfile));
 
                             Navigator.of(context).pushNamed('chat');
 

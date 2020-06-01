@@ -24,7 +24,6 @@ class _splashscreenState extends State<splashscreen> {
         Global.User = value;
         print("Calling");
         await GetUserDeatils();
-
         Navigator.of(context).pushReplacementNamed('home');
       }else
         {

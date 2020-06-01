@@ -190,6 +190,16 @@ class _registerState extends State<register> {
                                    textColor: Colors.white,
                                    fontSize: 16.0
                                );
+                             else if (confirmpassword.text.length<8)
+                               Fluttertoast.showToast(
+                                   msg: "For password minimum 8 characters required.",
+                                   //toastLength: Toast.LENGTH_SHORT,
+                                   gravity: ToastGravity.CENTER,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: Colors.red,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0
+                               );
 
                              else if (confirmpassword.text == "")
                                Fluttertoast.showToast(

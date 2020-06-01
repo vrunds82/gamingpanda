@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/models/UserData.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 
 class Global {
-
+  static List<String> dates = new List();
   static String BaseURL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
@@ -40,6 +41,7 @@ class Global {
   static int webCurrentPageIndex;
 
 }
+
 
 class myMessagesTile extends StatelessWidget {
 
@@ -409,7 +411,7 @@ class customcard extends StatelessWidget {
   VoidCallback onRemove;
   String ImageURL;
   File file;
-  customcard({this.onclick,this.file,this.ImageURL});
+  customcard({this.onclick,this.file,this.ImageURL,this.onRemove});
 
   @override
   Widget build(BuildContext context) {
@@ -424,7 +426,7 @@ class customcard extends StatelessWidget {
             onclick();
           },
             child: Card(color: Global.isSwitchedFT == true
-                ? Global.blackpanda.withOpacity(0.2)
+                ? Global.darkBlue.withOpacity(0.5)
                 : Global.whitepanda,
                child: ClipRRect(
                    borderRadius: BorderRadius.circular(15.0),
@@ -438,40 +440,39 @@ class customcard extends StatelessWidget {
       ),
       Positioned(
           bottom: 0,
-          left: 70,
-          right: 30,
+          right: 0,
+
           child: GestureDetector(onTap: () async {
             print("asdfasdf");
                onclick();
           },
-            child: Icon(
-              Icons.add_circle,
-              color: Global.orangepanda,
-              size: 28,
+            child: Container(
+          //    color: Colors.red,
+
+              child: Icon(
+                Icons.add_circle,
+                color: Global.orangepanda,
+                size: 28,
+              ),
             ),
           )),
-     /* Positioned(
+      file!=null && (ImageURL!=null|| ImageURL!="") ?Positioned(
           top: 0,
-          left: 70,
-          right: 30,
+        right: 0,
           child: GestureDetector(onTap: () async {
-
-            print("minusClicke");
-
+            print("asdfasdf");
+            onRemove();
           },
-            child: IconButton(
+            child: Container(
+              //    color: Colors.red,
 
-
-              *//*Icons.remove_circle,
-              color: Global.orangepanda,
-              size: 28,*//*
-              icon: Icon(Icons.remove_circle,size: 28,color: Global.orangepanda,),
-              onPressed: (){
-                print("On Removed Clicked");
-                onRemove();
-              },
+              child: Icon(
+                Icons.remove_circle,
+                color: Global.orangepanda,
+                size: 28,
+              ),
             ),
-          )),*/
+          )):SizedBox(),
     ]);
   }
 }
@@ -688,7 +689,7 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,style: TextStyle(color: color==null?Global.isSwitchedFT ==false ? Global.blackpanda : Global.whitepanda:color,fontWeight: fontWeight??FontWeight.normal,fontSize:  fontSize??14,decoration: decoration??TextDecoration.none),);
+    return Text(text,style: TextStyle(color: color==null?Global.isSwitchedFT ==false ? Global.blackpanda : Global.whitepanda:color,fontWeight: fontWeight??FontWeight.normal,fontSize:  fontSize??13,decoration: decoration??TextDecoration.none),);
   }
 }
 

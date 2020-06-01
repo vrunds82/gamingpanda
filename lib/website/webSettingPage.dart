@@ -12,6 +12,8 @@ import 'package:gamingpanda/global.dart';
 import 'package:gamingpanda/models/SwipeUser.dart';
 import 'package:gamingpanda/profile.dart';
 import 'package:gamingpanda/settings.dart';
+import 'package:gamingpanda/website/webSingleSettings.dart';
+import 'package:gamingpanda/website/webfilters.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,38 +44,44 @@ class _webSettingpageState extends State<webSettingpage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:
-      Global.isSwitchedFT == true ? Colors.black : Global.whitepanda,
-      body: Row(
-        children: [
-          Container(
-            color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
-            child: SizedBox(
-              width: Global.webwidth*.25,
-              child:  settingpage(),
-            ),
-          ),
-          Expanded(child:  Center(
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Container(
-                color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
-                child: SizedBox(
-                  width: Global.webwidth*.25,
-                  child:  aboutu(),
-                ),
+    return WillPopScope(
+      onWillPop: ()async{
+        Navigator.of(context).pushReplacementNamed('webHome');
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor:
+        Global.isSwitchedFT == true ? Colors.black : Global.whitepanda,
+        body: Row(
+          children: [
+            Container(
+              color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+              child: SizedBox(
+                width: Global.webwidth*.25,
+                child:  settingpage(),
               ),
             ),
-          )),
-          Container(
-            color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
-            child: SizedBox(
-              width: Global.webwidth*.25,
-              child:  filteritem(),
+            Expanded(child:  Center(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Container(
+                  color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+                  child: SizedBox(
+                    width: Global.webwidth*.25,
+                    child:  aboutu(),
+                  ),
+                ),
+              ),
+            )),
+            Container(
+              color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+              child: SizedBox(
+                width: Global.webwidth*.25,
+                child:  filteritem(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -45,222 +45,256 @@ class _aboutuState extends State<aboutu> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-       /* appBar: Global.isweb?SizedBox():AppBar(automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[Global.yellowpanda, Global.orangepanda])),
-        ),
-        backgroundColor: Global.whitepanda,
-        title: Row(
-          children: <Widget>[
-            GestureDetector(
-              onTap: (){
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: Global.whitepanda,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.keyboard_backspace,
-                      color: Global.orangepanda,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacementNamed('home');
+        return  false;
+    },
+      child: SafeArea(
+        child: Scaffold(
+         /* appBar: Global.isweb?SizedBox():AppBar(automaticallyImplyLeading: false,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[Global.yellowpanda, Global.orangepanda])),
+          ),
+          backgroundColor: Global.whitepanda,
+          title: Row(
+            children: <Widget>[
+              GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: Global.whitepanda,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
-                  )),
-            ),
-            SizedBox(width: 10,),
-            Row(
-              children: <Widget>[
-                Text(
-                  "Edit profile",
-                  style: TextStyle(
-                      color: Global.blackpanda,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Spacer(),
-            Icon(
-              Icons.more_vert,
-              color: Global.orangepanda,
-            ),
-          ],
-        ),
-      ),*/
-        backgroundColor: Global.isSwitchedFT == true
-            ? Global.blackpanda
-            : Global.whitepanda,
-         body: Column(
-           children: [
-             Global.isweb?SizedBox():
-             Container(
-                 decoration: BoxDecoration(
-                     gradient: LinearGradient(
-                         begin: Alignment.topLeft,
-                         end: Alignment.bottomRight,
-                         colors: <Color>[Global.yellowpanda, Global.orangepanda])
-                 ),
-               child: Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: Row(
-                   children: <Widget>[
-                     GestureDetector(
-                       onTap: (){
-                         Navigator.of(context).pop();
-                       },
-                       child: Container(
-                           decoration: BoxDecoration(
-                             color: Global.whitepanda,
-                             borderRadius: BorderRadius.all(Radius.circular(30)),
-                           ),
-                           child: Padding(
-                             padding: const EdgeInsets.all(8.0),
-                             child: Icon(
-                               Icons.keyboard_backspace,
-                               color: Global.orangepanda,
-                             ),
-                           )),
-                     ),
-                     SizedBox(width: 10,),
-                     Row(
-                       children: <Widget>[
-                         Text(
-                           "Edit profile",
-                           style: TextStyle(
-                               color: Global.blackpanda,
-                               fontSize: 18,
-                               fontWeight: FontWeight.bold),
-                         ),
-                       ],
-                     ),
-                     Spacer(),
-                     Icon(
-                       Icons.more_vert,
-                       color: Global.orangepanda,
-                     ),
-                   ],
-                 ),
-               ),
-
-             ),
-             Expanded(
-               child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.keyboard_backspace,
+                        color: Global.orangepanda,
+                      ),
+                    )),
+              ),
+              SizedBox(width: 10,),
+              Row(
+                children: <Widget>[
+                  Text(
+                    "Edit profile",
+                    style: TextStyle(
+                        color: Global.blackpanda,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Icon(
+                Icons.more_vert,
+                color: Global.orangepanda,
+              ),
+            ],
+          ),
+        ),*/
+          backgroundColor: Global.isSwitchedFT == true
+              ? Global.blackpanda
+              : Global.whitepanda,
+           body: Column(
+             children: [
+               Global.isweb?SizedBox():
+               Container(
+                   decoration: BoxDecoration(
+                       gradient: LinearGradient(
+                           begin: Alignment.topLeft,
+                           end: Alignment.bottomRight,
+                           colors: <Color>[Global.yellowpanda, Global.orangepanda])
+                   ),
                  child: Padding(
-                   padding: const EdgeInsets.all(10.0),
-                   child: Column(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Row(
                      children: <Widget>[
-
+                       GestureDetector(
+                         onTap: (){
+                           Navigator.of(context).pop();
+                           Navigator.of(context).pushReplacementNamed('home');
+                         },
+                         child: Container(
+                             decoration: BoxDecoration(
+                               color: Global.whitepanda,
+                               borderRadius: BorderRadius.all(Radius.circular(30)),
+                             ),
+                             child: Padding(
+                               padding: const EdgeInsets.all(8.0),
+                               child: Icon(
+                                 Icons.keyboard_backspace,
+                                 color: Global.orangepanda,
+                               ),
+                             )),
+                       ),
+                       SizedBox(width: 10,),
                        Row(
                          children: <Widget>[
-                           customcard(onclick: () async {
-                             print("asdasdfadf");
-                             GetImage(0);
-                           },
-                           file: myImagesFiles[0],
-                             ImageURL: myImagesURL[0],
+                           Text(
+                             "Edit profile",
+                             style: TextStyle(
+                                 color: Global.blackpanda,
+                                 fontSize: 18,
+                                 fontWeight: FontWeight.bold),
                            ),
-                           customcard(onclick: () async {
-                             print("asdasdfadf");
-                             GetImage(1);
-                           },
-                             file: myImagesFiles[1],
-                             ImageURL: myImagesURL[1],
-                           ),
-                           customcard(onclick: () async {
-                             print("asdasdfadf");
-                             GetImage(2);
-                           },
-                             file: myImagesFiles[2],
-                             ImageURL: myImagesURL[2],
-                           ),
-
                          ],
                        ),
-                       SizedBox(height: 20,),
-                       Row(
-                         children: <Widget>[
-                           customcard(onclick: () async {
-                             print("asdasdfadf");
-                             GetImage(3);
-                           },
-                             file: myImagesFiles[3],
-                             ImageURL: myImagesURL[3],
-                           ),customcard(onclick: () async {
-                             print("asdasdfadf");
-                             GetImage(4);
-                           },
-                             file: myImagesFiles[4],
-                             ImageURL: myImagesURL[4],
-                           ),customcard(onclick: () async {
-                             print("asdasdfadf");
-                             GetImage(5);
-                           },
-                             file: myImagesFiles[5],
-                             ImageURL: myImagesURL[5],
-                           ),
-
-                         ],
+                       Spacer(),
+                       Icon(
+                         Icons.more_vert,
+                         color: Global.orangepanda,
                        ),
-                       SizedBox(height: 20,),
-        Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    CustomText(text: "About You",fontSize: 22,
-                      fontWeight: FontWeight.bold,),
+                     ],
+                   ),
+                 ),
 
-                  ],
-                ),
-        ),
-        Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
-                child: new Container(
-                    /*decoration: new BoxDecoration(
+               ),
+               Expanded(
+                 child: SingleChildScrollView(
+                   child: Padding(
+                     padding: const EdgeInsets.all(10.0),
+                     child: Column(
+                       children: <Widget>[
 
-                        borderRadius: new BorderRadius.all(Radius.circular(30))
-                    ),*/
-                    child: new Center(
-                      child: new TextField(
-                        controller: AboutUsController,
-                        //minLines: 10,
-                        maxLines: 10,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          hintText: "Please write at what time you play, what are you looking for, what is your game style...",
-      hintStyle: TextStyle(color: Global.isSwitchedFT == true
-      ? Global.orangepanda
-      : Global.blackpanda,),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(color: Global.greypandaicon),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(color:Global.orangepanda),
+                         Row(
+                           children: <Widget>[
+                             customcard(
+                               onRemove: () async {
+                                 print("asdasdfadf");
+                                 Remove(0);
+
+                               }, onclick: () async {
+                               print("asdasdfadf");
+                               GetImage(0);
+
+                             },
+                             file: myImagesFiles[0],
+                               ImageURL: myImagesURL[0],
+
+
+                             ),
+                             customcard( onRemove: () async {
+                               print("asdasdfadf");
+                               Remove(1);
+
+                             },onclick: () async {
+                               print("asdasdfadf");
+                               GetImage(1);
+                             },
+                               file: myImagesFiles[1],
+                               ImageURL: myImagesURL[1],
+                             ),
+                             customcard( onRemove: () async {
+                               print("asdasdfadf");
+                               Remove(2);
+
+                             },onclick: () async {
+                               print("asdasdfadf");
+                               GetImage(2);
+                             },
+                               file: myImagesFiles[2],
+                               ImageURL: myImagesURL[2],
+                             ),
+
+                           ],
+                         ),
+                         SizedBox(height: 20,),
+                         Row(
+                           children: <Widget>[
+                             customcard( onRemove: () async {
+                               print("asdasdfadf");
+                               Remove(3);
+
+                             },onclick: () async {
+                               print("asdasdfadf");
+                               GetImage(3);
+                             },
+                               file: myImagesFiles[3],
+                               ImageURL: myImagesURL[3],
+                             ),customcard( onRemove: () async {
+                               print("asdasdfadf");
+                               Remove(4);
+
+                             },onclick: () async {
+                               print("asdasdfadf");
+                               GetImage(4);
+                             },
+                               file: myImagesFiles[4],
+                               ImageURL: myImagesURL[4],
+                             ),customcard( onRemove: () async {
+                               print("asdasdfadf");
+                               Remove(5);
+                             },onclick: () async {
+                               print("asdasdfadf");
+                               GetImage(5);
+                             },
+                               file: myImagesFiles[5],
+                               ImageURL: myImagesURL[5],
+                             ),
+
+                           ],
+                         ),
+                         SizedBox(height: 20,),
+          Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      CustomText(text: "About You",fontSize: 22,
+                        fontWeight: FontWeight.bold,),
+
+                    ],
+                  ),
+          ),
+          Padding(
+                  padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
+                  child: new Container(
+                      /*decoration: new BoxDecoration(
+
+                          borderRadius: new BorderRadius.all(Radius.circular(30))
+                      ),*/
+                      child: new Center(
+                        child: new TextField(
+                          controller: AboutUsController,
+                          //minLines: 10,
+                          maxLines: 10,
+                          style: TextStyle(color: Global.orangepanda),
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            hintText: "Please write at what time you play, what are you looking for, what is your game style...",
+                            hintStyle: TextStyle(color: Global.greypanda),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide(color: Global.greypandaicon),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide(color:Global.orangepanda),
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                ),
-        ),
-                       SizedBox(height: 10,),customgradientbuton(buttontext: "SAVE",onClicked: (){onSubmit();},
-                       )],
+                  ),
+          ),
+                         SizedBox(height: 10,),customgradientbuton(buttontext: "SAVE",onClicked: (){onSubmit();},
+                         )],
+                     ),
                    ),
                  ),
                ),
-             ),
-           ],
-         ),
+             ],
+           ),
+        ),
       ),
     );
   }
@@ -290,6 +324,37 @@ class _aboutuState extends State<aboutu> {
     Fluttertoast.showToast(msg: "Details Updated");
   }
 
+  onSubmitOnlyImages()
+  async {
+    ProgressDialog(context);
+    print(myImagesURL);
+    print(AboutUsController.text);
+    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/changeImage",body: {
+      "UserId":Global.User.uid,
+      "image1":myImagesURL[0]??"null",
+      "image2":myImagesURL[1]??"null",
+      "image3":myImagesURL[2]??"null",
+      "image4":myImagesURL[3]??"null",
+      "image5":myImagesURL[4]??"null",
+      "image6":myImagesURL[5]??"null",
+
+    }).then((value){
+      print(value.body);
+    });
+    await GetUserDeatils();
+    setState(() {
+
+    });
+    Navigator.of(context).pop();
+    Fluttertoast.showToast(msg: "Image Updated");
+  }
+
+
+  Remove(int index){
+    myImagesURL[index] = null;
+    myImagesFiles[index] = null;
+    onSubmitOnlyImages();
+  }
 
 
   Future<File> GetImage(int index) async {
@@ -303,7 +368,7 @@ class _aboutuState extends State<aboutu> {
           sourcePath: image.path,
           compressQuality: 70,
           aspectRatioPresets: [
-            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.original,
           ],
           androidUiSettings: AndroidUiSettings(
               toolbarTitle: 'Image',
@@ -316,29 +381,30 @@ class _aboutuState extends State<aboutu> {
           )
       );
 
-      ProgressDialog(context);
+      if(croppedFile!=null) {
+        ProgressDialog(context);
 
-      final StorageReference storageReferencem = FirebaseStorage()
-          .ref()
-          .child("Users/"+Global.User.email+ "/${DateTime.now().millisecondsSinceEpoch}");
-      final StorageUploadTask uploadTaskm =
-      storageReferencem.putFile(croppedFile);
-      await uploadTaskm.onComplete;
-      await storageReferencem.getDownloadURL().then((url) {
-        URL=url;
-      });
-
-
-        myImagesURL[index]=URL;
-        myImagesFiles[index]=croppedFile;
-
-
-        print(myImagesURL);
-
-      Navigator.of(context).pop();
+        final StorageReference storageReferencem = FirebaseStorage()
+            .ref()
+            .child("Users/" + Global.User.email + "/${DateTime
+            .now()
+            .millisecondsSinceEpoch}");
+        final StorageUploadTask uploadTaskm =
+        storageReferencem.putFile(croppedFile);
+        await uploadTaskm.onComplete;
+        await storageReferencem.getDownloadURL().then((url) {
+          URL = url;
+        });
 
 
+        myImagesURL[index] = URL;
+        myImagesFiles[index] = croppedFile;
 
+
+        onSubmitOnlyImages();
+
+        Navigator.of(context).pop();
+      }
 
     }
 
@@ -350,3 +416,4 @@ class _aboutuState extends State<aboutu> {
 
 
 }
+
