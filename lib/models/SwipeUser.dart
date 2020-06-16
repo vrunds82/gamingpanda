@@ -18,6 +18,7 @@ class SwipeUser {
   String rank;
   String profilePicture;
   bool liked;
+  bool disliked;
   String email;
   int day;
   int month;
@@ -43,6 +44,7 @@ class SwipeUser {
         this.rank,
         this.profilePicture,
         this.liked,
+        this.disliked,
         this.email,
         this.day,
         this.month,
@@ -68,6 +70,7 @@ class SwipeUser {
     rank = json['rank']??"";
     profilePicture = json['profilePicture']??"";
     liked = json['liked'];
+    disliked = json["disliked"];
     email = json['email']??"";
     day = json['day']??0;
     month = json['month']??0;
@@ -95,6 +98,7 @@ class SwipeUser {
     data['rank'] = this.rank;
     data['profilePicture'] = this.profilePicture;
     data['liked'] = this.liked;
+    data['disliked']=this.disliked;
     data['email'] = this.email;
     data['day'] = this.day;
     data['month'] = this.month;

@@ -10,8 +10,13 @@ import 'package:http/http.dart' as http;
 
 
 class Global {
+
+
+  static String token;
+
   static List<String> dates = new List();
-  static String BaseURL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/";
+  //static String BaseURL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/";
+  static String BaseURL = "https://pandaweb20200605061105.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
   static bool isSwitchedFT = true;
@@ -33,13 +38,10 @@ class Global {
   static Profile OtherUserProfile;
   static String OtherUserId="arunarun";
 
-
-
 // web Globals
   static bool isweb=false;
   static double webwidth;
   static int webCurrentPageIndex;
-
 }
 
 
@@ -456,11 +458,12 @@ class customcard extends StatelessWidget {
               ),
             ),
           )),
-      file!=null && (ImageURL!=null|| ImageURL!="") ?Positioned(
+      ImageURL!="null" &&  ImageURL!=null ?Positioned(
           top: 0,
         right: 0,
           child: GestureDetector(onTap: () async {
-            print("asdfasdf");
+            print("asdfasdf"+ImageURL);
+
             onRemove();
           },
             child: Container(

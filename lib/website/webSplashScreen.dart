@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -16,6 +19,7 @@ class webSplashScreen extends StatefulWidget {
 
 class _webSplashScreenState extends State<webSplashScreen> {
 
+  FirebaseMessaging firebaseMessaging=new FirebaseMessaging();
   startTime() async {
 
 
@@ -62,10 +66,59 @@ class _webSplashScreenState extends State<webSplashScreen> {
 
   @override
   void initState() {
+    ManageNotifications();
+    startTime();
     // TODO: implement initState
     super.initState();
 
-    startTime();
+
   }
+
+  ManageNotifications()async{
+
+
+
+    print("Taking Token");
+
+
+   await firebaseMessaging.getToken().then((token){
+      print(token);
+    Global.token=token;});
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+
+        //  var parsedJson = jsonDecode(message['notification']);
+
+        print("onMessage awsef s : $message");
+        if (Platform.isIOS) {
+          //   toast("iOS");
+           await firebaseMessaging.requestNotificationPermissions();
+
+          var parseddata = jsonDecode(message['notification']['data']);
+          showSimpleNotification(
+              Text( parseddata['name']+":"+ parseddata['content']),
+              background: Colors.green);
+        }else
+        {
+          //toast( ['data']);
+          showSimpleNotification(
+              Text( message['data']['name']+":"+message['data']['content']),
+              background: Colors.green);
+        }
+      },
+
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+
+        Navigator.of(context).pushNamed('chat');
+      },
+      onResume: (Map<String, dynamic> message) async {
+
+        Navigator.of(context).pushNamed('chat');
+      },
+    );
+
+  }
+
 }
 

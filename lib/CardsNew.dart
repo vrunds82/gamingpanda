@@ -39,7 +39,7 @@ class _CardsNewState extends State<CardsNew> {
     setState(() {
 
     });
-    http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/filtered",body: {"UserId":Global.User.uid}).then((value) {
+    http.post("${Global.BaseURL}filtered",body: {"UserId":Global.User.uid}).then((value) {
       dynamic parsedjson = jsonDecode(value.body);
       Userslist = (parsedjson as List).map((json) => SwipeUser.fromJson(json)).toList();
       print(Userslist.length);
@@ -98,7 +98,8 @@ class _CardsNewState extends State<CardsNew> {
               age: (DateTime.now().year-Userslist[i].year).toString(),
               country: Userslist[i].country,
               games: games,
-              gender: Userslist[i].gender
+              gender: Userslist[i].gender,
+            disliked: Userslist[i].disliked,
           ));
         }
       }
@@ -140,39 +141,56 @@ class _CardsNewState extends State<CardsNew> {
       body:   Column(
         children: [
           Expanded(
-            child: loading?Center(child: SizedBox(width: 50,height: 50,child: CircularProgressIndicator()),):new CardStack(
+            child: loading?Center(child: SizedBox(width: 50,height: 50,child: CircularProgressIndicator()),):
+                UserProfiles.length>=2?new CardStack(
               Callback: this.callback,
               matchEngine: matchEngine,
-            ),
+            ):Center(child: CustomText(text:"No Users to Show",color: Global.orangepanda,),),
+
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 25,top: 25,right:MediaQuery.of(context).size.width*0.20,left:MediaQuery.of(context).size.width*0.20),
+            padding: EdgeInsets.only(bottom: 25,top: 25,right:MediaQuery.of(context).size.width*0.15,left:MediaQuery.of(context).size.width*0.15),
             child: Row(
               children: <Widget>[
-                GestureDetector(
-                  onTap: (){
-                    matchEngine.currentMatch.nope();
-                  //  ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                  },
-                  child: Image.asset('assets/images/cancel.png',height: 45,width: 45,),
+                Expanded(
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: (){
+                        matchEngine.currentMatch.nope();
+                      //  ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                      },
+                      child: Image.asset('assets/images/cancel.png',height: 50,width: 50,fit: BoxFit.fill,),
+                    ),
+                  ),
                 ),
-                Spacer(),
-                GestureDetector(
-                    onTap: () async {
-                      matchEngine.currentMatch.superLike();
-                      ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                      await Future.delayed(Duration(milliseconds: 1000));
-                      CreateChat(true);
-                    },child: Image.asset('assets/images/star.png',height: 45,width: 45,)),
-                Spacer(),
-                GestureDetector(
-                    onTap: () async {
-                      matchEngine.currentMatch.like();
 
-                      ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                      await Future.delayed(Duration(milliseconds: 1000));
-                      CreateChat(false);
-                    },child: Image.asset('assets/images/gamebtn.png',height: 45,width: 45,)),
+                Expanded(
+                  child: Center(
+                    child: GestureDetector(
+                        onTap: () async {
+                          matchEngine.currentMatch.superLike();
+                          ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                          await Future.delayed(Duration(milliseconds: 1000));
+                          CreateChat(true);
+                        },child: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Image.asset('assets/images/star.png',height: 50,width: 50,fit: BoxFit.fill),
+                        )),
+                  ),
+                ),
+          
+                Expanded(
+                  child: Center(
+                    child: GestureDetector(
+                        onTap: () async {
+                          matchEngine.currentMatch.like();
+
+                          ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                          await Future.delayed(Duration(milliseconds: 1000));
+                          CreateChat(false);
+                        },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
+                  ),
+                ),
               ],
             ),
           ),
@@ -200,18 +218,19 @@ class _CardsNewState extends State<CardsNew> {
 
     if(SuperLike){
       Global.OtherUserProfile = matchEngine.currentMatch.profile;
-      Global.currentpageindex=2;
-      Navigator.of(context).pushReplacementNamed(Global.isweb?'webChattingPage':'chat');
-      widget.callback();
+    //  Global.currentpageindex=2;
+      if(!matchEngine.currentMatch.profile.disliked) {
+        _showDialog();
+      }
     }else
     {
-      _showDialog();
+      if(!matchEngine.currentMatch.profile.disliked) {
+        _showDialog();
+      }
     }
-
 
     //Navigator.of(context).pushReplacementNamed(SuperLike?'chat':'Messages');
     //Navigator.of(context).pushNamed('chat');
-
   }
 
   void _showDialog() {
@@ -264,19 +283,18 @@ class _CardsNewState extends State<CardsNew> {
                                     onTap: (){
                                       Navigator.of(context).pop();
                                       Global.OtherUserProfile = matchEngine.currentMatch.profile;
-                                      Global.currentpageindex=2;
-                                      widget.callback();
+
                                       if(Global.isweb){
                                         Navigator.of(context).pushReplacementNamed('webChattingPage');
                                       }else
                                       {
                                         Navigator.of(context).pushNamed('chat');
+                                        Global.currentpageindex=2;
                                       }
+                                      widget.callback();
                                       },
                                     child: CustomText(text:"Click here to chat now",color: Global.orangepanda,),
                                   ),
-
-
                                 ],
                               ),
                             )
@@ -299,11 +317,11 @@ class _CardsNewState extends State<CardsNew> {
   {
     String URL = "";
     if(action=="like"){
-      URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/like";
+      URL ="${Global.BaseURL}like";
     }else if(action == "dislike"){
-      URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/dislike";
+      URL ="${Global.BaseURL}dislike";
     }else if(action == "superlike"){
-      URL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/superlike";
+      URL = "${Global.BaseURL}superlike";
     }
     http.post(URL,body:{
       "fromUserId":user1,

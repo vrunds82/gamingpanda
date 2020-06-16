@@ -11,8 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:http/http.dart' as http;
-
 class register extends StatefulWidget {
   @override
   _registerState createState() => _registerState();
@@ -275,7 +273,7 @@ class _registerState extends State<register> {
     if(croppedFile!=null) {
       final StorageReference storageReferencem = FirebaseStorage()
           .ref()
-          .child("Users/" + Global.User.email + "/${DateTime
+          .child("Users/" + Global.userData.email + "/${DateTime
           .now()
           .millisecondsSinceEpoch}");
       final StorageUploadTask uploadTaskm =
@@ -303,11 +301,12 @@ class _registerState extends State<register> {
 
     print("Calling API");
 
-    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register",
+    await http.post("${Global.BaseURL}register",
         body: {
           "UserId": Global.User.uid,
           "UserName": Global.User.displayName??name.text,
-          "Email" : Global.User.email??email.text
+          "Email" : Global.User.email??email.text,
+          "Token":Global.token??""
         }).then((response) async {
     //  print("Response from Body : "+response.body.toString());
       await GetUserDeatils();
@@ -315,7 +314,7 @@ class _registerState extends State<register> {
    //   Navigator.of(context).pushReplacementNamed('cardswipe');
       Navigator.of(context).pushReplacementNamed('home');
     }).catchError((onError){
-      print(onError);
+      print("Erorr"+onError);
     });
   }
 

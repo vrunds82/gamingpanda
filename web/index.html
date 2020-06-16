@@ -24,6 +24,7 @@
 <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-messaging.js"></script>
 
 <script>
   // Your web app's Firebase configuration
@@ -40,6 +41,15 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+
+  var messaging = firebase.messaging()
+
+  messaging.usePublicVapidKey('BLDg8iHly38kfcLUfYHiv34g9IG5dOciirI66IPHP3bO2E6wsk84DWZRY2mEEhGb7pqwzMYQ8usOv61JnLsRABU');
+
+  messaging.getToken().then((currentToken) => {
+    console.log(currentToken)
+})
+
 </script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:

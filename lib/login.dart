@@ -165,11 +165,8 @@ body: Center(
 
                     if(result.user!=null){
                       Global.User=result.user;
-                      await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register",body:{
-                        "UserId": Global.User.uid,
-                        "UserName": Global.User.uid,
-                        "Email" : Global.User.email
-                      });
+
+                      await UpdateToken();
                       await GetUserDeatils();
                       Navigator.of(context).pushReplacementNamed('home');
                     }
@@ -232,15 +229,10 @@ body: Center(
     FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
         password: password.text)
         .then((user) async {
-
       if(user.user!=null)
       {
-
         Global.User=user.user;
-
-
-
-
+        await UpdateToken();
         await GetUserDeatils();
 
         Navigator.of(context).pushReplacementNamed('home');

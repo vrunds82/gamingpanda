@@ -458,14 +458,14 @@ Row(
     print(end);
 
     print("calling..");
- await   http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/profile/updateFilter",
+ await  http.post("${Global.BaseURL}profile/updateFilter",
       body:{
         "UserId": Global.User.uid,
         "Game":_currentSelectedItemgame??"null",
         "Server":_currentSelectedItemserver??"null",
         "Rank":_currentSelectedItemrank??"null",
         "Country":_currentSelectedItemcountry??"null",
-        "Gender":gender[selectedRadio]??"male",
+        "Gender":gender[selectedRadio]??"Male",
         "AgeStart":start.toInt().toString()??"0",
         "AgeEnd":end.toInt().toString()??"0"
       }

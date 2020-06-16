@@ -169,35 +169,37 @@ class _ChatState extends State<Chat> {
               Container(color:  Global.isSwitchedFT == true ? Colors.black : Colors.grey.withOpacity(0.2),height: 1,)
             ],
           ),
-        ):AppBar(
+        ):
+          AppBar(
             backgroundColor:
             Global.isweb?Colors.transparent:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
-            brightness:
-            Global.isSwitchedFT == false ? Brightness.light : Brightness.dark,
+
             title: Row(
 
               children: <Widget>[
-                Container(
-                    height: 30,
-                    width: 30,
-                    margin: EdgeInsets.only(left: 20, top: 15, bottom: 10),
-                    decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.cover,
-                          image:  Global.OtherUserProfile.dp==null|| Global.OtherUserProfile.dp==""?AssetImage('assets/images/user.png'):NetworkImage( Global.OtherUserProfile.dp),
-                        ))),
+                GestureDetector(
+                  onTap:(){
+                    Navigator.of(context).pushNamed('otherUserDetails');
+                  },
+                  child: Container(
+                      height: 30,
+                      width: 30,
+                      margin: EdgeInsets.only(left: 00, top: 15, bottom: 10),
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
+                            fit: BoxFit.cover,
+                            image:  Global.OtherUserProfile.dp==null|| Global.OtherUserProfile.dp==""?AssetImage('assets/images/user.png'):NetworkImage( Global.OtherUserProfile.dp),
+                          ))),
+                ),
                 SizedBox(
-                  width: 15,
+                  width: 10,
                 ),
                 CustomText(
                   text: Global.OtherUserProfile.name.length>12?Global.OtherUserProfile.name.substring(0,12):Global.OtherUserProfile.name,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
-
-                // For Adjusting Space
-
                 SizedBox(
                   width: 5,
                 ),
@@ -207,15 +209,21 @@ class _ChatState extends State<Chat> {
             actions: <Widget>[
 
               PopupMenuButton(
+
+                onSelected: (index){
+                  print("Clicked");
+                  Navigator.of(context).pushNamed('otherUserDetails');
+                },
                 color:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
                 padding: EdgeInsets.all(0),
                 itemBuilder: (BuildContext context) {
                   return [
                     PopupMenuItem(
+                      value: 0,
                       child: CustomText(text:"Show Profile"),
                     ),
-                    PopupMenuItem(
-                      child: CustomText(text:"Delete Conversation"),),
+                  /*  PopupMenuItem(
+                      child: CustomText(text:"Delete Conversation"),),*/
                   ];
                 },
               )
@@ -224,7 +232,7 @@ class _ChatState extends State<Chat> {
           Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
-                    .collection("Chat/Chatting/"+Global.User.uid+"-"+Global.OtherUserProfile.id)
+                    .collection("Chat/Chatting/"+Global.userData.userId+"-"+Global.OtherUserProfile.id)
                     .orderBy('time', descending: true)
                     .snapshots(),
                 builder: (BuildContext context,
@@ -339,34 +347,34 @@ class _ChatState extends State<Chat> {
 
   sendMessage(){
     Firestore.instance
-        .collection("Chat/Chatting/"+Global.User.uid+"-"+Global.OtherUserProfile.id)
+        .collection("Chat/Chatting/"+Global.userData.userId+"-"+Global.OtherUserProfile.id)
         .document()
         .setData({
       'msg': textEditingController.text.toString(),
       'time': Timestamp.now(),
-      'sendby': Global.User.email,
-      "uid":Global.User.uid,
+      'sendby': Global.userData.email,
+      "uid":Global.userData.userId,
     });
 
     Firestore.instance
-        .collection("Chat/Chatting/"+Global.OtherUserProfile.id+"-"+Global.User.uid)
+        .collection("Chat/Chatting/"+Global.OtherUserProfile.id+"-"+Global.userData.userId)
         .document()
         .setData({
       'msg': textEditingController.text.toString(),
       'time': Timestamp.now(),
-      'sendby': Global.User.email,
-      "uid":Global.User.uid,
+      'sendby': Global.userData.email,
+      "uid":Global.userData.userId,
     });
 
-    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(Global.OtherUserProfile.id).updateData({
+    Firestore.instance.collection('inbox/messages/${Global.userData.userId}').document(Global.OtherUserProfile.id).updateData({
       "uid":Global.OtherUserProfile.id,
       "image":Global.OtherUserProfile.dp,
       "name":Global.OtherUserProfile.name,
       "msg":textEditingController.text.toString(),
     });
 
-    Firestore.instance.collection('inbox/messages/${Global.OtherUserProfile.id}').document(Global.User.uid).updateData({
-      "uid":Global.User.uid,
+    Firestore.instance.collection('inbox/messages/${Global.OtherUserProfile.id}').document(Global.userData.userId).updateData({
+      "uid":Global.userData.userId,
       "image":Global.userData.profilePicture,
       "name":Global.userData.userName,
       "msg":textEditingController.text.toString(),
@@ -416,7 +424,6 @@ if(!Global.dates.contains(ChatDay)){
 
   return Column(
     children: [
-      /*
       !ispresent?Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -425,13 +432,13 @@ if(!Global.dates.contains(ChatDay)){
             child: Text(ChatDay,style: TextStyle(color: Global.orangepanda,fontSize: 20),),
           )
         ],
-      ):SizedBox(),*/
+      ):SizedBox(),
       Row(
-        mainAxisAlignment: document['uid'].toString() == Global.User.uid
+        mainAxisAlignment: document['uid'].toString() == Global.userData.userId
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
         children: <Widget>[
-          document['uid'].toString() != Global.User.uid ?Container(
+          document['uid'].toString() != Global.userData.userId ?Container(
               height: 30,
               width: 30,
               margin:
@@ -444,12 +451,12 @@ if(!Global.dates.contains(ChatDay)){
                   ))):SizedBox(),
           Expanded(
             child: Column(
-              crossAxisAlignment: document['uid'].toString() == Global.User.uid
+              crossAxisAlignment: document['uid'].toString() == Global.userData.userId
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
               children: <Widget>[
                 Card(
-                  shape:document['uid'].toString() != Global.User.uid ?  RoundedRectangleBorder(
+                  shape:document['uid'].toString() != Global.userData.userId ?  RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(18),
                         topRight: Radius.circular(18),
@@ -467,7 +474,7 @@ if(!Global.dates.contains(ChatDay)){
 
                     /* side: BorderSide(width: 1, color: Colors.green)*/
                   ),
-                  color: document['uid'].toString() != Global.User.uid
+                  color: document['uid'].toString() != Global.userData.userId
                       ? Global.greypanda
                       : Global.orangepanda,
                   child: Container(

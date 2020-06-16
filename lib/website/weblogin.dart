@@ -16,8 +16,8 @@ class webloginpage extends StatefulWidget {
 
 class _webloginpageState extends State<webloginpage> {
 
-  TextEditingController email = TextEditingController(text: "ramram1@gmail.com");
-  TextEditingController password = TextEditingController(text: "ramram@gmail.com");
+  TextEditingController email = TextEditingController(text: "webwala@gmail.com");
+  TextEditingController password = TextEditingController(text: "webwala@gmail.com");
 
   var firebaseAuth = FirebaseAuth.instance;
 
@@ -138,7 +138,7 @@ class _webloginpageState extends State<webloginpage> {
                     child: Row(
                       children: <Widget>[
                         GestureDetector(onTap: (){
-                          Navigator.of(context).pushReplacementNamed('registerp');
+                          Navigator.of(context).pushReplacementNamed('webRegistration');
                         },
                           child: CustomText(text:"Create an Account",
                             decoration: TextDecoration.underline,
@@ -171,13 +171,10 @@ class _webloginpageState extends State<webloginpage> {
 
                             if(result.user!=null){
                               Global.User=result.user;
-                              await http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/register",body:{
-                                "UserId": Global.User.uid,
-                                "UserName": Global.User.uid,
-                                "Email" : Global.User.email
-                              });
                               await GetUserDeatils();
-                              Navigator.of(context).pushReplacementNamed('cardswipe');
+                              await UpdateToken();
+
+                              Navigator.of(context).pushReplacementNamed('webHome');
                             }
 
                           });
@@ -215,32 +212,42 @@ class _webloginpageState extends State<webloginpage> {
 
     await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
       login=value[0];
+    }).catchError((onError){
+      print("Error in finding values");
     });
 
 
     if(login!=null && login=="password"){
 
+      print(login);
+      print(email.text.replaceAll(" ", ""));
+      print(password.text.replaceAll(" ", ""));
+
+
       FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
           password: password.text)
           .then((user) async {
 
+
+            print(user);
+
         if(user.user!=null)
         {
 
+          print("User ");
+          print(Global.User);
+
           Global.User=user.user;
-
-
-
-
+          await UpdateToken();
           await GetUserDeatils();
-
           Navigator.of(context).pushReplacementNamed('webHome');
         }
-      })
-          .catchError((error){
-        if(error!=null)
+      }).catchError((error){
+        print("Current Error");
+        print(error);
+        if(error!=null&&error.code!=null)
         {
-          print(error.toString());
+          print(error);
 
           switch(error.code){
             case "ERROR_USER_NOT_FOUND" :

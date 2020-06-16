@@ -72,7 +72,8 @@ class _webChattingState extends State<webChatting> {
                 ),
               ),
             ),
-            widget.loadingUserDeatils?SizedBox(width: Global.webwidth*.25,child: Center(child: CircularProgressIndicator(),)): Container(
+            widget.loadingUserDeatils?SizedBox(width: Global.webwidth*.25,child: Center(child: CircularProgressIndicator(),)):
+            Container(
               color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
               child: SizedBox(
                 width: Global.webwidth*.25,

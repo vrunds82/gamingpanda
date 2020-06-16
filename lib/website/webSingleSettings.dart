@@ -1045,7 +1045,7 @@ class _webSingleSettingPageState extends State<webSingleSettingPage> {
 
     await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/OwnUserProfile",
         body:{
-        "UserId": Global.User.uid,
+        "UserId": Global.userData.userId,
         "UserName": username.text.toString(),
         "Game":_currentSelectedItemgame,
         "Game2":_currentSelectedItemgame2,

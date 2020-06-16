@@ -43,21 +43,15 @@ class _profilepageState extends State<profilepage> {
                   onTap: (){
                  //   GetImage();
                   },
-                  child:   Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
+                  child:   Global.userData.profilePicture!="null" && Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         image: DecorationImage(image: NetworkImage(Global.userData.profilePicture),fit: BoxFit.cover)
                     ),
                     width: 84,
                     height: 84,
-                  ):croppedFile!=null?Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        image: DecorationImage(image: FileImage(croppedFile))
-                    ),
-                    width: 84,
-                    height: 84,
-                  ):CircleAvatar(
+                  ):
+                  CircleAvatar(
                     radius: 42,
                     child: ClipOval(
                         child: Icon(
@@ -268,7 +262,7 @@ class _profilepageState extends State<profilepage> {
       });
 
 
-      await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/profileImage",
+      await http.post("${Global.BaseURL}profile/profileImage",
           body:{
             "UserId": Global.User.uid,
             "ProfilePicture": URL,

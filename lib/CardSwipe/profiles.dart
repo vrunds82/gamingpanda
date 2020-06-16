@@ -10,6 +10,7 @@ class Profile {
   final String bio;
   final String dp;
   final bool liked;
+  final bool disliked;
 
 
 
@@ -24,7 +25,8 @@ class Profile {
     this.gender,
     this.country,
     this.age,
-    this.games
+    this.games,
+    this.disliked
   });
 
 
@@ -35,6 +37,7 @@ class Profile {
         bio = json['bio'],
         dp=json['dp'],
         liked=json['liked'],
+        disliked=json['disliked'],
   games=json['games'],
   country=json['country'],
   age=json['age'],
@@ -48,7 +51,8 @@ class Profile {
         'bio':bio,
         'id':id,
         'dp':dp,
-        'liked':liked
+        'liked':liked,
+
       };
 
 

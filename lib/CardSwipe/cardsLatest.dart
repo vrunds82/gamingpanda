@@ -164,18 +164,21 @@ class _CardStackState extends State<CardStack> {
 
     switch (direction) {
       case SlideDirection.left:
+        ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: currentMatch.profile.id);
         currentMatch.nope();
-       ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: currentMatch.profile.id);
+
         break;
       case SlideDirection.right:
         currentMatch.like();
-       ActionsToUsers(action: "like",user1: Global.userData.userId,user2: currentMatch.profile.id);
-       CreateChat(false);
+        ActionsToUsers(action: "like",user1: Global.userData.userId,user2: currentMatch.profile.id);
+        CreateChat(false,currentMatch.profile);
+
         break;
       case SlideDirection.up:
+        ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: currentMatch.profile.id);
+        CreateChat(true,currentMatch.profile);
         currentMatch.superLike();
-   ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: currentMatch.profile.id);
-   CreateChat(true);
+
         break;
     }
 
@@ -187,11 +190,11 @@ class _CardStackState extends State<CardStack> {
   {
     String URL = "";
     if(action=="like"){
-      URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/like";
+      URL ="${Global.BaseURL}like";
     }else if(action == "dislike"){
-      URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/dislike";
+      URL ="${Global.BaseURL}dislike";
     }else if(action == "superlike"){
-      URL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/superlike";
+      URL = "${Global.BaseURL}superlike";
     }
     http.post(URL,body:{
       "fromUserId":user1,
@@ -204,16 +207,16 @@ class _CardStackState extends State<CardStack> {
 
 
 
-  CreateChat(bool SuperLike){
-    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(_currentMatch.profile.id).setData({
-      "uid":_currentMatch.profile.id,
-      "image":_currentMatch.profile.dp,
-      "name":_currentMatch.profile.name,
+  CreateChat(bool SuperLike,Profile profile){
+    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(profile.id).setData({
+      "uid":profile.id,
+      "image":profile.dp,
+      "name":profile.name,
       "msg":"It's a Match",
       'time': Timestamp.now(),
     });
 
-    Firestore.instance.collection('inbox/messages/${_currentMatch.profile.id}').document(Global.User.uid).setData({
+    Firestore.instance.collection('inbox/messages/${profile.id}').document(Global.User.uid).setData({
       "uid":Global.User.uid,
       "image":Global.userData.profilePicture,
       "name":Global.User.displayName,
@@ -223,23 +226,23 @@ class _CardStackState extends State<CardStack> {
 
 
     if(SuperLike){
-      Global.OtherUserProfile = _currentMatch.profile;
-      Global.currentpageindex=2;
-      widget.Callback();
+      Global.OtherUserProfile = profile;
+      //Global.currentpageindex=2;
+      //widget.Callback();
       if(Global.isweb){
-        Global.webCurrentPageIndex=1;
-        widget.Callback();
+       // Global.webCurrentPageIndex=1;
+       // widget.Callback();
       }else
-      {
-        Navigator.of(context).pushNamed('chat');
+      { _showDialog(profile);
+       // Navigator.of(context).pushNamed('chat');
       }
 
     }else
     {
-      Global.OtherUserProfile = _currentMatch.profile;
+      Global.OtherUserProfile = profile;
       Global.currentpageindex=2;
 
-      _showDialog();
+      _showDialog(profile);
     }
 
 
@@ -248,7 +251,7 @@ class _CardStackState extends State<CardStack> {
 
   }
 
-  void _showDialog() {
+  void _showDialog(Profile profile) {
     // flutter defined function
     showDialog(
       context: context,
@@ -298,7 +301,7 @@ class _CardStackState extends State<CardStack> {
                                   GestureDetector(
                                     onTap: (){
                                       Navigator.of(context).pop();
-                                      Global.OtherUserProfile = _currentMatch.profile;
+                                      Global.OtherUserProfile = profile;
                                       Global.currentpageindex=2;
                                       widget.Callback();
                                       if(Global.isweb){
@@ -704,7 +707,7 @@ class ProfileCard extends StatefulWidget {
 
 class _ProfileCardState extends State<ProfileCard> {
 
-  bool showDetail=false;
+  bool showDetail=true;
 
   Widget _buildBackground() {
     return new PhotoBrowser(
@@ -714,8 +717,6 @@ class _ProfileCardState extends State<ProfileCard> {
   }
 
   Widget _buildProfileSynopsis() {
-
-
 
     return new Positioned(
       left: 0.0,
@@ -762,9 +763,9 @@ class _ProfileCardState extends State<ProfileCard> {
                       ],
                     ),
                     SizedBox(height: 5,),
-                    Row(
+                    widget.profile.games==null || widget.profile.games==""?SizedBox():Row(
                       children: <Widget>[
-                        Image.asset("assets/images/gamegrey.png",height: 15,),
+                         Image.asset("assets/images/gamegrey.png",height: 15,),
                         SizedBox(width: 10,),
                         new Text(
                           widget.profile.games??"",
@@ -779,6 +780,7 @@ class _ProfileCardState extends State<ProfileCard> {
                     SizedBox(height: 5,),
                     Row(
                       children: <Widget>[
+                        Icon(Icons.location_on,color: Global.whitepanda,),
                         //Flag('AD', height: 15, width: 20, fit: BoxFit.fill),
                         SizedBox(width: 10,),
                         new Text(

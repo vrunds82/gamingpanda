@@ -137,11 +137,11 @@ class _CardStackState extends State<CardStack> {
   {
     String URL = "";
   if(action=="like"){
-    URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/like";
+    URL ="${Global.BaseURL}like";
   }else if(action == "dislike"){
-    URL ="https://pandaweb20200510045646.azurewebsites.net/api/panda/dislike";
+    URL ="${Global.BaseURL}dislike";
   }else if(action == "superlike"){
-    URL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/superlike";
+    URL = "${Global.BaseURL}superlike";
   }
     http.post(URL,body:{
       "fromUserId":user1,
