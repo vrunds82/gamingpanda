@@ -328,7 +328,6 @@ class _registerState extends State<register> {
     then((result) async {
       if(result.user!=null) {
         Global.User=result.user;
-
         print("User Id : ${result.user.uid}");
         await SignupAPI(result.user.uid);
       }else{

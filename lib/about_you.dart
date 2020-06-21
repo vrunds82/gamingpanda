@@ -337,14 +337,11 @@ class _aboutuState extends State<aboutu> {
       "image4":myImagesURL[3]??"null",
       "image5":myImagesURL[4]??"null",
       "image6":myImagesURL[5]??"null",
-
     }).then((value){
       print(value.body);
     });
     await GetUserDeatils();
-    setState(() {
-
-    });
+    setState(() {});
     Navigator.of(context).pop();
     Fluttertoast.showToast(msg: "Image Updated");
   }

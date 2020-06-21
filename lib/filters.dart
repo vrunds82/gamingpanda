@@ -476,7 +476,6 @@ Row(
 
     Fluttertoast.showToast(msg : "Details Updated");
     await GetUserDeatils();
-
     Navigator.of(context).pop();
   }
 
