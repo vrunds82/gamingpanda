@@ -1043,7 +1043,7 @@ class _webSingleSettingPageState extends State<webSingleSettingPage> {
     print(year);
     print(gender[selectedRadio]);
 
-    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/OwnUserProfile",
+    await http.post("${Global.BaseURL}profile/OwnUserProfile",
         body:{
         "UserId": Global.userData.userId,
         "UserName": username.text.toString(),

@@ -459,7 +459,7 @@ Row(
     print(end);
 
     print("calling..");
- await   http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/profile/updateFilter",
+ await   http.post("${Global.BaseURL}profile/updateFilter",
       body:{
         "UserId": Global.User.uid,
         "Game":_currentSelectedItemgame??"null",

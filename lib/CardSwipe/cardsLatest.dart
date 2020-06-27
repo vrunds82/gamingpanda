@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttery_dart2/layout.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -169,15 +170,25 @@ class _CardStackState extends State<CardStack> {
 
         break;
       case SlideDirection.right:
+
         currentMatch.like();
-        ActionsToUsers(action: "like",user1: Global.userData.userId,user2: currentMatch.profile.id);
-        CreateChat(false,currentMatch.profile);
+        if(currentMatch.profile.liked) {
+          ActionsToUsers(action: "like",
+              user1: Global.userData.userId,
+              user2: currentMatch.profile.id);
+          CreateChat(false, currentMatch.profile);
+        }
 
         break;
       case SlideDirection.up:
-        ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: currentMatch.profile.id);
-        CreateChat(true,currentMatch.profile);
         currentMatch.superLike();
+        if(currentMatch.profile.disliked==null || !currentMatch.profile.disliked) {
+          ActionsToUsers(action: "superlike",
+              user1: Global.userData.userId,
+              user2: currentMatch.profile.id);
+          CreateChat(true, currentMatch.profile);
+          currentMatch.superLike();
+        }
 
         break;
     }
@@ -187,7 +198,10 @@ class _CardStackState extends State<CardStack> {
 
 
   Future ActionsToUsers({String action,String user1,String user2})
-  {
+  async {
+
+    Fluttertoast.showToast(msg: action);
+
     String URL = "";
     if(action=="like"){
       URL ="${Global.BaseURL}like";
@@ -196,11 +210,11 @@ class _CardStackState extends State<CardStack> {
     }else if(action == "superlike"){
       URL = "${Global.BaseURL}superlike";
     }
-    http.post(URL,body:{
+    await http.post(URL,body:{
       "fromUserId":user1,
       "toUserId":user2,
     }).then((response){
-      print(response.body.toString());
+      print("Response : "+response.body.toString());
     });
   }
 
@@ -239,6 +253,7 @@ class _CardStackState extends State<CardStack> {
 
     }else
     {
+      print("Showing Dialog for like");
       Global.OtherUserProfile = profile;
       Global.currentpageindex=2;
 
@@ -259,11 +274,13 @@ class _CardStackState extends State<CardStack> {
         // return object of type Dialog
         return AnchoredOverlay(
             showOverlay: true,
+
             overlayBuilder: (BuildContext context, Rect anchorBounds, Offset anchor)
             { return BackdropFilter(
               filter:  ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Container(
                 color: Colors.transparent,
+                width: Global.isweb?MediaQuery.of(context).size.width*0.2:MediaQuery.of(context).size.width*0.8,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -272,9 +289,6 @@ class _CardStackState extends State<CardStack> {
                         borderRadius: BorderRadius.circular(20)
                       ),
                       color:Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
-
-
-
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -297,7 +311,6 @@ class _CardStackState extends State<CardStack> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-
                                   GestureDetector(
                                     onTap: (){
                                       Navigator.of(context).pop();
@@ -315,12 +328,9 @@ class _CardStackState extends State<CardStack> {
                                     },
                                     child: CustomText(text:"Click here to chat Now",color: Global.orangepanda,),
                                   ),
-
-
                                 ],
                               ),
                             )
-
                           ],
                         ),
                       ),

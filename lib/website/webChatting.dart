@@ -29,7 +29,6 @@ class webChatting extends StatefulWidget {
   @override
   _webChattingState createState() => _webChattingState();
 }
-
 class _webChattingState extends State<webChatting> {
 
   void callback(){
@@ -200,60 +199,148 @@ class _webChattingState extends State<webChatting> {
         return Messages();
     }
   }
-
 }
 
-
-  class UserImages extends StatefulWidget {
-
-  List<String> Images ;
+class UserImages extends StatefulWidget {
+  List<String> Images;
   UserImages({this.Images});
 
   @override
   _UserImagesState createState() => _UserImagesState();
 }
-
 class _UserImagesState extends State<UserImages> {
-
-  PageController controller;
-
+  PageController controller = new PageController(initialPage: 0);
+  int pagenumber=0;
 
   @override
-    Widget build(BuildContext context) {
-      return Stack(
-        children: [
-          PageView.builder(
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        PageView.builder(
+
             controller: controller,
-          itemCount: widget.Images.length,
-              itemBuilder: (c,i){
-            return Container(
-              width: Global.webwidth*.25,
-              height: Global.webwidth*.25,
-              child: Image.network(widget.Images[i],fit: BoxFit.cover,),
-            );
-          }),
-          widget.Images.length>1?Container(
-            width: Global.webwidth*.25,
-            height: Global.webwidth*.25,
-            child: Center(child: Padding(
-              padding: const EdgeInsets.all(20),
+            itemCount: widget.Images.length,
+
+            onPageChanged: (number) async {
+              print("PageChanged");
+              print(number);
+              pagenumber=number;
+              setState(() {
+              });
+
+            },
+            itemBuilder: (c, i) {
+              return Container(
+                width: Global.width,
+                height: Global.height,
+                child: Image.network(
+                  widget.Images[i],
+                  fit: BoxFit.cover,
+                ),
+              );
+            }),
+        widget.Images.length > 1
+            ? Container(
+          width: Global.width,
+          height: Global.width,
+          child: Center(
+            child: Row(
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      print(controller.page.toInt().toString());
+                      controller.previousPage(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.easeIn).whenComplete(() {
+                        setState(() {
+
+                          pagenumber=controller.page.toInt();
+
+                        });
+
+                      });
+
+                      print("PageNUmber + $pagenumber");
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Icon(
+                          Icons.navigate_before,
+                          color: Colors.black,
+                          size: 50,
+                        ),
+                      ),
+                    )),
+                Spacer(),
+                GestureDetector(
+                    onTap: () {
+                      print(controller.page.toInt().toString());
+                      controller.nextPage(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.easeIn).whenComplete(() {
+                        pagenumber=controller.page.toInt();
+                        setState(() {
+
+                        });
+
+                      });
+
+                      print("PageNUmber + $pagenumber");
+
+                    },
+                    child: Container(   color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Icon(
+                          Icons.navigate_next,
+                          color: Colors.black,
+                          size: 50,
+                        ),
+                      ),
+                    ))
+              ],
+            ),
+          ),
+        )
+            : SizedBox(),
+        Positioned.fill(top: MediaQuery.of(context).size.width-30,child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(height: 26,
               child: Row(
-
                 children: [
-                  GestureDetector(onTap: (){
-                   controller.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-                  },child: Icon(Icons.navigate_before,color: Colors.black45,size: 50,)),
-                  Spacer(),
-                  GestureDetector(onTap: (){
-                    controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-                  },child: Icon(Icons.navigate_next,color: Colors.black45,size: 50,))
+                  Expanded(
+                    child: Center(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: widget.Images.length,
+                          itemBuilder: (c,i){
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: pagenumber==i?Colors.white:Colors.grey,
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                height: 10,width: 10,
+                              ),
+                            );
+                          }),
+                    ),
+                  )
                 ],
-              ),
-            ),),
-          ):SizedBox()
-        ],
-      );
-    }
+              ),),
+          ],
+        ))
+      ],
+    );
+  }
+
+
+
 }
-
-

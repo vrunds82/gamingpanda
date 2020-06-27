@@ -138,63 +138,68 @@ class _CardsNewState extends State<CardsNew> {
       backgroundColor: Global.isweb?Colors.transparent:Global.isSwitchedFT == true
           ? Global.blackpanda
           : Global.whitepanda,
-      body:   Column(
-        children: [
-          Expanded(
-            child: loading?Center(child: SizedBox(width: 50,height: 50,child: CircularProgressIndicator()),):
-                UserProfiles.length>=2?new CardStack(
-              Callback: this.callback,
-              matchEngine: matchEngine,
-            ):Center(child: CustomText(text:"No Users to Show",color: Global.orangepanda,),),
+      body:   SizedBox(
+        height: Global.isweb?Global.webwidth*.5: Global.height*.9,
+        width: Global.isweb?Global.webwidth*.3: Global.width,
+        child: Column(
+          children: [
+            Expanded(
+              child: loading?Center(child: SizedBox(width: 50,height: 50,child: CircularProgressIndicator()),):
+                  UserProfiles.length>=2?new CardStack(
+                Callback: this.callback,
+                matchEngine: matchEngine,
+              ):Center(child: CustomText(text:"No Users to Show",color: Global.orangepanda,),),
 
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 25,top: 25,right:MediaQuery.of(context).size.width*0.15,left:MediaQuery.of(context).size.width*0.15),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: (){
-                        matchEngine.currentMatch.nope();
-                      //  ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                      },
-                      child: Image.asset('assets/images/cancel.png',height: 50,width: 50,fit: BoxFit.fill,),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 25,top: 25,right:Global.isweb?MediaQuery.of(context).size.width*0.04:MediaQuery.of(context).size.width*0.15,left:Global.isweb?MediaQuery.of(context).size.width*0.04:MediaQuery.of(context).size.width*0.15),
+              child: Row(
+                children: <Widget>[
+
+                  Expanded(
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: (){
+                          matchEngine.currentMatch.nope();
+                        //  ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                        },
+                        child: Image.asset('assets/images/cancel.png',height: 50,width: 50,fit: BoxFit.fill,),
+                      ),
                     ),
                   ),
-                ),
 
-                Expanded(
-                  child: Center(
-                    child: GestureDetector(
-                        onTap: () async {
-                          matchEngine.currentMatch.superLike();
-                          ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                          await Future.delayed(Duration(milliseconds: 1000));
-                          CreateChat(true);
-                        },child: Padding(
-                          padding: const EdgeInsets.all(1.0),
-                          child: Image.asset('assets/images/star.png',height: 50,width: 50,fit: BoxFit.fill),
-                        )),
+                  Expanded(
+                    child: Center(
+                      child: GestureDetector(
+                          onTap: () async {
+                            matchEngine.currentMatch.superLike();
+                            ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                            await Future.delayed(Duration(milliseconds: 1000));
+                            CreateChat(true);
+                          },child: Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: Image.asset('assets/images/star.png',height: 50,width: 50,fit: BoxFit.fill),
+                          )),
+                    ),
                   ),
-                ),
-          
-                Expanded(
-                  child: Center(
-                    child: GestureDetector(
-                        onTap: () async {
-                          matchEngine.currentMatch.like();
 
-                          ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                          await Future.delayed(Duration(milliseconds: 1000));
-                          CreateChat(false);
-                        },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
+                  Expanded(
+                    child: Center(
+                      child: GestureDetector(
+                          onTap: () async {
+                            matchEngine.currentMatch.like();
+
+                            ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                            await Future.delayed(Duration(milliseconds: 1000));
+                            CreateChat(false);
+                          },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

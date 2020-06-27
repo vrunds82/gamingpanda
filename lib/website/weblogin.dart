@@ -16,8 +16,8 @@ class webloginpage extends StatefulWidget {
 
 class _webloginpageState extends State<webloginpage> {
 
-  TextEditingController email = TextEditingController(text: "webwala@gmail.com");
-  TextEditingController password = TextEditingController(text: "webwala@gmail.com");
+  TextEditingController email = TextEditingController(text: "arunarunnew@gmail.com");
+  TextEditingController password = TextEditingController(text: "arunarunnew@gmail.com");
 
   var firebaseAuth = FirebaseAuth.instance;
 
@@ -228,38 +228,26 @@ class _webloginpageState extends State<webloginpage> {
           password: password.text)
           .then((user) async {
 
-
             print(user);
 
         if(user.user!=null)
         {
 
           print("User ");
-          print(Global.User);
+          print(user.user.uid);
+
 
           Global.User=user.user;
-          await UpdateToken();
+        //  await UpdateTokenWeb();
           await GetUserDeatils();
           Navigator.of(context).pushReplacementNamed('webHome');
         }
       }).catchError((error){
         print("Current Error");
         print(error);
-        if(error!=null&&error.code!=null)
-        {
-          print(error);
 
-          switch(error.code){
-            case "ERROR_USER_NOT_FOUND" :
-              Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-              break;
-            default:
-              Fluttertoast.showToast(msg:error.toString(),backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-          }}
-        else
-        {
-          Fluttertoast.showToast(msg:"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-        }
+          Fluttertoast.showToast(msg:error.toString()+"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+        Navigator.of(context).pop();
         // Navigator.pop(context);
       });
     }else

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:gamingpanda/models/UserData.dart';
+import 'package:gamingpanda/website/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 
 import '../Lists.dart';
@@ -12,18 +14,44 @@ GetUserDeatils() async {
       body:{"UserId":Global.User.uid}).then((response){
 
         print(response.body);
-
         var parsedjson=jsonDecode(response.body);
         Global.userData= UserData.fromJson(parsedjson);
-
         print("UserDat ${jsonEncode(Global.userData)}");
 
   });
+
+}
+
+
+
+
+UpdateTokenWeb() async {
+
+
+  final _messaging = FBMessaging.instance;
+  _messaging.requestPermission().then((_) async {
+    final _token = await _messaging.getToken();
+    Global.token = _token;
+    print('Token: $_token');
+  });
+
+  await http.post("${Global.BaseURL}profile/token",
+      body:{"Token":Global.token??"","UserID":Global.User.uid}).then((response){});
 }
 
 UpdateToken() async {
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+ await firebaseMessaging.getToken().then((value) {
+
+   if(value!=null) {
+     Global.token = value;
+
+     print("TOKEN : " + Global.token);
+   }
+  });
+
   await http.post("${Global.BaseURL}profile/token",
-      body:{"Token":Global.token??"","UserID":Global.userData.userId}).then((response){});
+      body:{"Token":Global.token??"","UserID":Global.User.uid}).then((response){});
 }
 
 Future<Profile> OtherUserDetails() async {

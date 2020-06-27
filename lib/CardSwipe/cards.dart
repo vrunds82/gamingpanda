@@ -153,6 +153,7 @@ class _CardStackState extends State<CardStack> {
   }
 
   void _onSlideOutComplete(SlideDirection direction) {
+
     DateMatch currentMatch = widget.matchEngine.currentMatch;
 
   // print(Globaldata.MyDetails.id);
@@ -165,8 +166,8 @@ class _CardStackState extends State<CardStack> {
         break;
       case SlideDirection.right:
         currentMatch.like();
-        Actions(action: "like",user1: Global.userData.userId,user2: currentMatch.profile.id);
-        CreateChat(false);
+   /*     Actions(action: "like",user1: Global.userData.userId,user2: currentMatch.profile.id);
+        CreateChat(false);*/
         break;
       case SlideDirection.up:
         currentMatch.superLike();

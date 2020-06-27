@@ -46,7 +46,7 @@ class _webHomeState extends State<webHome> {
 
     print("Getting UserDetails of : ${Global.OtherUserProfile.id}");
 
-   await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/otherUser",
+   await http.post("${Global.BaseURL}profile/otherUser",
        body: {"UserId":Global.OtherUserProfile.id}).then((value) {
 
 
@@ -306,16 +306,16 @@ class _webHomeState extends State<webHome> {
       case 0:
         return SizedBox(
           width: Global.webwidth*.4,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(100,75,100,75),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(100.0),
                   child: CardsNew(callback: this.callback,),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         );
 

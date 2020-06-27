@@ -1219,7 +1219,7 @@ class _settingpageState extends State<settingpage> {
     print(year);
     print(gender[selectedRadio]);
 
-    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/OwnUserProfile",
+    await http.post("${Global.BaseURL}profile/OwnUserProfile",
         body:{
         "UserId": Global.User.uid,
         "UserName": username.text.toString(),
@@ -1324,7 +1324,7 @@ class _settingpageState extends State<settingpage> {
       ShowErrorMessage(msg: "Password must be of minimum 8 characters.");
     }else {
       await http.post(
-          "https://pandaweb20200510045646.azurewebsites.net/api/Panda/profile/deleteMe",
+          "${Global.BaseURL}profile/deleteMe",
           body: {"UserId": Global.User.uid}).then((response) {
 
 

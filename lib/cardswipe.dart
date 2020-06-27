@@ -43,7 +43,7 @@ loading = true;
     setState(() {
 
     });
-    http.post("https://pandaweb20200510045646.azurewebsites.net/api/panda/filtered",body: {"UserId":Global.User.uid}).then((value) {
+    http.post("${Global.BaseURL}filtered",body: {"UserId":Global.User.uid}).then((value) {
       dynamic parsedjson = jsonDecode(value.body);
       Userslist = (parsedjson as List).map((json) => SwipeUser.fromJson(json)).toList();
       print(Userslist.length);

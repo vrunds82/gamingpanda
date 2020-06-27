@@ -329,7 +329,7 @@ class _aboutuState extends State<aboutu> {
     ProgressDialog(context);
     print(myImagesURL);
     print(AboutUsController.text);
-    await http.post("https://pandaweb20200510045646.azurewebsites.net/api/Panda/changeImage",body: {
+    await http.post("${Global.BaseURL}changeImage",body: {
       "UserId":Global.User.uid,
       "image1":myImagesURL[0]??"null",
       "image2":myImagesURL[1]??"null",

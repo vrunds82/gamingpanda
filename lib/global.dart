@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/models/UserData.dart';
@@ -15,7 +17,6 @@ class Global {
   static String token;
 
   static List<String> dates = new List();
-  //static String BaseURL = "https://pandaweb20200510045646.azurewebsites.net/api/panda/";
   static String BaseURL = "https://pandaweb20200605061105.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
@@ -738,3 +739,52 @@ class CustomText extends StatelessWidget {
     );
   }
 
+SendNotification({String title, String body, Map<String,dynamic> data,String userId,String chat}) async {
+
+  print("Sending Notification");
+
+  String token;
+  await http.get("${Global.BaseURL}GetUserToken?UserId=$userId").then((value){
+    return token=value.body;
+  });
+
+
+  Map<String,String> data = {
+    'chat':chat??'no',
+    'uid': Global.User.uid,
+    'name' :title,
+    'image': "",
+    'content':body
+  };
+
+
+  // Replace with server token from firebase console settings.
+  final String serverToken = 'AAAAFA6EFDc:APA91bH0UQSM4KRrmHdl4ZvdT3wm1Ow5bDn9-PfarK2RoXd26yo5OyHTLiUElsJvzQWTp8FH1a-J19Na6h9kcvxejzVCge4YS-9CadDNSvy5GWNGbxJUMm6xa8cwSlMlCDRkzCJo1ph2';
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
+
+  await http.post(
+    'https://fcm.googleapis.com/fcm/send',
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Authorization': 'key=$serverToken',
+    },
+    body: jsonEncode(
+      <String, dynamic>{
+        'notification': <String, dynamic>{
+          'body': body??"0",
+          'title': title??"0"
+        },
+        'priority': 'high',
+        'data': data??{},
+        'to': token,
+      },
+    ),
+  ).then((value) {
+    print("Response From Notificaiton : "+ value.body);
+  }).catchError((onError){
+    print(onError);
+    print(onError.message);
+  });
+
+}

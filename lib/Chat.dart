@@ -345,7 +345,7 @@ class _ChatState extends State<Chat> {
   }
 
 
-  sendMessage(){
+  sendMessage() async {
     Firestore.instance
         .collection("Chat/Chatting/"+Global.userData.userId+"-"+Global.OtherUserProfile.id)
         .document()
@@ -381,6 +381,13 @@ class _ChatState extends State<Chat> {
     });
 
 
+
+    await SendNotification(
+        chat: 'yes',
+        body:textEditingController.text.toString(),
+    title: Global.userData.userName,
+    data: {"id": "asdf", "qwer": "wer"},
+    userId: Global.User.uid);
   }
 
 
