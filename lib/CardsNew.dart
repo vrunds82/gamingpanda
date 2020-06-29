@@ -66,8 +66,6 @@ class _CardsNewState extends State<CardsNew> {
 
         if (pics.length != 0) {
 
-
-
           print(Userslist[i].game1);
           print(Games.indexOf(Userslist[i].game1));
 
@@ -108,7 +106,6 @@ class _CardsNewState extends State<CardsNew> {
         matches: UserProfiles.map((Profile profile) {
           return new DateMatch(profile: profile);
         }).toList(),
-
 
       );
       loading = false;

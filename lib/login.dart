@@ -165,7 +165,6 @@ body: Center(
 
                     if(result.user!=null){
                       Global.User=result.user;
-
                       await UpdateToken();
                       await GetUserDeatils();
                       Navigator.of(context).pushReplacementNamed('home');
@@ -239,21 +238,10 @@ body: Center(
       }
     })
         .catchError((error){
-      if(error!=null)
-      {
-        print(error.toString());
+          Navigator.of(context).pop();
 
-        switch(error.code){
-          case "ERROR_USER_NOT_FOUND" :
-            Fluttertoast.showToast(msg:"Invalid Email Address or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-            break;
-          default:
-            Fluttertoast.showToast(msg:"Invalid Email Address or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-        }}
-      else
-      {
-        Fluttertoast.showToast(msg:"Invalid Email Address or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-      }
+        Fluttertoast.showToast(msg:error.message??"Something went Wrong",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+
       // Navigator.pop(context);
     });
     }else

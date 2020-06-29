@@ -744,9 +744,7 @@ SendNotification({String title, String body, Map<String,dynamic> data,String use
   print("Sending Notification");
 
   String token;
-  await http.get("${Global.BaseURL}GetUserToken?UserId=$userId").then((value){
-    return token=value.body;
-  });
+  await http.post("${Global.BaseURL}profile/token",     body:{"UserID":Global.User.uid}).then((value){ return token=value.body; });
 
 
   Map<String,String> data = {

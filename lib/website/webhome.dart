@@ -158,7 +158,7 @@ class _webHomeState extends State<webHome> {
                                     shape: BoxShape.circle,
                                     color: Colors.white,
                                     image: new DecorationImage(
-                                      scale: 0.8,
+
                                       fit: BoxFit.cover,
                                       image:Global.User.photoUrl==null||Global.User.photoUrl==""?AssetImage('assets/images/logo.png'): NetworkImage(Global.User.photoUrl),
                                     ))),

@@ -28,12 +28,12 @@ GetUserDeatils() async {
 UpdateTokenWeb() async {
 
 
-  final _messaging = FBMessaging.instance;
+  /*final _messaging = FBMessaging.instance;
   _messaging.requestPermission().then((_) async {
     final _token = await _messaging.getToken();
     Global.token = _token;
     print('Token: $_token');
-  });
+  });*/
 
   await http.post("${Global.BaseURL}profile/token",
       body:{"Token":Global.token??"","UserID":Global.User.uid}).then((response){});
