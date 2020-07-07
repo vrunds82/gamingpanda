@@ -200,14 +200,17 @@ class _CardStackState extends State<CardStack> {
   Future ActionsToUsers({String action,String user1,String user2})
   async {
 
-    Fluttertoast.showToast(msg: action);
+
 
     String URL = "";
     if(action=="like"){
+      Fluttertoast.showToast(msg: "Let's play");
       URL ="${Global.BaseURL}like";
     }else if(action == "dislike"){
+      Fluttertoast.showToast(msg: "Nope");
       URL ="${Global.BaseURL}dislike";
     }else if(action == "superlike"){
+      Fluttertoast.showToast(msg: "Super Like");
       URL = "${Global.BaseURL}superlike";
     }
     await http.post(URL,body:{
@@ -650,7 +653,7 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
 
     return Stack(
       children: [
-        cardOffset.dx>50?Material(
+        cardOffset.dx> (Global.isweb?150:50)?Material(
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(50.0),
@@ -664,7 +667,7 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
             ),
           ),
         ):SizedBox(),
-        cardOffset.dx<-50?Material(
+        cardOffset.dx<(Global.isweb?-150:-50)?Material(
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(50.0),
@@ -680,7 +683,7 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
             ),
           ),
         ):SizedBox(),
-        cardOffset.dy<-150?Material(
+        cardOffset.dy<(Global.isweb?-250:-150)?Material(
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(50.0),
@@ -739,6 +742,7 @@ class _ProfileCardState extends State<ProfileCard> {
           });
         },
         child: new Container(
+
           decoration: new BoxDecoration(
             gradient: new LinearGradient(
               begin: Alignment.topCenter,
@@ -807,11 +811,17 @@ class _ProfileCardState extends State<ProfileCard> {
                     showDetail?Row(
                       children: <Widget>[
                         Expanded(
-                          child: new Text(
-                            widget.profile.bio.length>40?widget.profile.bio.substring(0,40)+"...":widget.profile.bio,
-                            style: new TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
+                          child: Container(
+                            height: 50,
+
+                            child: SingleChildScrollView(
+                              child: new Text(
+                                widget.profile.bio.length>40?widget.profile.bio.substring(0,40)+"...":widget.profile.bio,
+                                style: new TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -820,11 +830,17 @@ class _ProfileCardState extends State<ProfileCard> {
                     ):Row(
                       children: <Widget>[
                         Expanded(
-                          child: new Text(
-                            widget.profile.bio??"",
-                            style: new TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
+                          child: Container(
+                            height: 200,
+
+                            child: SingleChildScrollView(
+                              child: new Text(
+                                widget.profile.bio??"",
+                                style: new TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
                             ),
                           ),
                         ),

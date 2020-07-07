@@ -87,94 +87,90 @@ class _webChattingState extends State<webChatting> {
                        child: Image.asset('assets/images/logo.png',fit: BoxFit.cover,),
                      ):Image.network(Global.OtherUserProfile.dp,fit: BoxFit.cover,),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Row(
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              new CustomText(
-                                text:"${widget.UserProfile.name}  ${widget.UserProfile.age??0}",
-                                fontSize:18.0,
-                                ),
-                              VerticalDivider(thickness: 2,color: Global.orangepanda,width: 10,),
-                              Icon(widget.UserProfile.gender=="Male"?MdiIcons.genderMale:widget.UserProfile.gender!="Female"?MdiIcons.genderTransgender:MdiIcons.genderFemale,color: Colors.white,)
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          Row(
-                            children: <Widget>[
-                              Image.asset("assets/images/gamegrey.png",height: 15,),
-                              SizedBox(width: 10,),
-                              new CustomText(
-                               text:"Games : " +(widget.games??""),
-
-                                  fontSize: 13,
-
+                              Row(
+                                children: <Widget>[
+                                  new CustomText(
+                                    text:"${widget.UserProfile.name}  ${widget.UserProfile.age??0}",
+                                    fontSize:18.0,
+                                    ),
+                                  VerticalDivider(thickness: 2,color: Global.orangepanda,width: 10,),
+                                  Icon(widget.UserProfile.gender=="Male"?MdiIcons.genderMale:widget.UserProfile.gender!="Female"?MdiIcons.genderTransgender:MdiIcons.genderFemale,color: Colors.white,)
+                                ],
                               ),
+                              SizedBox(height: 10,),
+                              Row(
+                                children: <Widget>[
+                                  Image.asset("assets/images/gamegrey.png",height: 15,),
+                                  SizedBox(width: 10,),
+                                  new CustomText(
+                                   text:"Games : " +(widget.games??""),
 
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          Row(
-                            children: <Widget>[
-                              //Flag('AD', height: 15, width: 20, fit: BoxFit.fill),
-                              SizedBox(width: 10,),
-                              new CustomText(
-                                text:"Country : "+(widget.UserProfile.country??"NA"),
-                                  fontSize: 13,
+                                      fontSize: 13,
 
+                                  ),
+
+                                ],
                               ),
+                              SizedBox(height: 10,),
+                              Row(
+                                children: <Widget>[
+                                  //Flag('AD', height: 15, width: 20, fit: BoxFit.fill),
+                                  SizedBox(width: 10,),
+                                  new CustomText(
+                                    text:"Country : "+(widget.UserProfile.country??"NA"),
+                                      fontSize: 13,
 
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          Row(
-                            children: <Widget>[
-                              new CustomText(
-                                text : "Description : "+(widget.UserProfile.bio??"NA"),
+                                  ),
 
-                                  fontSize: 15,
-
+                                ],
                               ),
+                              SizedBox(height: 10,),
+                              Row(
+                                children: <Widget>[
+                                  new CustomText(
+                                    text : "Description : "+(widget.UserProfile.bio??"NA"),
 
+                                      fontSize: 15,
+
+                                  ),
+
+                                ],
+                              ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                    Spacer(),
+
                     Padding(
                       padding: const EdgeInsets.all(25.0),
-                      child: Column(
+                      child: Row(
                         children: [
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: customraisedbutton(
-                                    click: (){
-                                    },
-                                    text: "DELETE",
-                                    clr: Global.whitepanda,
-                                    bgclr: Global.orangepanda,
-                                  )),
-                            ],
-                          ),
-                          SizedBox(height: 25,),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: customraisedbutton(
-                                    click: (){
-                                    },
-                                    text: "REPORT",
-                                    clr: Global.whitepanda,
-                                    bgclr: Global.darkBlue,
-                                  )),
-                            ],
-                          ),
+                          Expanded(
+                              child: customraisedbutton(
+                                click: (){
+                                },
+                                text: "DELETE",
+                                clr: Global.whitepanda,
+                                bgclr: Global.orangepanda,
+                              )),
+                          SizedBox(width: 25,),
+                          Expanded(
+                              child: customraisedbutton(
+                                click: (){
+                                },
+                                text: "REPORT",
+                                clr: Global.whitepanda,
+                                bgclr: Global.orangepanda,
+                              )),
                         ],
                       ),
                     ),
@@ -306,7 +302,7 @@ class _UserImagesState extends State<UserImages> {
           ),
         )
             : SizedBox(),
-        Positioned.fill(top: MediaQuery.of(context).size.width-30,child: Column(
+        Positioned.fill(top: (Global.webwidth*.25)-30,child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(height: 26,

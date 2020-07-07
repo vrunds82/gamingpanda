@@ -59,6 +59,15 @@ class _OtherUserProfileWidgetState extends State<OtherUserProfileWidget> {
             : Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
         brightness:
             Global.isSwitchedFT == false ? Brightness.light : Brightness.dark,
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(Icons.arrow_back,color:Global.isSwitchedFT == true ? Global.whitepanda : Global.blackpanda ,),
+          ),
+        ),
         title: Row(
           children: <Widget>[
             Container(
@@ -231,6 +240,7 @@ class _OtherUserProfileWidgetState extends State<OtherUserProfileWidget> {
               ),
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(

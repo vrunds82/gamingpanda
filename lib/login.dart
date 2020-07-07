@@ -165,9 +165,10 @@ body: Center(
 
                     if(result.user!=null){
                       Global.User=result.user;
-                      await UpdateToken();
+                   /*   await UpdateToken();
                       await GetUserDeatils();
-                      Navigator.of(context).pushReplacementNamed('home');
+                      Navigator.of(context).pushReplacementNamed('home');*/
+                      await GoogleLogin();
                     }
 
                   });
@@ -208,43 +209,41 @@ body: Center(
       if(value!=null && value.isNotEmpty) {
         login = value[0];
       }
-    });
-    print(login);
 
-    if(login==null){
-      Navigator.of(context).pop();
-      Fluttertoast.showToast(
-          msg: "Invalid Email Address or Password",
-          //toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    }else
-    if(login=="password"){
+      if(login==null){
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(
+            msg: "Invalid Email Address or Password",
+            //toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }else
+      if(login=="password"){
 
-    FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
-        password: password.text)
-        .then((user) async {
-      if(user.user!=null)
-      {
-        Global.User=user.user;
-        await UpdateToken();
-        await GetUserDeatils();
+        FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
+            password: password.text)
+            .then((user) async {
+          if(user.user!=null)
+          {
+            Global.User=user.user;
+            await UpdateToken();
+            await GetUserDeatils();
 
-        Navigator.of(context).pushReplacementNamed('home');
-      }
-    })
-        .catchError((error){
+            Navigator.of(context).pushReplacementNamed('home');
+          }
+        })
+            .catchError((error){
           Navigator.of(context).pop();
 
-        Fluttertoast.showToast(msg:error.message??"Something went Wrong",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+          Fluttertoast.showToast(msg:error.message??"Something went Wrong",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
 
-      // Navigator.pop(context);
-    });
-    }else
+          // Navigator.pop(context);
+        });
+      }else
       {
         Navigator.of(context).pop();
         Fluttertoast.showToast(
@@ -257,6 +256,42 @@ body: Center(
             fontSize: 16.0
         );
       }
+
+    }).catchError((onError){
+      if(onError!=null && onError.message!=null){
+        Fluttertoast.showToast(msg: onError.message);
+      }else{
+        Fluttertoast.showToast(msg:"Something Went Wrong Please try Again Later.");
+      }
+    });
+    print(login);
+
+
+  }
+
+
+
+  GoogleLogin() async {
+
+    ProgressDialog(context);
+
+    await http.post("${Global.BaseURL}register",
+        body: {
+          "UserId": Global.User.uid,
+          "UserName": Global.User.displayName??"name.text",
+          "Email" : Global.User.email??Global.User.email,
+          "Token":Global.token??""
+        }).then((response) async {
+
+      //  print("Response from Body : "+response.body.toString());
+      await GetUserDeatils();
+      Navigator.of(context).pop();
+      //   Navigator.of(context).pushReplacementNamed('cardswipe');
+      Navigator.of(context).pushReplacementNamed('home');
+    }).catchError((onError){
+      print("Erorr"+onError);
+    });
+
   }
 
 

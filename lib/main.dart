@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return OverlaySupport(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Gaming Panda',
         theme: ThemeData(
             scaffoldBackgroundColor: Global.isSwitchedFT == true
                 ? Global.blackpanda

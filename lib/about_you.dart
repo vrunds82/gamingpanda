@@ -266,7 +266,7 @@ class _aboutuState extends State<aboutu> {
                         child: new TextField(
                           controller: AboutUsController,
                           //minLines: 10,
-                          maxLines: 10,
+                          maxLines: 6,
                           style: TextStyle(color: Global.orangepanda),
                           autocorrect: false,
                           decoration: InputDecoration(

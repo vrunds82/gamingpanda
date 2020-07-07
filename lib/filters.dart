@@ -18,12 +18,12 @@ class _filteritemState extends State<filteritem> {
 
 
 
-  double start=Global.userData.filterAgeStart==""||Global.userData.filterAgeStart==null?18: Global.userData.filterAgeStart.toDouble();
-  double end=Global.userData.filterAgeEnd==""||Global.userData.filterAgeEnd==null?18: Global.userData.filterAgeEnd.toDouble();
+  double start=Global.userData.filterAgeStart==""||Global.userData.filterAgeStart==null ||Global.userData.filterAgeStart<15 ?15: Global.userData.filterAgeStart.toDouble();
+  double end=Global.userData.filterAgeEnd==""||Global.userData.filterAgeEnd==null ||Global.userData.filterAgeEnd<15?15: Global.userData.filterAgeEnd.toDouble();
 
   var _currentSelectedItemserver= Global.userData.filterServer;
   var _currentSelectedItemrank = Global.userData.filterRank;
-  var _currentSelectedItemcountry = Global.userData.country;
+  var _currentSelectedItemcountry = Global.userData.filterCountry;
   var _currentSelectedItemgame = Global.userData.filterGame;
 
 
@@ -336,7 +336,7 @@ Row(
 
             });
      },
-      min: 0,
+      min: 15,
       max: 60,
               activeColor: Global.orangepanda,
               inactiveColor: Global.isSwitchedFT == true

@@ -112,14 +112,14 @@ class _ChatState extends State<Chat> {
                 child: Center(
                   child: Row(
                     children: [
-                      SizedBox(width: 20,),
+                     /* SizedBox(width: 20,),
                       GestureDetector(
                       onTap: () {
                         Global.webCurrentPageIndex = 0;
                         setState(() {
                         });
                       }
-    ,child: Image.asset(Global.isSwitchedFT?"assets/images/backDark.png":"assets/images/backLight.png",height: 50,)),
+    ,child: Image.asset(Global.isSwitchedFT?"assets/images/backDark.png":"assets/images/backLight.png",height: 50,)),*/
                       Expanded(
                         child: Center(
                           child: Row(
@@ -147,7 +147,7 @@ class _ChatState extends State<Chat> {
                           ),
                         ),
                       ),
-                      Opacity(opacity: 0,child: Image.asset(Global.isSwitchedFT?"assets/images/backDark.png":"assets/images/backLight.png",height: 40,)),
+                  /*    Opacity(opacity: 0,child: Image.asset(Global.isSwitchedFT?"assets/images/backDark.png":"assets/images/backLight.png",height: 40,)),*/
                       PopupMenuButton(
                         color:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
                         padding: EdgeInsets.all(0),
@@ -166,13 +166,24 @@ class _ChatState extends State<Chat> {
                   ),
                 ),
               ),
-              Container(color:  Global.isSwitchedFT == true ? Colors.black : Colors.grey.withOpacity(0.2),height: 1,)
+              Container(color:  Global.isSwitchedFT == true ? Global.blackpanda : Colors.grey.withOpacity(0.2),height: 2,)
             ],
           ),
         ):
           AppBar(
+
             backgroundColor:
             Global.isweb?Colors.transparent:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+
+            leading: GestureDetector(
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back,color:Global.isSwitchedFT == true ? Global.whitepanda : Global.blackpanda ,),
+              ),
+            ),
 
             title: Row(
 
@@ -209,18 +220,22 @@ class _ChatState extends State<Chat> {
             actions: <Widget>[
 
               PopupMenuButton(
+            icon: Icon(Icons.more_vert,color:Global.isSwitchedFT == true ? Global.whitepanda : Global.blackpanda ,),
+
 
                 onSelected: (index){
                   print("Clicked");
                   Navigator.of(context).pushNamed('otherUserDetails');
                 },
-                color:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+
+                color:Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+
                 padding: EdgeInsets.all(0),
                 itemBuilder: (BuildContext context) {
                   return [
                     PopupMenuItem(
                       value: 0,
-                      child: CustomText(text:"Show Profile"),
+                      child: CustomText(text:"Show Profile",),
                     ),
                   /*  PopupMenuItem(
                       child: CustomText(text:"Delete Conversation"),),*/
@@ -272,12 +287,12 @@ class _ChatState extends State<Chat> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
                     borderSide: BorderSide(
-                        color: Global.greypandaicon, width: 2.0),
+                        color: Global.orangepanda, width: 2.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
                     borderSide:
-                    BorderSide(color: Global.isSwitchedFT == false ? Global.darkBlue : Global.greypanda, width: 0.0),
+                    BorderSide(color: Global.orangepanda/*Global.isSwitchedFT == false ? Global.darkBlue : Global.greypanda*/, width: 0.0),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
@@ -313,7 +328,7 @@ class _ChatState extends State<Chat> {
               SizedBox(width: 10,),
               Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black,style: BorderStyle.solid,width: 2),
+                    border: Border.all(color: Global.orangepanda/*Colors.black*/,style: BorderStyle.solid,width: 2),
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: Material(
@@ -331,7 +346,7 @@ class _ChatState extends State<Chat> {
                     splashColor: Global.orangepanda,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.send,color: Global.isSwitchedFT?Global.orangepanda:Global.blackpanda,),
+                      child: Icon(Icons.send,color:Global.orangepanda/* Global.isSwitchedFT?Global.orangepanda:Global.blackpanda*/,),
                     ),
                   ),
                 ),
@@ -392,9 +407,6 @@ class _ChatState extends State<Chat> {
 
 
 
-
-
-
 }
 
 
@@ -431,7 +443,7 @@ if(!Global.dates.contains(ChatDay)){
 
   return Column(
     children: [
-      !ispresent?Row(
+      /*!ispresent?Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Padding(
@@ -439,7 +451,7 @@ if(!Global.dates.contains(ChatDay)){
             child: Text(ChatDay,style: TextStyle(color: Global.orangepanda,fontSize: 20),),
           )
         ],
-      ):SizedBox(),
+      ):SizedBox(),*/
       Row(
         mainAxisAlignment: document['uid'].toString() == Global.userData.userId
             ? MainAxisAlignment.end
@@ -506,7 +518,7 @@ if(!Global.dates.contains(ChatDay)){
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20,0,20,0),
-                      child: Text(date.toString(),style: TextStyle(color: Colors.white,fontSize: 10),),
+                      child: Text(date.toString()+"  "+ChatDay,style: TextStyle(color: Global.isSwitchedFT == true ?  Global.whitepanda: Global.greypanda,fontSize: 10),),
                     ),
                   ],
                 )

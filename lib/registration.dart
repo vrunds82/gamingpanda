@@ -334,6 +334,13 @@ class _registerState extends State<register> {
       }
 
     }).catchError((e){
+      if(e!=null && e.message!=null)
+        {
+          Fluttertoast.showToast(msg: e.message);
+        }else
+          {
+            Fluttertoast.showToast(msg:"Something Went Wrong Please try Again Later.");
+          }
       print(e.message);
     });
 
