@@ -148,7 +148,7 @@ class _ChatState extends State<Chat> {
                         ),
                       ),
                   /*    Opacity(opacity: 0,child: Image.asset(Global.isSwitchedFT?"assets/images/backDark.png":"assets/images/backLight.png",height: 40,)),*/
-                      PopupMenuButton(
+                  /*    PopupMenuButton(
                         color:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
                         padding: EdgeInsets.all(0),
                         itemBuilder: (BuildContext context) {
@@ -161,7 +161,7 @@ class _ChatState extends State<Chat> {
                           ];
                         },
                       ),
-                      SizedBox(width: 20,),
+                      SizedBox(width: 20,),*/
                     ],
                   ),
                 ),

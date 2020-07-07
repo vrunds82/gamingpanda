@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
               title: TextStyle(fontSize: Global.fontsize),
             ),
             primarySwatch: Colors.blue),
-        home: splashscreen(),
+        home: webSplashScreen(),
         routes: {
           'login': (context) => loginpage(),
           'registerp': (context) => register(),

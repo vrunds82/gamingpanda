@@ -16,8 +16,8 @@ class webloginpage extends StatefulWidget {
 
 class _webloginpageState extends State<webloginpage> {
 
-  TextEditingController email = TextEditingController(text: "arunarunnew@gmail.com");
-  TextEditingController password = TextEditingController(text: "arunarunnew@gmail.com");
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   var firebaseAuth = FirebaseAuth.instance;
 
@@ -74,53 +74,18 @@ class _webloginpageState extends State<webloginpage> {
                   SizedBox(height: 20,),
                   customtext(text: "Password"),
                   SizedBox(height: 5,),
-                  Customtextfield(controllername: password,obsecuretext: true,),
+                  Customtextfield(controllername: password,obsecuretext: true,
+                  onsubmit:(apple){
+                    Login();
+                  } ,),
                   SizedBox(height: 20,),
                   Row(
                     children: <Widget>[
                       Expanded(
                           child: customraisedbutton(click: () async {
 
-                            if(email.text == "" )
-                            {
-                              Fluttertoast.showToast(
-                                  msg: "Email filed is required",
-                                  //toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0
-                              );
 
-                            }
-                            else if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(email.text))
-                              Fluttertoast.showToast(
-                                  msg: "Invalid email address.",
-                                  //toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0
-                              );
-                            else if (password.text == "")
-                              Fluttertoast.showToast(
-                                  msg: "Password filed is required",
-                                  //toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0
-                              );
-
-                            else{
-                              Login();
-
-
-                            }
-
+                            Login();
 
 
 
@@ -206,63 +171,104 @@ class _webloginpageState extends State<webloginpage> {
 
 
   Login() async {
-    String login;
 
-    ProgressDialog(context);
-
-    await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
-      login=value[0];
-    }).catchError((onError){
-      print("Error in finding values");
-    });
-
-
-    if(login!=null && login=="password"){
-
-      print(login);
-      print(email.text.replaceAll(" ", ""));
-      print(password.text.replaceAll(" ", ""));
-
-
-      FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
-          password: password.text)
-          .then((user) async {
-
-            print(user);
-
-        if(user.user!=null)
-        {
-
-          print("User ");
-          print(user.user.uid);
-
-
-          Global.User=user.user;
-        //  await UpdateTokenWeb();
-          await GetUserDeatils();
-          Navigator.of(context).pushReplacementNamed('webHome');
-        }
-      }).catchError((error){
-        print("Current Error");
-        print(error);
-
-          Fluttertoast.showToast(msg:error.toString()+"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
-        Navigator.of(context).pop();
-        // Navigator.pop(context);
-      });
-    }else
+    if(email.text == "" )
     {
-      Navigator.of(context).pop();
       Fluttertoast.showToast(
-          msg: "Please use Google SingIn",
+          msg: "Email filed is required",
           //toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0
       );
+
     }
+    else if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(email.text))
+      Fluttertoast.showToast(
+          msg: "Invalid email address.",
+          //toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    else if (password.text == "")
+      Fluttertoast.showToast(
+          msg: "Password filed is required",
+          //toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+    else{
+      String login;
+
+      ProgressDialog(context);
+
+      await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
+        login=value[0];
+      }).catchError((onError){
+        print("Error in finding values");
+      });
+
+
+      if(login!=null && login=="password"){
+
+        print(login);
+        print(email.text.replaceAll(" ", ""));
+        print(password.text.replaceAll(" ", ""));
+
+
+        FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text.replaceAll(" ", "").toLowerCase(),
+            password: password.text)
+            .then((user) async {
+
+          print(user);
+
+          if(user.user!=null)
+          {
+
+            print("User ");
+            print(user.user.uid);
+
+
+            Global.User=user.user;
+            //  await UpdateTokenWeb();
+            await GetUserDeatils();
+            Navigator.of(context).pushReplacementNamed('webHome');
+          }
+        }).catchError((error){
+          print("Current Error");
+          print(error);
+
+          Fluttertoast.showToast(msg:error.toString()+"Invalid Email or Password",backgroundColor: Colors.red,toastLength: Toast.LENGTH_LONG,);
+          Navigator.of(context).pop();
+          // Navigator.pop(context);
+        });
+      }else
+      {
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(
+            msg: "Please use Google SingIn",
+            //toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+
+
+    }
+
+
   }
 
 

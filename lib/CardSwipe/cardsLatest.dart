@@ -244,13 +244,16 @@ class _CardStackState extends State<CardStack> {
 
     if(SuperLike){
       Global.OtherUserProfile = profile;
+      _showDialog(profile);
       //Global.currentpageindex=2;
       //widget.Callback();
       if(Global.isweb){
        // Global.webCurrentPageIndex=1;
        // widget.Callback();
+
       }else
-      { _showDialog(profile);
+      {
+
        // Navigator.of(context).pushNamed('chat');
       }
 
@@ -281,65 +284,71 @@ class _CardStackState extends State<CardStack> {
             overlayBuilder: (BuildContext context, Rect anchorBounds, Offset anchor)
             { return BackdropFilter(
               filter:  ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                color: Colors.transparent,
-                width: Global.isweb?MediaQuery.of(context).size.width*0.2:MediaQuery.of(context).size.width*0.8,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
-                      ),
-                      color:Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Colors.transparent,
+                    //width: Global.isweb?MediaQuery.of(context).size.width*0.2:MediaQuery.of(context).size.width*0.8,
+                    child: Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Row(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
+                          color:Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,children: [
-                              GestureDetector(onTap: (){
-                                Navigator.of(context).pop();
-                              },child: Icon(Icons.cancel,color: Global.orangepanda,size: 20,)),
-                            ],),
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Image.asset('assets/images/remote.png',width: Global.width*(Global.isweb?0.05:0.3),),
-                            ),
-                            CustomText(text:"New Connection!",color: Global.orangepanda,),
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: (){
-                                      Navigator.of(context).pop();
-                                      Global.OtherUserProfile = profile;
-                                      Global.currentpageindex=2;
-                                      widget.Callback();
-                                      if(Global.isweb){
-                                        Global.webCurrentPageIndex=1;
-                                        widget.Callback();
-                                        //Navigator.of(context).pushReplacementNamed('webChattingPage');
-                                      }else
-                                      {
-                                        Navigator.of(context).pushNamed('chat');
-                                      }
-                                    },
-                                    child: CustomText(text:"Click here to chat Now",color: Global.orangepanda,),
+                              children: <Widget>[
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.end,children: [
+                                  GestureDetector(onTap: (){
+                                    Navigator.of(context).pop();
+                                  },child: Icon(Icons.cancel,color: Global.orangepanda,size: 20,)),
+                                ],),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Image.asset('assets/images/remote.png',width: Global.width*(Global.isweb?0.05:0.3),),
+                                ),
+                                CustomText(text:"New Connection!",color: Global.orangepanda,),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.of(context).pop();
+                                          Global.OtherUserProfile = profile;
+                                          Global.currentpageindex=2;
+                                          widget.Callback();
+                                          if(Global.isweb){
+                                            Global.webCurrentPageIndex=1;
+                                            widget.Callback();
+                                            //Navigator.of(context).pushReplacementNamed('webChattingPage');
+                                          }else
+                                          {
+                                            Navigator.of(context).pushNamed('chat');
+                                          }
+                                        },
+                                        child: CustomText(text:"Click here to chat Now",color: Global.orangepanda,),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )
-                          ],
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             );},
             child: Center()
@@ -653,7 +662,7 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
 
     return Stack(
       children: [
-        cardOffset.dx> (Global.isweb?150:50)?Material(
+        cardOffset.dx> (Global.isweb?150:50) && cardOffset.dy>(Global.isweb?-250:-150)?Material(
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(50.0),
@@ -667,23 +676,21 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
             ),
           ),
         ):SizedBox(),
-        cardOffset.dx<(Global.isweb?-150:-50)?Material(
+        cardOffset.dx<(Global.isweb?-150:-50) && cardOffset.dy>(Global.isweb?-250:-150)?Material(
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(50.0),
             child: Column(
-
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Center(),
-
                 Text("Nope",style: TextStyle(fontSize: 40,color: Global.darkBlue),)
               ],
 
             ),
           ),
         ):SizedBox(),
-        cardOffset.dy<(Global.isweb?-250:-150)?Material(
+        cardOffset.dy<(Global.isweb?-250:-150) && cardOffset.dx<50 && cardOffset.dx>-50?Material(
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(50.0),

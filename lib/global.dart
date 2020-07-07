@@ -135,6 +135,7 @@ class Customtextfield extends StatelessWidget {
   bool align;
   bool focusborder;
   var validate;
+  Function onsubmit;
   
 
   Customtextfield(
@@ -143,7 +144,8 @@ class Customtextfield extends StatelessWidget {
       this.hinttext,
       this.align,
       this.focusborder,
-      this.validate});
+      this.validate,
+      this.onsubmit});
 
 
   final _formKey = GlobalKey<FormState>();
@@ -151,6 +153,7 @@ class Customtextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onSubmitted: onsubmit??(_){},
       obscureText: obsecuretext ?? false,
       style: TextStyle(color: Global.orangepanda),
       controller: controllername,
@@ -170,11 +173,9 @@ class Customtextfield extends StatelessWidget {
         ),
 
         // hintText: 'Enter a product name eg. pension',
-
         hintStyle: TextStyle(
           fontSize: 12,
         ),
-
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
           borderSide: BorderSide(
@@ -184,9 +185,7 @@ class Customtextfield extends StatelessWidget {
         ),
 
         filled: true,
-
         contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10, right: 10),
-
         fillColor: Colors.white.withOpacity(0.2),
       ),
     );

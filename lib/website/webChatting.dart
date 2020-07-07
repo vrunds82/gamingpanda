@@ -15,7 +15,7 @@ import 'package:gamingpanda/profile.dart';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class webChatting extends StatefulWidget {
 
  // UserData OtherUserProfile = new UserData();
@@ -156,20 +156,28 @@ class _webChattingState extends State<webChatting> {
                         children: [
                           Expanded(
                               child: customraisedbutton(
-                                click: (){
+                                click: () async {
+
+                                  ProgressDialog(context);
+                                  print("inbox/messages/"+Global.User.uid+"/"+widget.UserProfile.id);
+                                  await Firestore.instance.collection("inbox/messages/"+Global.User.uid).document(widget.UserProfile.id).delete().catchError((error){
+                                    print(error);
+                                  });
+                                  Navigator.of(context).pop();
                                 },
                                 text: "DELETE",
                                 clr: Global.whitepanda,
-                                bgclr: Global.orangepanda,
+                                bgclr: Global.darkBlue,
                               )),
                           SizedBox(width: 25,),
                           Expanded(
                               child: customraisedbutton(
                                 click: (){
+                                  Fluttertoast.showToast(msg: "User Reported.");
                                 },
                                 text: "REPORT",
                                 clr: Global.whitepanda,
-                                bgclr: Global.orangepanda,
+                                bgclr: Global.darkBlue,
                               )),
                         ],
                       ),
