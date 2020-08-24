@@ -29,179 +29,221 @@ class _profilepageState extends State<profilepage> {
           Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-        /*    CustomAppbar(),*/
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                GestureDetector(
-                  onTap: (){
-                 //   GetImage();
-                  },
-                  child:   Global.userData.profilePicture!="null" && Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        image: DecorationImage(image: NetworkImage(Global.userData.profilePicture),fit: BoxFit.cover)
-                    ),
-                    width: 84,
-                    height: 84,
-                  ):
-                  CircleAvatar(
-                    radius: 42,
-                    child: ClipOval(
-                        child: Icon(
-                          Icons.person,
-                          size: 40,
-                        )),
-                  ),
-                ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomText(text: Global.userData.userName,fontSize: 18),
-                  CustomText(text: (DateTime.now().year-Global.userData.year).toString(),fontSize: 18,color: Global.orangepanda,  fontWeight: FontWeight.bold,),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Image.asset(
-                    'assets/images/game.png',
-                    height: 30,
-                    width: 30,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  (Global.userData.game1==""||Global.userData.game1==null)&&(Global.userData.game2==""||Global.userData.game2==null)?
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).pushNamed('settings');
-                    },
-                    child: Column(
-                      children: [
-                        CustomText(
-                          text:  "No Games Selected",
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
 
-                        ),
-                        CustomText(
-                          text:  "Click here to edit",
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: Row(
+                    children: <Widget>[
+                      Switch(
+                        inactiveThumbColor: Global.greypanda,
+                        inactiveTrackColor: Global.blackpanda,
+                        value: Global.isSwitchedFT,
 
-                        ),
-                      ],
-                    ),
-                  ):
-                  Column(
-                    children: [
+                        onChanged: (bool value) async {
+                          Global.isSwitchedFT = value;
+
+
+
+                          SharedPreferences pref =
+                          await SharedPreferences.getInstance();
+                          await pref.setBool('theme', Global.isSwitchedFT);
+
+                          setState(() {
+                          });
+                          widget.callback();
+
+                          //print(isSwitchedFT);
+                        },
+                        activeTrackColor: Global.darkBlue,
+                        activeColor: Global.greypandaicon,
+                      ),
                       CustomText(
-                        text:  Global.userData.game1==""||Global.userData.game1==null?"": Global.userData.game1,
-                        fontSize: 16,
+                        text: "NIGHT MODE",
                         fontWeight: FontWeight.bold,
+
                       ),
 
+                      Spacer(),
+                      Container(
+                          decoration: new BoxDecoration(
+                              color: Global.orangepanda,
+                              borderRadius:
+                              new BorderRadius.all(Radius.circular(30))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed('settings');
+                                },
+                                child: Icon(
+                                  Icons.settings,
+                                  size: 30,
+                                  color: Global.whitepanda,
+                                )),
+                          ))
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10.0,),
+                GestureDetector(
+                onTap: (){
+           //   GetImage();
+                },
+                child:   Global.userData.profilePicture!="null" && Global.userData.profilePicture!="" && Global.userData.profilePicture!=null?Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      image: DecorationImage(image: NetworkImage(Global.userData.profilePicture),fit: BoxFit.cover)
+                  ),
+                  width: 84,
+                  height: 84,
+                ):
+                CircleAvatar(
+                  radius: 42,
+                  child: ClipOval(
+                      child: Icon(
+                        Icons.person,
+                        size: 40,
+                      )),
+                ),
+          ),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomText(text: Global.userData.userName,fontSize: 18),
+                CustomText(text: (DateTime.now().year-Global.userData.year).toString(),fontSize: 18,color: Global.orangepanda,  fontWeight: FontWeight.bold,),
+                SizedBox(
+                  height: 20,
+                ),
+                Image.asset(
+                  'assets/images/game.png',
+                  height: 30,
+                  width: 30,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                (Global.userData.game1==""||Global.userData.game1==null)&&(Global.userData.game2==""||Global.userData.game2==null)?
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pushNamed('settings');
+                  },
+                  child: Column(
+                    children: [
                       CustomText(
-                        text:   Global.userData.game2==""||Global.userData.game2==null?"": Global.userData.game2,
+                        text:  "No Games Selected",
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
+
+                      ),
+                      CustomText(
+                        text:  "Click here to edit",
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+
                       ),
                     ],
                   ),
-
-
-
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  CustomButton(
-                    backgroundColor: Global.orangepanda,
-                    text: "FILTERS",
-                    icon: Icon(MdiIcons.filter,color: Colors.white,),
-                    textColor: Colors.white,
-                    onPressed: (){
-                      Navigator.of(context).pushNamed('filter');
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomButton(
-                    backgroundColor: Global.isSwitchedFT == true ? Global.whitepanda : Global.blackpanda,
-                    text: "EDIT PROFILE",
-                    icon: Icon(MdiIcons.pencil,color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,),
-                    textColor: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
-                    onPressed: (){
-                     Navigator.of(context).pushNamed('editprofile');
-                    },
-                  ),
-
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 30),
-                    child: Row(
-                      children: <Widget>[
-                        Switch(
-                          inactiveThumbColor: Global.greypanda,
-                          inactiveTrackColor: Global.blackpanda,
-                          value: Global.isSwitchedFT,
-
-                          onChanged: (bool value) async {
-                            Global.isSwitchedFT = value;
-
-
-
-                            SharedPreferences pref =
-                                await SharedPreferences.getInstance();
-                            await pref.setBool('theme', Global.isSwitchedFT);
-
-                            setState(() {
-                            });
-                            widget.callback();
-
-                            //print(isSwitchedFT);
-                          },
-                          activeTrackColor: Global.darkBlue,
-                          activeColor: Global.greypandaicon,
-                        ),
-                        CustomText(
-                          text: "NIGHT MODE",
-                          fontWeight: FontWeight.bold,
-
-                        ),
-
-                        Spacer(),
-                        Container(
-                            decoration: new BoxDecoration(
-                                color: Global.orangepanda,
-                                borderRadius:
-                                    new BorderRadius.all(Radius.circular(30))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed('settings');
-                                  },
-                                  child: Icon(
-                                    Icons.settings,
-                                    size: 30,
-                                    color: Global.whitepanda,
-                                  )),
-                            ))
-                      ],
+                ):
+                Column(
+                  children: [
+                    CustomText(
+                      text:  Global.userData.game1==""||Global.userData.game1==null?"": Global.userData.game1,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                ],
+
+                    CustomText(
+                      text:   Global.userData.game2==""||Global.userData.game2==null?"": Global.userData.game2,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+
+
+
+            //Filter and EditProfile
+            Column(
+              children: [
+                CustomButton(
+                  backgroundColor: Global.orangepanda,
+                  text: "FILTERS",
+                  icon: Icon(MdiIcons.filter,color: Colors.white,),
+                  textColor: Colors.white,
+                  onPressed: (){
+                    Navigator.of(context).pushNamed('filter');
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomButton(
+                  backgroundColor: Global.isSwitchedFT == true ? Global.whitepanda : Global.blackpanda,
+                  text: "EDIT PROFILE",
+                  icon: Icon(MdiIcons.pencil,color: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,),
+                  textColor: Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
+                  onPressed: (){
+                   Navigator.of(context).pushNamed('editprofile');
+                  },
+                ),
+              ],
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(""),
+                CustomProfileRoundButton(onClick: (){
+                  print(" Like Button Clicked");
+
+                },
+                  img: "assets/images/superLike.png",
+                  myText: "4 Super Likes",
+                ),
+                CustomProfileRoundButton(onClick: (){
+                  print(" Like Button Clicked");
+
+                },
+                  img: "assets/images/boostIcon.png",
+                  myText: "4 Super Likes",
+                ),
+                CustomProfileRoundButton(onClick: (){
+                  print(" Like Button Clicked");
+
+                },
+                  img: "assets/images/pandaCoins.png",
+                  myText: "4 Super Likes",
+                ),
+                Text(""),
+              ],
+            ),
+
+            GestureDetector(
+              onTap: (){
+                print("Way to PRemium");
+                Navigator.of(context).pushNamed("GetPremium");
+
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Global.orangepanda,
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+                //color: Global.orangepanda,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:10.0,right: 10.0,bottom: 5.0,top: 5.0),
+                  child: Text("GO PREMIUM",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),),
+                ),
               ),
-            )
+            ),
+
           ],
         ),
       ),

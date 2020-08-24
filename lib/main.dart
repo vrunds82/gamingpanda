@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardsNew.dart';
 import 'package:gamingpanda/Chat.dart';
 import 'package:gamingpanda/about_you.dart';
+import 'package:gamingpanda/buyCoinsNow.dart';
 import 'package:gamingpanda/cardswipe.dart';
 import 'package:gamingpanda/Messages.dart';
 import 'package:gamingpanda/filters.dart';
@@ -12,6 +13,7 @@ import 'package:gamingpanda/registration.dart';
 import 'package:gamingpanda/settings.dart';
 import 'package:gamingpanda/splash.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:gamingpanda/website/getPremium.dart';
 import 'package:gamingpanda/website/webChatting.dart';
 import 'package:gamingpanda/website/webRegistration.dart';
 import 'package:gamingpanda/website/webSettingPage.dart';
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
               title: TextStyle(fontSize: Global.fontsize),
             ),
             primarySwatch: Colors.blue),
-        home: webSplashScreen(),
+        home: splashscreen(),
         routes: {
           'login': (context) => loginpage(),
           'registerp': (context) => register(),
@@ -66,7 +68,9 @@ class MyApp extends StatelessWidget {
           'webRegistration':(context)=>WebRegister(),
           'webHome':(context)=>webHome(),
           'webSettingPage':(context)=>webSettingpage(),
-          'webChattingPage':(context)=>webChatting()
+          'webChattingPage':(context)=>webChatting(),
+          'GetPremium':(context)=>GetPremium(),
+          'BuyCoinsNow':(context)=>BuyCoinsNow(),
         },
       ),
     );

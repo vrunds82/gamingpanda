@@ -4,22 +4,23 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/models/UserData.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
-
 class Global {
-
-
   static String token;
 
   static List<String> dates = new List();
+
   //https://pandagamingweb2020.azurewebsites.net/
   //static String BaseURL = "https://pandaweb20200605061105.azurewebsites.net/api/panda/";
-  static String BaseURL = "https://pandagamingweb2020.azurewebsites.net/api/panda/";
+  static String BaseURL =
+      "https://pandaweb20200818100047.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
   static bool isSwitchedFT = true;
@@ -35,23 +36,20 @@ class Global {
   static Color darkBlue = Color(0xff16161D);
   static Color SuperLikeBlue = Color(0xff6B73FF);
   static int currentpageindex = 1;
-  static double IconSize =0.06;
+  static double IconSize = 0.06;
   static FirebaseUser User;
   static UserData userData;
   static Profile OtherUserProfile;
-  static String OtherUserId="arunarun";
+  static String OtherUserId = "arunarun";
 
 // web Globals
-  static bool isweb=false;
+  static bool isweb = false;
   static double webwidth;
   static int webCurrentPageIndex;
 }
 
-
 class myMessagesTile extends StatelessWidget {
-
   DocumentSnapshot documentSnapshot;
-
 
   myMessagesTile({this.documentSnapshot});
 
@@ -68,14 +66,16 @@ class myMessagesTile extends StatelessWidget {
                   Container(
                       height: 70,
                       width: 70,
-                      margin: EdgeInsets.only(
-                          left: 20, top: 15, bottom: 10),
+                      margin: EdgeInsets.only(left: 20, top: 15, bottom: 10),
                       decoration: new BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                           image: new DecorationImage(
                             fit: BoxFit.cover,
-                            image:documentSnapshot.data['image']==null||documentSnapshot.data['image']==""?AssetImage('assets/images/logo.png'): NetworkImage(documentSnapshot.data['image']),
+                            image: documentSnapshot.data['image'] == null ||
+                                    documentSnapshot.data['image'] == ""
+                                ? AssetImage('assets/images/logo.png')
+                                : NetworkImage(documentSnapshot.data['image']),
                           ))),
                   Positioned(
                     right: 8,
@@ -89,10 +89,10 @@ class myMessagesTile extends StatelessWidget {
                         padding: const EdgeInsets.all(0.0),
                         child: Container(
                             child: Icon(
-                              Icons.brightness_1,
-                              color: Global.orangepanda,
-                              size: 13,
-                            )),
+                          Icons.brightness_1,
+                          color: Global.orangepanda,
+                          size: 13,
+                        )),
                       ),
                     ),
                   ),
@@ -106,11 +106,11 @@ class myMessagesTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CustomText(
-                        text: documentSnapshot.data['name']??"",
-                        fontSize:18,
+                        text: documentSnapshot.data['name'] ?? "",
+                        fontSize: 18,
                       ),
                       Text(
-                        documentSnapshot.data['message']??"",
+                        documentSnapshot.data['message'] ?? "",
                         style: TextStyle(
                             fontSize: 15, color: Global.greypandaicon),
                         textAlign: TextAlign.left,
@@ -136,7 +136,6 @@ class Customtextfield extends StatelessWidget {
   bool focusborder;
   var validate;
   Function onsubmit;
-  
 
   Customtextfield(
       {this.controllername,
@@ -147,13 +146,12 @@ class Customtextfield extends StatelessWidget {
       this.validate,
       this.onsubmit});
 
-
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onSubmitted: onsubmit??(_){},
+      onSubmitted: onsubmit ?? (_) {},
       obscureText: obsecuretext ?? false,
       style: TextStyle(color: Global.orangepanda),
       controller: controllername,
@@ -264,64 +262,69 @@ class CustomAppbar extends StatelessWidget {
       children: <Widget>[
         Container(
           //height: MediaQuery.of(context).size.width * .2,
-          color: Global.isSwitchedFT==true?Global.darkBlue:Global.whitepanda ,
+          color:
+              Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(top:14.0,bottom: 14.0),
+              padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
               child: Row(
-
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-
-                  GestureDetector(onTap: (){
-
-                    Global.currentpageindex = 0;
-                   Navigator.of(context).pushReplacementNamed('profile');
-    },
+                  GestureDetector(
+                    onTap: () {
+                      Global.currentpageindex = 0;
+                      Navigator.of(context).pushReplacementNamed('profile');
+                    },
                     child: Image.asset(
                       Global.currentpageindex == 0
                           ? 'assets/images/userorange.png'
                           : 'assets/images/usergrey.png',
-                      height: MediaQuery.of(context).size.width * Global.IconSize,
-                      width: MediaQuery.of(context).size.width * Global.IconSize,
-                    fit: BoxFit.contain,),
+                      height:
+                          MediaQuery.of(context).size.width * Global.IconSize,
+                      width:
+                          MediaQuery.of(context).size.width * Global.IconSize,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-
-                  GestureDetector(onTap: (){
-
-                    Global.currentpageindex = 1;
-                    Navigator.of(context).pushReplacementNamed('cardswipe');
-                  },
+                  GestureDetector(
+                    onTap: () {
+                      Global.currentpageindex = 1;
+                      Navigator.of(context).pushReplacementNamed('cardswipe');
+                    },
                     child: Image.asset(
                       Global.currentpageindex == 1
                           ? 'assets/images/pandaorange.png'
                           : 'assets/images/pandagrey.png',
-                      height: MediaQuery.of(context).size.width *  Global.IconSize,
-                      width: MediaQuery.of(context).size.width *  Global.IconSize,
-                      fit: BoxFit.contain,  ),
+                      height:
+                          MediaQuery.of(context).size.width * Global.IconSize,
+                      width:
+                          MediaQuery.of(context).size.width * Global.IconSize,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-
-                  GestureDetector(onTap: (){
-
-                    Global.currentpageindex = 2;
-                    Navigator.of(context).pushReplacementNamed('chat');
-                  },
-                    child: Image.asset(   Global.currentpageindex == 2
-                        ? 'assets/images/chatorange.png'
-                        : 'assets/images/chatgrey.png',
-
-                      height: MediaQuery.of(context).size.width *  Global.IconSize,
-                      width: MediaQuery.of(context).size.width *  Global.IconSize,
-                      fit: BoxFit.contain,   ),
+                  GestureDetector(
+                    onTap: () {
+                      Global.currentpageindex = 2;
+                      Navigator.of(context).pushReplacementNamed('chat');
+                    },
+                    child: Image.asset(
+                      Global.currentpageindex == 2
+                          ? 'assets/images/chatorange.png'
+                          : 'assets/images/chatgrey.png',
+                      height:
+                          MediaQuery.of(context).size.width * Global.IconSize,
+                      width:
+                          MediaQuery.of(context).size.width * Global.IconSize,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-
                 ],
               ),
             ),
           ),
         ),
         Container(
-          height: Global.isSwitchedFT?0:0.5,
+          height: Global.isSwitchedFT ? 0 : 0.5,
           color: Colors.grey,
         ),
       ],
@@ -411,31 +414,47 @@ class _CustomDropdownState extends State<CustomDropdown> {
 }
 
 class customcard extends StatelessWidget {
-
   VoidCallback onclick;
   VoidCallback onRemove;
   String ImageURL;
   File file;
-  customcard({this.onclick,this.file,this.ImageURL,this.onRemove});
+
+  customcard({this.onclick, this.file, this.ImageURL, this.onRemove});
 
   @override
   Widget build(BuildContext context) {
     var _image;
     return Stack(children: [
       Container(
-        height:Global.isweb?MediaQuery.of(context).size.width*.1:MediaQuery.of(context).size.width*.4,
-        width:Global.isweb?MediaQuery.of(context).size.width*.075:MediaQuery.of(context).size.width*.3,
+        height: Global.isweb
+            ? MediaQuery.of(context).size.width * .1
+            : MediaQuery.of(context).size.width * .4,
+        width: Global.isweb
+            ? MediaQuery.of(context).size.width * .075
+            : MediaQuery.of(context).size.width * .3,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(onTap: (){
-            onclick();
-          },
-            child: Card(color: Global.isSwitchedFT == true
-                ? Global.darkBlue.withOpacity(0.5)
-                : Global.whitepanda,
-               child: ClipRRect(
-                   borderRadius: BorderRadius.circular(15.0),
-                   child: file!=null?Image.file(file,fit: BoxFit.cover,) :ImageURL==null||ImageURL==""?SizedBox():Image.network(ImageURL,fit: BoxFit.cover,)),
+          child: GestureDetector(
+            onTap: () {
+              onclick();
+            },
+            child: Card(
+              color: Global.isSwitchedFT == true
+                  ? Global.darkBlue.withOpacity(0.5)
+                  : Global.whitepanda,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: file != null
+                      ? Image.file(
+                          file,
+                          fit: BoxFit.cover,
+                        )
+                      : ImageURL == null || ImageURL == ""
+                          ? SizedBox()
+                          : Image.network(
+                              ImageURL,
+                              fit: BoxFit.cover,
+                            )),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -446,13 +465,13 @@ class customcard extends StatelessWidget {
       Positioned(
           bottom: 0,
           right: 0,
-
-          child: GestureDetector(onTap: () async {
-            print("asdfasdf");
-               onclick();
-          },
+          child: GestureDetector(
+            onTap: () async {
+              print("asdfasdf");
+              onclick();
+            },
             child: Container(
-          //    color: Colors.red,
+              //    color: Colors.red,
 
               child: Icon(
                 Icons.add_circle,
@@ -461,31 +480,34 @@ class customcard extends StatelessWidget {
               ),
             ),
           )),
-      ImageURL!="null" &&  ImageURL!=null ?Positioned(
-          top: 0,
-        right: 0,
-          child: GestureDetector(onTap: () async {
-            print("asdfasdf"+ImageURL);
+      ImageURL != "null" && ImageURL != null
+          ? Positioned(
+              top: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: () async {
+                  print("asdfasdf" + ImageURL);
 
-            onRemove();
-          },
-            child: Container(
-              //    color: Colors.red,
+                  onRemove();
+                },
+                child: Container(
+                  //    color: Colors.red,
 
-              child: Icon(
-                Icons.remove_circle,
-                color: Global.orangepanda,
-                size: 28,
-              ),
-            ),
-          )):SizedBox(),
+                  child: Icon(
+                    Icons.remove_circle,
+                    color: Global.orangepanda,
+                    size: 28,
+                  ),
+                ),
+              ))
+          : SizedBox(),
     ]);
   }
 }
 
-AppBar CustomAppbarforchat =
-AppBar(
-  backgroundColor:  Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
+AppBar CustomAppbarforchat = AppBar(
+  backgroundColor:
+      Global.isSwitchedFT == true ? Global.darkBlue : Global.whitepanda,
   title: Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
@@ -504,11 +526,9 @@ AppBar(
       ),
       CustomText(
         text: "Ivana",
-          fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.bold,
         fontSize: 20,
-
       ),
-
 
       // For Adjusting Space
       Opacity(
@@ -527,7 +547,6 @@ AppBar(
       SizedBox(
         width: 5,
       ),
-
     ],
   ),
   centerTitle: true,
@@ -543,7 +562,7 @@ class customgradientbuton extends StatelessWidget {
   String buttontext;
   VoidCallback onClicked;
 
-  customgradientbuton({this.buttontext,this.onClicked});
+  customgradientbuton({this.buttontext, this.onClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -575,8 +594,8 @@ class customgradientbuton extends StatelessWidget {
   }
 }
 
-AppBar CustomAppbarforsettings =
-AppBar(automaticallyImplyLeading: false,
+AppBar CustomAppbarforsettings = AppBar(
+  automaticallyImplyLeading: false,
   flexibleSpace: Container(
     decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -635,135 +654,382 @@ AppBar(automaticallyImplyLeading: false,
 );
 
 class CustomButton extends StatelessWidget {
-
   String text;
   Icon icon;
   Color textColor;
   Color backgroundColor;
   VoidCallback onPressed;
 
+  CustomButton(
+      {this.text,
+      this.icon,
+      this.textColor,
+      this.backgroundColor,
+      this.onPressed});
 
-
-
-  CustomButton({this.text, this.icon, this.textColor, this.backgroundColor,this.onPressed});
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         onPressed();
       },
       child: Container(
-        width: MediaQuery.of(context).size.width*.5,
+        width: MediaQuery.of(context).size.width * .5,
         decoration: BoxDecoration(
-          color:backgroundColor,
-          borderRadius: BorderRadius.circular(100)
-        ),
-
+            color: backgroundColor, borderRadius: BorderRadius.circular(100)),
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Row(
             children: <Widget>[
               Container(
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO(211,211,211, 0.4),
-                      borderRadius: BorderRadius.circular(100)
-                  ),
+                      color: Color.fromRGBO(211, 211, 211, 0.4),
+                      borderRadius: BorderRadius.circular(100)),
                   child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: icon,
-              )),
-              Expanded(child: Center(child: Text(text,style: TextStyle(fontWeight: FontWeight.w900,color: textColor),))),
+                    padding: const EdgeInsets.all(8.0),
+                    child: icon,
+                  )),
+              Expanded(
+                  child: Center(
+                      child: Text(
+                text,
+                style: TextStyle(fontWeight: FontWeight.w900, color: textColor),
+              ))),
             ],
           ),
         ),
-
       ),
     );
   }
 }
 
-
 class CustomText extends StatelessWidget {
-
   String text;
   FontWeight fontWeight;
   double fontSize;
   Color color;
   TextDecoration decoration;
 
-  CustomText({this.text, this.fontWeight,this.fontSize,this.color,this.decoration});
+  CustomText(
+      {this.text, this.fontWeight, this.fontSize, this.color, this.decoration});
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,style: TextStyle(color: color==null?Global.isSwitchedFT ==false ? Global.blackpanda : Global.whitepanda:color,fontWeight: fontWeight??FontWeight.normal,fontSize:  fontSize??13,decoration: decoration??TextDecoration.none),);
+    return Text(
+      text,
+      style: TextStyle(
+          color: color == null
+              ? Global.isSwitchedFT == false
+                  ? Global.blackpanda
+                  : Global.whitepanda
+              : color,
+          fontWeight: fontWeight ?? FontWeight.normal,
+          fontSize: fontSize ?? 13,
+          decoration: decoration ?? TextDecoration.none),
+    );
+  }
+}
+
+class CustomProfileRoundButton extends StatelessWidget {
+  final VoidCallback onClick;
+  final String myText;
+  final String img;
+  final Color textColor;
+
+  CustomProfileRoundButton(
+      {this.onClick, this.myText, this.img, this.textColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onClick,
+      child: Column(
+        children: [
+          Image.asset(
+            img,
+            width: MediaQuery.of(context).size.width * .15,
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Text(
+            myText,
+            style: TextStyle(
+                color: textColor == null
+                    ? Global.isSwitchedFT == false
+                        ? Global.blackpanda
+                        : Global.whitepanda
+                    : textColor,
+                fontSize: 10,
+                fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class BuyCoinCards extends StatelessWidget {
+  final String image;
+  final String coins;
+  final String price;
+  final Color cardColor;
+  final VoidCallback onClick;
+  final Color textColor;
+
+  BuyCoinCards(
+      {this.image,
+      this.coins,
+      this.price,
+      this.cardColor,
+      this.onClick,
+      this.textColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: GestureDetector(
+        onTap: onClick,
+        child: Container(
+          decoration: BoxDecoration(
+            color: cardColor == null ?? Global.isSwitchedFT == true
+                ? Colors.black38
+                : Global.whitepanda,
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 15),
+                  child: Image.asset(
+                    image,
+                    width: MediaQuery.of(context).size.width * .15,
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    coins == "100"
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: Global.orangepanda,
+                              borderRadius: BorderRadius.circular(100.0),
+                            ),
+                            //color: Global.orangepanda,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 10.0,
+                                  bottom: 2.0,
+                                  top: 2.0),
+                              child: Text(
+                                "BEST OFFER",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          )
+                        : Text(""),
+                    Text(
+                      "$coins COINS",
+                      style: TextStyle(
+                          color: textColor == null
+                              ? Global.isSwitchedFT == false
+                                  ? Global.blackpanda
+                                  : Global.whitepanda
+                              : textColor,
+                          //height: -1,
+                          fontWeight: FontWeight.w900,
+                          fontSize: MediaQuery.of(context).size.width * .055),
+                    ),
+                    Text(
+                      "BUY NOW",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: textColor == null
+                              ? Global.isSwitchedFT == false
+                                  ? Global.blackpanda
+                                  : Global.whitepanda
+                              : textColor,
+                          height: 1,
+                          fontWeight: FontWeight.w900,
+                          fontSize: MediaQuery.of(context).size.width * .035),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: Text(
+                    "$price\$",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: textColor == null
+                            ? Global.isSwitchedFT == false
+                                ? Global.blackpanda
+                                : Global.whitepanda
+                            : textColor,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PremiumPriceCard extends StatelessWidget {
+  final String myPlan;
+  final String planPrice;
+  final VoidCallback onClick;
+
+
+  PremiumPriceCard({this.myPlan, this.planPrice, this.onClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onClick,
+      child: Container(
+        height: MediaQuery.of(context).size.width * .35,
+        width: MediaQuery.of(context).size.width * .3,
+        decoration: BoxDecoration(
+          color: Color(0xff494B56),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text("$myPlan",textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+            Text("\$$planPrice",textAlign: TextAlign.center,
+              style: TextStyle(color: Global.orangepanda,fontWeight: FontWeight.bold,fontSize: MediaQuery.of(context).size.width*.055),),
+            planPrice=="99.99"?Container(
+              decoration: BoxDecoration(
+                color: Global.orangepanda,
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              //color: Global.orangepanda,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                    bottom: 2.0,
+                    top: 2.0),
+                child: Text(
+                  "20% off",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Colors.white),
+                ),
+              ),
+            ):Opacity(
+              opacity:0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Global.orangepanda,
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+                //color: Global.orangepanda,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10.0,
+                      right: 10.0,
+                      bottom: 2.0,
+                      top: 2.0),
+                  child: Text(
+                    "20% off",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
   }
 }
 
 // user defined function
 
-
-
-
-
-  void ProgressDialog(context,{String msg}) {
-    // flutter defined function
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: CircularProgressIndicator(),
-                    ),
-
-                    Text(msg??"")
-                  ],
-                ),
+void ProgressDialog(context, {String msg}) {
+  // flutter defined function
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Card(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                  Text(msg ?? "")
+                ],
               ),
-
             ),
-          ],
-        );
-      },
-    );
-  }
+          ),
+        ],
+      );
+    },
+  );
+}
 
-SendNotification({String title, String body, Map<String,dynamic> data,String userId,String chat}) async {
-
+SendNotification(
+    {String title,
+    String body,
+    Map<String, dynamic> data,
+    String userId,
+    String chat}) async {
   print("Sending Notification");
 
   String token;
-  await http.post("${Global.BaseURL}profile/token",     body:{"UserID":Global.User.uid}).then((value){ return token=value.body; });
+  await http.post("${Global.BaseURL}profile/token",
+      body: {"UserID": "H0h5NBo9laU6NECDm8pbEohQw9l2"}).then((value) {
+    print(token);
+    token = value.body;
+  });
 
-
-  Map<String,String> data = {
-    'chat':chat??'no',
+  Map<String, String> data = {
+    'chat': chat ?? 'no',
     'uid': Global.User.uid,
-    'name' :title,
+    'name': title,
     'image': "",
-    'content':body
+    'content': body
   };
 
-
   // Replace with server token from firebase console settings.
-  final String serverToken = 'AAAAFA6EFDc:APA91bH0UQSM4KRrmHdl4ZvdT3wm1Ow5bDn9-PfarK2RoXd26yo5OyHTLiUElsJvzQWTp8FH1a-J19Na6h9kcvxejzVCge4YS-9CadDNSvy5GWNGbxJUMm6xa8cwSlMlCDRkzCJo1ph2';
+  final String serverToken =
+      'AAAAFA6EFDc:APA91bH0UQSM4KRrmHdl4ZvdT3wm1Ow5bDn9-PfarK2RoXd26yo5OyHTLiUElsJvzQWTp8FH1a-J19Na6h9kcvxejzVCge4YS-9CadDNSvy5GWNGbxJUMm6xa8cwSlMlCDRkzCJo1ph2';
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
-
-  await http.post(
+  await http
+      .post(
     'https://fcm.googleapis.com/fcm/send',
     headers: <String, String>{
       'Content-Type': 'application/json',
@@ -772,19 +1038,19 @@ SendNotification({String title, String body, Map<String,dynamic> data,String use
     body: jsonEncode(
       <String, dynamic>{
         'notification': <String, dynamic>{
-          'body': body??"0",
-          'title': title??"0"
+          'body': body ?? "0",
+          'title': title ?? "0"
         },
         'priority': 'high',
-        'data': data??{},
+        'data': data ?? {},
         'to': token,
       },
     ),
-  ).then((value) {
-    print("Response From Notificaiton : "+ value.body);
-  }).catchError((onError){
+  )
+      .then((value) {
+    print("Response From Notificaiton : " + value.body);
+  }).catchError((onError) {
     print(onError);
     print(onError.message);
   });
-
 }
