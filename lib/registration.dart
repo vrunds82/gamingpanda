@@ -19,10 +19,10 @@ class register extends StatefulWidget {
 class _registerState extends State<register> {
   File croppedFile,image;
   String URL ="";
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmpassword = TextEditingController();
+  TextEditingController name = TextEditingController(text: "asdfaf");
+  TextEditingController email = TextEditingController(text: "a@b.com");
+  TextEditingController password = TextEditingController(text: "12345678");
+  TextEditingController confirmpassword = TextEditingController(text:"12345678");
 
   checkpassword(){
 
@@ -270,15 +270,19 @@ class _registerState extends State<register> {
 
     print("Trying to Register");
 
+
+
     if(croppedFile!=null) {
+      print("Uploading FUle");
       final StorageReference storageReferencem = FirebaseStorage()
           .ref()
-          .child("Users/" + Global.userData.email + "/${DateTime
+          .child("Users/" +email.text + "/${DateTime
           .now()
           .millisecondsSinceEpoch}");
-      final StorageUploadTask uploadTaskm =
-      storageReferencem.putFile(croppedFile);
-      await uploadTaskm.onComplete;
+      final StorageUploadTask uploadTaskm = storageReferencem.putFile(croppedFile);
+      await uploadTaskm.onComplete.catchError((onError){
+        print(onError);
+      });
       await storageReferencem.getDownloadURL().then((url) {
         URL = url;
       });
@@ -297,6 +301,8 @@ class _registerState extends State<register> {
           .then((User) {
         Global.User = User;
       });
+    }else{
+      print("Uploading");
     }
 
     print("Calling API");
@@ -320,7 +326,7 @@ class _registerState extends State<register> {
 
   SignUp() async {
 
-    ProgressDialog(context);
+  //  ProgressDialog(context);
 
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text,
@@ -334,8 +340,9 @@ class _registerState extends State<register> {
       }
 
     }).catchError((e){
-      if(e!=null && e.message!=null)
+      if(e!=null )
         {
+          print(e);
           Fluttertoast.showToast(msg: e.message);
         }else
           {

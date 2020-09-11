@@ -364,6 +364,8 @@ class _aboutuState extends State<aboutu> {
       croppedFile = await ImageCropper.cropImage(
           sourcePath: image.path,
           compressQuality: 70,
+          maxHeight: 720,
+          maxWidth: 480,
           aspectRatioPresets: [
             CropAspectRatioPreset.original,
           ],

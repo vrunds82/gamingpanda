@@ -258,6 +258,9 @@ class _ChatState extends State<Chat> {
                     case ConnectionState.waiting:
                       return new Text('Loading...');
                     default:
+
+                      UpdateMessage();
+
                       return new ListView(
                         reverse: true,
                         children: snapshot.data.documents
@@ -386,6 +389,7 @@ class _ChatState extends State<Chat> {
       "image":Global.OtherUserProfile.dp,
       "name":Global.OtherUserProfile.name,
       "msg":textEditingController.text.toString(),
+      "read":false
     });
 
     Firestore.instance.collection('inbox/messages/${Global.OtherUserProfile.id}').document(Global.userData.userId).updateData({
@@ -393,6 +397,7 @@ class _ChatState extends State<Chat> {
       "image":Global.userData.profilePicture,
       "name":Global.userData.userName,
       "msg":textEditingController.text.toString(),
+      "read":false
     });
 
 
@@ -403,6 +408,16 @@ class _ChatState extends State<Chat> {
     title: Global.userData.userName,
     data: {"id": "asdf", "qwer": "wer"},
     userId: Global.User.uid);
+  }
+
+  UpdateMessage(){
+    Firestore.instance.collection('inbox/messages/${Global.userData.userId}').document(Global.OtherUserProfile.id).updateData({
+            "read":true
+    });
+
+    Firestore.instance.collection('inbox/messages/${Global.OtherUserProfile.id}').document(Global.userData.userId).updateData({
+      "read":true
+    });
   }
 
 
