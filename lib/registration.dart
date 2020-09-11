@@ -343,9 +343,6 @@ class _registerState extends State<register> {
           }
       print(e.message);
     });
-
-
-
   }
 
 

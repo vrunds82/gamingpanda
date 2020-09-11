@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/models/UserData.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,6 +47,9 @@ class Global {
   static bool isweb = false;
   static double webwidth;
   static int webCurrentPageIndex;
+
+//Images
+
 }
 
 class myMessagesTile extends StatelessWidget {
@@ -799,11 +803,14 @@ class BuyCoinCards extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.width * .05,
+              bottom: MediaQuery.of(context).size.width * .05,
+            ),
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 15),
+                  padding: const EdgeInsets.only(left: 10, right: 25),
                   child: Image.asset(
                     image,
                     width: MediaQuery.of(context).size.width * .15,
@@ -835,7 +842,7 @@ class BuyCoinCards extends StatelessWidget {
                               ),
                             ),
                           )
-                        : Text(""),
+                        : SizedBox(),
                     Text(
                       "$coins COINS",
                       style: TextStyle(
@@ -891,9 +898,10 @@ class PremiumPriceCard extends StatelessWidget {
   final String myPlan;
   final String planPrice;
   final VoidCallback onClick;
+  final String discountText;
 
-
-  PremiumPriceCard({this.myPlan, this.planPrice, this.onClick});
+  PremiumPriceCard(
+      {this.myPlan, this.planPrice, this.onClick, this.discountText});
 
   @override
   Widget build(BuildContext context) {
@@ -901,19 +909,34 @@ class PremiumPriceCard extends StatelessWidget {
       onTap: onClick,
       child: Container(
         height: MediaQuery.of(context).size.width * .35,
-        width: MediaQuery.of(context).size.width * .3,
+        width: MediaQuery.of(context).size.width * .25,
         decoration: BoxDecoration(
           color: Color(0xff494B56),
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("$myPlan",textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-            Text("\$$planPrice",textAlign: TextAlign.center,
-              style: TextStyle(color: Global.orangepanda,fontWeight: FontWeight.bold,fontSize: MediaQuery.of(context).size.width*.055),),
-            planPrice=="99.99"?Container(
+            Text(
+              "$myPlan",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                  fontSize: MediaQuery.of(context).size.width * .025),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "\$$planPrice/MONTH",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Global.orangepanda,
+                    fontWeight: FontWeight.normal,
+                    fontSize: MediaQuery.of(context).size.width * .028),
+              ),
+            ),
+            Container(
               decoration: BoxDecoration(
                 color: Global.orangepanda,
                 borderRadius: BorderRadius.circular(100.0),
@@ -921,44 +944,217 @@ class PremiumPriceCard extends StatelessWidget {
               //color: Global.orangepanda,
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 10.0,
-                    right: 10.0,
-                    bottom: 2.0,
-                    top: 2.0),
+                    left: 10.0, right: 10.0, bottom: 2.0, top: 2.0),
                 child: Text(
-                  "20% off",
+                  discountText,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                       color: Colors.white),
                 ),
               ),
-            ):Opacity(
-              opacity:0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Global.orangepanda,
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
-                //color: Global.orangepanda,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10.0,
-                      right: 10.0,
-                      bottom: 2.0,
-                      top: 2.0),
-                  child: Text(
-                    "20% off",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        color: Colors.white),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BoostDialogBox extends StatefulWidget {
+  final String icon;
+  final String upperText;
+  final String lowerText;
+  final String totalCoin;
+  final Color iconColor;
+
+  BoostDialogBox(
+      {this.icon,
+      this.upperText,
+      this.lowerText,
+      this.totalCoin,
+      this.iconColor});
+
+  @override
+  _BoostDialogBoxState createState() => _BoostDialogBoxState();
+}
+
+class _BoostDialogBoxState extends State<BoostDialogBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0)), //this right here
+      child: Container(
+        height: MediaQuery.of(context).size.width * .9,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.upperText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: MediaQuery.of(context).size.width * .04,
                   ),
                 ),
               ),
-            ),
-
-          ],
+              //coin +-
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // Sub coin
+                  GestureDetector(
+                    onTap: () {
+                      print("ON Minus Click");
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .08,
+                      height: MediaQuery.of(context).size.width * .08,
+                      child: CircleAvatar(
+                        backgroundColor: widget.iconColor,
+                        child: Center(
+                            child: Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                        )),
+                      ),
+                    ),
+                  ),
+                  //Coin
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.grey[400]),
+                        borderRadius: BorderRadius.circular(100)),
+                    height: MediaQuery.of(context).size.width * .1,
+                    width: MediaQuery.of(context).size.width * .4,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.asset(
+                            "assets/images/coin10.png",
+                          ),
+                        ),
+                        Text(
+                          "1000",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * .05),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Add Coin
+                  GestureDetector(
+                    onTap: () {
+                      print("ON Add Click");
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .08,
+                      height: MediaQuery.of(context).size.width * .08,
+                      child: CircleAvatar(
+                        backgroundColor: widget.iconColor,
+                        child: Center(
+                            child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        )),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              // Arrow
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RotatedBox(
+                      quarterTurns: 1,
+                      child: SvgPicture.asset(
+                        "assets/images/arrow.svg",
+                        width: MediaQuery.of(context).size.width * .1,
+                        height: MediaQuery.of(context).size.width * .1,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              //Boost icon and no of boost
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    widget.icon,
+                    width: MediaQuery.of(context).size.width * .2,
+                  ),
+                  Text(
+                    "500",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: MediaQuery.of(context).size.width * .1,
+                      color: Global.orangepanda,
+                    ),
+                  )
+                ],
+              ),
+              //Buy more coins button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      print("ON Buy more Click");
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffD4AF37),
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      //color: Global.orangepanda,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, bottom: 2.0, top: 2.0),
+                        child: Text(
+                          "BUY MORE COINS",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.lowerText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Global.isSwitchedFT == true
+                        ? Colors.black
+                        : Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * .03,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
