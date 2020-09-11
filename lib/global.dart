@@ -116,6 +116,7 @@ class myMessagesTile extends StatelessWidget {
                       Text(
                         documentSnapshot.data['message'] ?? "",
                         style: TextStyle(
+                          fontWeight: documentSnapshot.data['read']?FontWeight.normal:FontWeight.bold,
                             fontSize: 15, color: Global.greypandaicon),
                         textAlign: TextAlign.left,
                       ),
