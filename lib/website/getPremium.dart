@@ -43,7 +43,7 @@ class _GetPremiumState extends State<GetPremium> {
                     children: [
                       Image.asset(
                         "assets/images/medal.png",
-                        width: MediaQuery.of(context).size.width * .2,
+                        width: MediaQuery.of(context).size.width * .25,
                       ),
                       SizedBox(
                         height: 10.0,
@@ -70,26 +70,24 @@ class _GetPremiumState extends State<GetPremium> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Text(
                         "EVERYDAY BONUS",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          //fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                           color: Global.isSwitchedFT == true
                               ? Global.whitepanda
                               : Colors.black,
-                          fontSize: MediaQuery.of(context).size.width * .035,
+                          fontSize: MediaQuery.of(context).size.width * .025,
                         ),
                       )
                     ],
                   ),
                 ],
               ),
-              SizedBox(
-                height: 10,
-              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -152,7 +150,7 @@ class _GetPremiumState extends State<GetPremium> {
                         children: [
                           Image.asset(
                             "assets/images/tick.png",
-                            width: 18,
+                            width: 15,
                           ),
                           SizedBox(width: 10.0,),
                           Text(
@@ -174,7 +172,7 @@ class _GetPremiumState extends State<GetPremium> {
                         children: [
                           Image.asset(
                             "assets/images/tick.png",
-                            width: 18,
+                            width: 15,
                           ),
                           SizedBox(width: 10.0,),
                           Text(
@@ -196,7 +194,7 @@ class _GetPremiumState extends State<GetPremium> {
                         children: [
                           Image.asset(
                             "assets/images/tick.png",
-                            width: 18,
+                            width: 15,
                           ),
                           SizedBox(width: 10.0,),
                           Text(
@@ -224,7 +222,7 @@ class _GetPremiumState extends State<GetPremium> {
                         children: [
                           Image.asset(
                             "assets/images/tick.png",
-                            width: 18,
+                            width: 15,
                           ),
                           SizedBox(width: 10.0,),
                           Text(
@@ -246,7 +244,7 @@ class _GetPremiumState extends State<GetPremium> {
                         children: [
                           Image.asset(
                             "assets/images/tick.png",
-                            width: 18,
+                            width: 15,
                           ),
                           SizedBox(width: 10.0,),
                           Text(
@@ -268,7 +266,7 @@ class _GetPremiumState extends State<GetPremium> {
                         children: [
                           Image.asset(
                             "assets/images/tick.png",
-                            width: 18,
+                            width: 15,
                           ),
                           SizedBox(width: 10.0,),
                           Text(

@@ -202,6 +202,17 @@ class _profilepageState extends State<profilepage> {
                 Text(""),
                 CustomProfileRoundButton(onClick: (){
                   print(" Like Button Clicked");
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>BoostDialogBox(
+                        icon: "assets/images/superLike.png",
+                        iconColor: Global.SuperLikeBlue,
+                        lowerText: "WITH SUPER LIKES SEND DIRECT MESSAGES TO ANYONE",
+                        totalCoin: "5000",
+                        upperText: "CONVERT PANDA COINS INTO SUPERLIKES",
+                      )
+                  );
+                  print(" Like Button Clicked");
 
                 },
                   img: "assets/images/superLike.png",
@@ -209,17 +220,29 @@ class _profilepageState extends State<profilepage> {
                 ),
                 CustomProfileRoundButton(onClick: (){
                   print(" Like Button Clicked");
-
-                },
-                  img: "assets/images/boostIcon.png",
-                  myText: "4 Super Likes",
-                ),
-                CustomProfileRoundButton(onClick: (){
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>BoostDialogBox(
+                        icon: "assets/images/boostIcon.png",
+                        iconColor: Global.orangepanda,
+                        lowerText: "USE BOOST AND BECOME TOP PROFILE FOR NEXT 60 MINUTES!",
+                        totalCoin: "5000",
+                        upperText: "CONVERT PANDA COINS INTO BOOST",
+                      )
+                  );
                   print(" Like Button Clicked");
 
                 },
+                  img: "assets/images/boostIcon.png",
+                  myText: "8 Boost",
+                ),
+                CustomProfileRoundButton(onClick: (){
+                  print(" Like Button Clicked");
+                  Navigator.of(context).pushNamed('BuyCoinsNow');
+
+                },
                   img: "assets/images/pandaCoins.png",
-                  myText: "4 Super Likes",
+                  myText: "6 Panda Coins",
                 ),
                 Text(""),
               ],

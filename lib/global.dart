@@ -754,9 +754,7 @@ class CustomProfileRoundButton extends StatelessWidget {
             img,
             width: MediaQuery.of(context).size.width * .15,
           ),
-          SizedBox(
-            height: 10.0,
-          ),
+
           Text(
             myText,
             style: TextStyle(
@@ -909,7 +907,7 @@ class PremiumPriceCard extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: Container(
-        height: MediaQuery.of(context).size.width * .35,
+        height: MediaQuery.of(context).size.width * .3,
         width: MediaQuery.of(context).size.width * .25,
         decoration: BoxDecoration(
           color: Color(0xff494B56),
@@ -933,7 +931,7 @@ class PremiumPriceCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Global.orangepanda,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.w400,
                     fontSize: MediaQuery.of(context).size.width * .028),
               ),
             ),
@@ -950,7 +948,7 @@ class PremiumPriceCard extends StatelessWidget {
                   discountText,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                      fontSize: 10,
                       color: Colors.white),
                 ),
               ),
@@ -985,7 +983,7 @@ class _BoostDialogBoxState extends State<BoostDialogBox> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0)), //this right here
+          borderRadius: BorderRadius.circular(25.0)), //this right here
       child: Container(
         height: MediaQuery.of(context).size.width * .9,
         child: Padding(
@@ -1085,6 +1083,7 @@ class _BoostDialogBoxState extends State<BoostDialogBox> {
                       quarterTurns: 1,
                       child: SvgPicture.asset(
                         "assets/images/arrow.svg",
+                        color: Colors.black,
                         width: MediaQuery.of(context).size.width * .1,
                         height: MediaQuery.of(context).size.width * .1,
                       ),
@@ -1099,18 +1098,49 @@ class _BoostDialogBoxState extends State<BoostDialogBox> {
                 children: [
                   Image.asset(
                     widget.icon,
-                    width: MediaQuery.of(context).size.width * .2,
+                    width: MediaQuery.of(context).size.width * .1,
                   ),
                   Text(
                     "500",
                     style: TextStyle(
                       fontWeight: FontWeight.w800,
-                      fontSize: MediaQuery.of(context).size.width * .1,
-                      color: Global.orangepanda,
+                      fontSize: MediaQuery.of(context).size.width * .07,
+                      color: widget.iconColor,
                     ),
                   )
                 ],
               ),
+
+              //Convert
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      print("Convert");
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Global.orangepanda,
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      //color: Global.orangepanda,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, bottom: 2.0, top: 2.0),
+                        child: Text(
+                          "CONVERT",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 25,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 1.0,),
               //Buy more coins button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1121,7 +1151,12 @@ class _BoostDialogBoxState extends State<BoostDialogBox> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color(0xffD4AF37),
+                       gradient: LinearGradient(
+                         begin: Alignment.topCenter,
+                         end: Alignment.bottomCenter, // 10% of the width, so there are ten blinds.
+                         colors: [const Color(0xFFFCCF31), const Color(0xFFCE922F )], // whitish to gray
+                         //tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                       ),
                         borderRadius: BorderRadius.circular(100.0),
                       ),
                       //color: Global.orangepanda,
@@ -1131,7 +1166,7 @@ class _BoostDialogBoxState extends State<BoostDialogBox> {
                         child: Text(
                           "BUY MORE COINS",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w900,
                               fontSize: 12,
                               color: Colors.white),
                         ),
@@ -1150,7 +1185,7 @@ class _BoostDialogBoxState extends State<BoostDialogBox> {
                     color: Global.isSwitchedFT == true
                         ? Colors.black
                         : Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * .03,
+                    fontSize: MediaQuery.of(context).size.width * .025,
                   ),
                 ),
               ),

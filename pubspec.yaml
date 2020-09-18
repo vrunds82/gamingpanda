@@ -85,8 +85,11 @@ flutter:
    - family: Schyler
      fonts:
        - asset: assets/font/NunitoSans-Regular.ttf
+         weight: 500
        - asset: assets/font/NunitoSans-Bold.ttf
+         weight: 700
        - asset: assets/font/NunitoSans-Light.ttf
+         weight: 200
        - asset: assets/font/NunitoSans-Black.ttf
          weight: 600
   #       - asset: fonts/Schyler-Italic.ttf

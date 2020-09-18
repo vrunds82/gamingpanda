@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gamingpanda/CardSwipe/matches.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/CardsNew.dart';
@@ -107,6 +108,8 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
+
+
                           GestureDetector(onTap: (){
                             Global.currentpageindex = 0;
                             setState(() {});
@@ -161,6 +164,7 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                               ),
                             ),
                           ),
+
 
                         ],
                       ),

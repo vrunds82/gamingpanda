@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttery_dart2/layout.dart';
 import 'package:gamingpanda/Lists.dart';
 import 'package:http/http.dart' as http;
@@ -149,47 +151,120 @@ class _CardsNewState extends State<CardsNew> {
 
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 25,top: 25,right:Global.isweb?MediaQuery.of(context).size.width*0.04:MediaQuery.of(context).size.width*0.15,left:Global.isweb?MediaQuery.of(context).size.width*0.04:MediaQuery.of(context).size.width*0.15),
+              padding: EdgeInsets.only(bottom: 25,top: 25,right:Global.isweb?MediaQuery.of(context).size.width*0.04:MediaQuery.of(context).size.width*0.10,left:Global.isweb?MediaQuery.of(context).size.width*0.04:MediaQuery.of(context).size.width*0.10),
               child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
+                  GestureDetector(
+                    onTap: (){
+                      Fluttertoast.showToast(msg: "Profile reloaded");
+                      setState(() {
 
-                  Expanded(
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: (){
-                          matchEngine.currentMatch.nope();
-                        //  ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                        },
-                        child: Image.asset('assets/images/cancel.png',height: 50,width: 50,fit: BoxFit.fill,),
+                      });
+                    },
+                    child:  Container(
+                      height: 40,
+                      width: 40,
+                      //color: Colors.black,
+                      decoration: BoxDecoration(
+                        color: Global.blackpanda,
+                          boxShadow: [
+                            //color: Colors.white, //background color of box
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius:10.0, // soften the shadow
+                              spreadRadius: 0.5, //extend the shadow
+                              /* offset: Offset(
+                                15.0, // Move to right 10  horizontally
+                                15.0, // Move to bottom 10 Vertically
+                              ),*/
+                            )
+                          ],
+                        borderRadius: BorderRadius.circular(100)
                       ),
+                      child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SvgPicture.asset(
+                            "assets/images/gradback.svg",
+                           // width: MediaQuery.of(context).size.width * .1,
+                            //height: MediaQuery.of(context).size.width * .055,
+                            //color: Colors.red,
+                          ),
+                        ),
+                    ),
+
+                  ),
+                  Spacer(),
+                  Center(
+                    child: GestureDetector(
+                      onTap: (){
+                        matchEngine.currentMatch.nope();
+                      //  ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                      },
+                      child: Image.asset('assets/images/cancel.png',height: 50,width: 50,fit: BoxFit.fill,),
                     ),
                   ),
-
-                  Expanded(
-                    child: Center(
-                      child: GestureDetector(
-                          onTap: () async {
-                            matchEngine.currentMatch.superLike();
-                            ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                            await Future.delayed(Duration(milliseconds: 1000));
-                            CreateChat(true);
-                          },child: Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: Image.asset('assets/images/star.png',height: 50,width: 50,fit: BoxFit.fill),
-                          )),
-                    ),
+                  Spacer(),
+                  Center(
+                    child: GestureDetector(
+                        onTap: () async {
+                          matchEngine.currentMatch.superLike();
+                          ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                          await Future.delayed(Duration(milliseconds: 1000));
+                          CreateChat(true);
+                        },child: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Image.asset('assets/images/star.png',height: 40,width: 40,fit: BoxFit.fill),
+                        )),
                   ),
+                  Spacer(),
+                  Center(
+                    child: GestureDetector(
+                        onTap: () async {
+                          matchEngine.currentMatch.like();
 
-                  Expanded(
-                    child: Center(
-                      child: GestureDetector(
-                          onTap: () async {
-                            matchEngine.currentMatch.like();
+                          ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                          await Future.delayed(Duration(milliseconds: 1000));
+                          CreateChat(false);
+                        },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(msg: "Boost got clicked");
+                    setState(() {
 
-                            ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                            await Future.delayed(Duration(milliseconds: 1000));
-                            CreateChat(false);
-                          },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
+                    });
+                  },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      //color: Colors.black,
+                      decoration: BoxDecoration(
+                          color: Global.blackpanda  ,
+                          boxShadow: [
+                            //color: Colors.white, //background color of box
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius:10.0, // soften the shadow
+                              spreadRadius: 0.5, //extend the shadow
+                             /* offset: Offset(
+                                15.0, // Move to right 10  horizontally
+                                15.0, // Move to bottom 10 Vertically
+                              ),*/
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(100)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          "assets/images/gradboost.svg",
+                          // width: MediaQuery.of(context).size.width * .1,
+                          //height: MediaQuery.of(context).size.width * .055,
+                          //color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                 ],
