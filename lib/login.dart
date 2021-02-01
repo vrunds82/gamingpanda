@@ -16,8 +16,8 @@ class loginpage extends StatefulWidget {
 
 class _loginpageState extends State<loginpage> {
 
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController email = TextEditingController(text: "marta@gmail.com");
+  TextEditingController password = TextEditingController(text: "marta@gmail.com");
 
   var firebaseAuth = FirebaseAuth.instance;
 
@@ -232,6 +232,7 @@ body: Center(
             Global.User=user.user;
             await UpdateToken();
             await GetUserDeatils();
+
 
             Navigator.of(context).pushReplacementNamed('home');
           }

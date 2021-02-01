@@ -1,5 +1,5 @@
 const countryList = [
-  "WorldWide",
+  "World Wide",
   "Afghanistan",
   "Albania",
   "Algeria",
@@ -254,36 +254,31 @@ const countryList = [
 
 const List<String> Games =[
   "League of Legends",
-  "Fortnite",
-  "PUBG",
-  "Apex Legends",
-  "CS:GO",
-  "Overwatch",
-  "COD Modern Warfare",
-  "GTA V.",
-  "Dota 2",
-  "WOW",
+  "Fortnite BETA",
+  "PUBG BETA",
+  "Apex Legends BETA",
+  "CS:GO BETA",
+  "Overwatch BETA",
+  "COD Modern Warfare BETA",
+  "GTA V. BETA",
+  "Dota 2 BETA",
+  "WOW BETA",
 ];
 
 const List<String> gender = ["","Male","Female","Unknown"];
 const List<String> Server =[
-  "NA",
-  "EUW",
-  "EUNE",
-  "KR",
-  "RU",
-  "TR"
+  "EUW", "EUNE", "NA", "LAN (LA1)", "LAS (LA2)", "TR", "RU", "OCE", "BR", "KR", "JP"
 ];
 
 const List<String> Rank =[
-  "Any",
-  "Unranked",
-  "Bronze",
-  "Silver",
-  "Gold",
-  "Platinum",
-  "Diamond",
-  "Master"
+  "Any BETA",
+  "Unranked BETA",
+  "Bronze BETA",
+  "Silver BETA",
+  "Gold BETA",
+  "Platinum BETA",
+  "Diamond BETA",
+  "Master BETA"
 ];
 
 

@@ -18,8 +18,8 @@ class _filteritemState extends State<filteritem> {
 
 
 
-  double start=Global.userData.filterAgeStart==""||Global.userData.filterAgeStart==null ||Global.userData.filterAgeStart<15 ?15: Global.userData.filterAgeStart.toDouble();
-  double end=Global.userData.filterAgeEnd==""||Global.userData.filterAgeEnd==null ||Global.userData.filterAgeEnd<15?15: Global.userData.filterAgeEnd.toDouble();
+  double start=Global.userData.filterAgeStart==""||Global.userData.filterAgeStart==null ||Global.userData.filterAgeStart<18 ?18: Global.userData.filterAgeStart.toDouble();
+  double end=Global.userData.filterAgeEnd==""||Global.userData.filterAgeEnd==null ||Global.userData.filterAgeEnd<18?18: Global.userData.filterAgeEnd.toDouble();
 
   var _currentSelectedItemserver= Global.userData.filterServer;
   var _currentSelectedItemrank = Global.userData.filterRank;
@@ -27,12 +27,12 @@ class _filteritemState extends State<filteritem> {
   var _currentSelectedItemgame = Global.userData.filterGame;
 
 
-  int selectedRadio;
+  int selectedRadio = 3;
 
   @override
   void initState() {
     super.initState();
-    selectedRadio = Global.userData.filterGender==null||Global.userData.filterGender==""?0:["","Male","Female","Any"].indexOf(Global.userData.filterGender);
+   // selectedRadio = Global.userData.filterGender==null||Global.userData.filterGender==""?1:["","Male","Female","Any"].indexOf(Global.userData.filterGender);
   }
 
 // Changes the selected value on 'onChanged' click on each radio button
@@ -94,7 +94,7 @@ SizedBox(height: 10,),
                     ),
                       child: DropdownButton(hint: Padding(
                         padding: const EdgeInsets.only(left: 18),
-                        child: CustomText(text:"Game",fontSize: 12,),
+                        child: CustomText(text:"Game - League of Legends",fontSize: 12,),
                       ),underline: SizedBox(),
                         icon: Padding(
                           padding: const EdgeInsets.only(right: 15),
@@ -117,7 +117,7 @@ SizedBox(height: 10,),
                         value: _currentSelectedItemgame,
                         onChanged: (value) {
                           setState(() {
-                            _currentSelectedItemgame = value;
+                          /*  _currentSelectedItemgame = value;*/
                           });
                         },
                       ),
@@ -186,57 +186,60 @@ SizedBox(height: 10,),
             SizedBox(height: 10,),
 
             //dropdown4
-            Container(
+            AbsorbPointer(
+              absorbing: true,
+              child: Container(
 
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Global.greypandaicon,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Global.greypandaicon,
+
+                  ),
+
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
 
                 ),
-
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Theme(data: Theme.of(context).copyWith(
-                      canvasColor: Global.isSwitchedFT == true
-                          ? Global.blackpanda
-                          : Global.whitepanda,
-                    ),
-                      child: DropdownButton(hint: Padding(
-                        padding: const EdgeInsets.only(left: 18),
-                        child: CustomText(text:"Rank",fontSize: 12),
-                      ),underline: SizedBox(),
-                        icon: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            color:Global.orangepanda,
-                            size: 20.09,
-                          ),
-                        ),
-                        isExpanded: true,
-                        items: Rank.map((val) {
-                          return DropdownMenuItem(
-                            value: val,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: CustomText(text:val,fontSize: 12),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Theme(data: Theme.of(context).copyWith(
+                        canvasColor: Global.isSwitchedFT == true
+                            ? Global.blackpanda
+                            : Global.whitepanda,
+                      ),
+                        child: DropdownButton(hint: Padding(
+                          padding: const EdgeInsets.only(left: 18),
+                          child: CustomText(text:"Rank - BETA",fontSize: 12),
+                        ),underline: SizedBox(),
+                          icon: Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              color:Global.orangepanda,
+                              size: 20.09,
                             ),
-                          );
-                        }).toList(),
-                        value: _currentSelectedItemrank,
-                        onChanged: (value) {
-                          setState(() {
-                            _currentSelectedItemrank = value;
-                          });
-                        },
+                          ),
+                          isExpanded: true,
+                          items: Rank.map((val) {
+                            return DropdownMenuItem(
+                              value: val,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: CustomText(text:val,fontSize: 12),
+                              ),
+                            );
+                          }).toList(),
+                          value: _currentSelectedItemrank,
+                          onChanged: (value) {
+                            setState(() {
+                              _currentSelectedItemrank = value;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 10,),
@@ -263,7 +266,7 @@ SizedBox(height: 10,),
                     child: Expanded(
                       child: DropdownButton(hint: Padding(
                         padding: const EdgeInsets.only(left: 18),
-                        child: CustomText(text:"Country",fontSize: 12,),
+                        child: CustomText(text:"Country - World Wide",fontSize: 12,),
                       ),underline: SizedBox(),
                         icon: Padding(
                           padding: const EdgeInsets.only(right: 15),
@@ -279,14 +282,14 @@ SizedBox(height: 10,),
                             value: val,
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: CustomText(text:val,fontSize: 12),
+                              child: CustomText(text:val=="World Wide"?val:val+" BETA",fontSize: 12),
                             ),
                           );
                         }).toList(),
                         value: _currentSelectedItemcountry,
                         onChanged: (value) {
                           setState(() {
-                            _currentSelectedItemcountry = value;
+                           /* _currentSelectedItemcountry = value;*/
                           });
                         },
                       ),
@@ -336,8 +339,8 @@ Row(
 
             });
      },
-      min: 15,
-      max: 60,
+      min: 18,
+      max: 65,
               activeColor: Global.orangepanda,
               inactiveColor: Global.isSwitchedFT == true
                   ? Global.whitepanda
@@ -363,9 +366,9 @@ Row(
                   activeColor: Global.orangepanda,
                   onChanged: (val) {
 
-                    print("Radio $val");
+               /*     print("Radio $val");
 
-                    setSelectedRadio(val);
+                    setSelectedRadio(val);*/
 
                   },
 
@@ -383,9 +386,9 @@ Row(
 
                   onChanged: (val) {
 
-                    print("Radio $val");
+                 /*   print("Radio $val");
 
-                    setSelectedRadio(val);
+                    setSelectedRadio(val);*/
 
                   },
 
@@ -402,10 +405,10 @@ Row(
                   activeColor: Global.orangepanda,
 
                   onChanged: (val) {
-
+/*
                     print("Radio $val");
 
-                    setSelectedRadio(val);
+                    setSelectedRadio(val);*/
 
                   },
 

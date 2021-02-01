@@ -115,7 +115,7 @@ class _settingpageState extends State<settingpage> {
   setyears(){
     yearlist.clear();
 
-    int currentYear = DateTime.now().year;
+    int currentYear = (DateTime.now().year)-19;
     for(int i =0;i<60;i++)
       {
         yearlist.add((currentYear-i).toString());
@@ -126,7 +126,7 @@ class _settingpageState extends State<settingpage> {
   void initState() {
     super.initState();
     setyears();
-    selectedRadio = Global.userData.gender==null||Global.userData.gender==""?0:gender.indexOf(Global.userData.gender);
+    selectedRadio = Global.userData.gender==null||Global.userData.gender==""?1:gender.indexOf(Global.userData.gender);
   }
 
 // Changes the selected value on 'onChanged' click on each radio button
@@ -420,51 +420,54 @@ class _settingpageState extends State<settingpage> {
                                 ),
                                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                               ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Theme(data: Theme.of(context).copyWith(
-                                      canvasColor: Global.isSwitchedFT == true
-                                          ? Global.blackpanda
-                                          : Global.whitepanda,
-                                    ),
-                                      child: DropdownButton(
-                                        hint: Padding(
-                                          padding: const EdgeInsets.only(left: 18),
-                                          child: CustomText(
-                                            text:"Game 1",
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        underline: SizedBox(),
-                                        icon: Padding(
-                                          padding: const EdgeInsets.only(right: 15),
-                                          child: Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: Global.orangepanda,
-                                            size: 20.09,
-                                          ),
-                                        ),
-                                        isExpanded: true,
-                                        items: Games.map((val) {
-                                          return DropdownMenuItem(
-                                            value: val,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10.0),
-                                              child: CustomText(text:val),
+                              child: AbsorbPointer(
+                                absorbing: true,
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Theme(data: Theme.of(context).copyWith(
+                                        canvasColor: Global.isSwitchedFT == true
+                                            ? Global.blackpanda
+                                            : Global.whitepanda,
+                                      ),
+                                        child: DropdownButton(
+                                          hint: Padding(
+                                            padding: const EdgeInsets.only(left: 18),
+                                            child: CustomText(
+                                              text:"Game 1 - League of Legends",
+                                              fontSize: 12,
                                             ),
-                                          );
-                                        }).toList(),
-                                        value: _currentSelectedItemgame,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _currentSelectedItemgame = value;
-                                          });
-                                        },
+                                          ),
+                                          underline: SizedBox(),
+                                          icon: Padding(
+                                            padding: const EdgeInsets.only(right: 15),
+                                            child: Icon(
+                                              Icons.keyboard_arrow_down,
+                                              color: Global.orangepanda,
+                                              size: 20.09,
+                                            ),
+                                          ),
+                                          isExpanded: true,
+                                          items: Games.map((val) {
+                                            return DropdownMenuItem(
+                                              value: val,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(10.0),
+                                                child: CustomText(text:val),
+                                              ),
+                                            );
+                                          }).toList(),
+                                          value: _currentSelectedItemgame,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _currentSelectedItemgame = value;
+                                            });
+                                          },
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -517,7 +520,7 @@ class _settingpageState extends State<settingpage> {
                                           padding: const EdgeInsets.only(left: 18),
                                           child: CustomText(
                                             text:
-                                            "Game 2",
+                                            "Game 2 BETA",
                                             fontSize: 12,
                                           ),
                                         ),
@@ -545,9 +548,9 @@ class _settingpageState extends State<settingpage> {
                                         }).toList(),
                                         value: _currentSelectedItemgame2,
                                         onChanged: (value) {
-                                          setState(() {
+                                         /* setState(() {
                                             _currentSelectedItemgame2 = value;
-                                          });
+                                          });*/
                                         },
                                       ),
                                     ),
@@ -684,7 +687,7 @@ class _settingpageState extends State<settingpage> {
                                         hint: Padding(
                                           padding: const EdgeInsets.only(left: 18),
                                           child: CustomText(
-                                            text:"Rank",
+                                            text:"Rank - BETA",
                                             fontSize: 12,
                                           ),
                                         ),
@@ -764,7 +767,7 @@ class _settingpageState extends State<settingpage> {
                                         hint: Padding(
                                           padding: const EdgeInsets.only(left: 18),
                                           child: CustomText(
-                                            text:"Country",
+                                            text:"Country - World Wide",
                                             fontSize: 12,
                                           ),
                                         ),
@@ -783,7 +786,7 @@ class _settingpageState extends State<settingpage> {
                                             value: val,
                                             child: Padding(
                                               padding: const EdgeInsets.all(10.0),
-                                              child: CustomText(text:val,
+                                              child: CustomText(text:val=="World Wide"?val:val+" BETA",
                                                   fontSize: 12),
                                             ),
                                           );
@@ -791,7 +794,7 @@ class _settingpageState extends State<settingpage> {
                                         value: _currentSelectedItemcountry,
                                         onChanged: (value) {
                                           setState(() {
-                                            _currentSelectedItemcountry = value;
+                                           /* _currentSelectedItemcountry = value;*/
                                           });
                                         },
                                       ),

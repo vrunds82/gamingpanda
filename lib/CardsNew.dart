@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttery_dart2/layout.dart';
 import 'package:gamingpanda/Lists.dart';
+import 'package:gamingpanda/customToast/CustomToast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/cardsLatest.dart';
@@ -100,6 +101,7 @@ class _CardsNewState extends State<CardsNew> {
               games: games,
               gender: Userslist[i].gender,
             disliked: Userslist[i].disliked,
+            server: Userslist[i].server
           ));
         }
       }
@@ -155,44 +157,55 @@ class _CardsNewState extends State<CardsNew> {
               child: Row(
                 //mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                      Fluttertoast.showToast(msg: "Profile reloaded");
-                      setState(() {
+                  AbsorbPointer(
+                    absorbing: true,
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
 
-                      });
-                    },
-                    child:  Container(
-                      height: 40,
-                      width: 40,
-                      //color: Colors.black,
-                      decoration: BoxDecoration(
-                        color: Global.blackpanda,
-                          boxShadow: [
-                            //color: Colors.white, //background color of box
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius:10.0, // soften the shadow
-                              spreadRadius: 0.5, //extend the shadow
-                              /* offset: Offset(
-                                15.0, // Move to right 10  horizontally
-                                15.0, // Move to bottom 10 Vertically
-                              ),*/
-                            )
-                          ],
-                        borderRadius: BorderRadius.circular(100)
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SvgPicture.asset(
-                            "assets/images/gradback.svg",
-                           // width: MediaQuery.of(context).size.width * .1,
-                            //height: MediaQuery.of(context).size.width * .055,
-                            //color: Colors.red,
+                            CustomToast.comingSoon();
+                            /*Fluttertoast.showToast(msg: "Profile reloaded");
+                            setState(() {
+
+                            });*/
+                          },
+                          child:  Container(
+                            height: 40,
+                            width: 40,
+                            //color: Colors.black,
+                            decoration: BoxDecoration(
+                              color: Global.blackpanda,
+                                boxShadow: [
+                                  //color: Colors.white, //background color of box
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius:10.0, // soften the shadow
+                                    spreadRadius: 0.5, //extend the shadow
+                                    /* offset: Offset(
+                                      15.0, // Move to right 10  horizontally
+                                      15.0, // Move to bottom 10 Vertically
+                                    ),*/
+                                  )
+                                ],
+                              borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  "assets/images/gradback.svg",
+                                 // width: MediaQuery.of(context).size.width * .1,
+                                  //height: MediaQuery.of(context).size.width * .055,
+                                  //color: Colors.red,
+                                ),
+                              ),
                           ),
-                        ),
-                    ),
 
+                        ),
+                        SizedBox(height: 3,),
+                        CustomText(text:"BETA",fontSize: 9,)
+                      ],
+                    ),
                   ),
                   Spacer(),
                   Center(
@@ -229,42 +242,49 @@ class _CardsNewState extends State<CardsNew> {
                         },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
                   ),
                   Spacer(),
-                  GestureDetector(
-                  onTap: (){
-                    Fluttertoast.showToast(msg: "Boost got clicked");
-                    setState(() {
+                  AbsorbPointer(
+                    absorbing: true,
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                        onTap: (){
+                         CustomToast.comingSoon();
 
-                    });
-                  },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      //color: Colors.black,
-                      decoration: BoxDecoration(
-                          color: Global.blackpanda  ,
-                          boxShadow: [
-                            //color: Colors.white, //background color of box
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius:10.0, // soften the shadow
-                              spreadRadius: 0.5, //extend the shadow
-                             /* offset: Offset(
-                                15.0, // Move to right 10  horizontally
-                                15.0, // Move to bottom 10 Vertically
-                              ),*/
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(100)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/images/gradboost.svg",
-                          // width: MediaQuery.of(context).size.width * .1,
-                          //height: MediaQuery.of(context).size.width * .055,
-                          //color: Colors.red,
+                        },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            //color: Colors.black,
+                            decoration: BoxDecoration(
+                                color: Global.blackpanda  ,
+                                boxShadow: [
+                                  //color: Colors.white, //background color of box
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius:10.0, // soften the shadow
+                                    spreadRadius: 0.5, //extend the shadow
+                                   /* offset: Offset(
+                                      15.0, // Move to right 10  horizontally
+                                      15.0, // Move to bottom 10 Vertically
+                                    ),*/
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                "assets/images/gradboost.svg",
+                                // width: MediaQuery.of(context).size.width * .1,
+                                //height: MediaQuery.of(context).size.width * .055,
+                                //color: Colors.red,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 3,),
+                        CustomText(text:"BETA",fontSize: 9,)
+                      ],
                     ),
                   ),
                 ],
@@ -284,6 +304,7 @@ class _CardsNewState extends State<CardsNew> {
       "name":matchEngine.currentMatch.profile.name,
       "msg":"It's a Match",
       'time': Timestamp.now(),
+      "read":false
     });
     Firestore.instance.collection('inbox/messages/${matchEngine.currentMatch.profile.id}').document(Global.User.uid).setData({
       "uid":matchEngine.currentMatch.profile.id,
@@ -291,6 +312,7 @@ class _CardsNewState extends State<CardsNew> {
       "name":matchEngine.currentMatch.profile.name,
       "msg":"It's a Match",
       'time': Timestamp.now(),
+      "read":false
     });
 
     if(SuperLike){

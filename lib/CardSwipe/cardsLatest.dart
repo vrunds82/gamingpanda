@@ -181,14 +181,18 @@ class _CardStackState extends State<CardStack> {
 
         break;
       case SlideDirection.up:
-        currentMatch.superLike();
+
         if(currentMatch.profile.disliked==null || !currentMatch.profile.disliked) {
           ActionsToUsers(action: "superlike",
               user1: Global.userData.userId,
               user2: currentMatch.profile.id);
           CreateChat(true, currentMatch.profile);
           currentMatch.superLike();
+        }else{
+          currentMatch.superLike();
         }
+
+
 
         break;
     }
@@ -684,7 +688,7 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Center(),
-                Text("Nope",style: TextStyle(fontSize: 40,color: Global.darkBlue),)
+                Text("Nope",style: TextStyle(fontSize: 40,color: Global.greypanda),)
               ],
 
             ),
@@ -700,7 +704,7 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
                 Padding(
                   padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
                 ),
-                Center(child: Text("Super Like",style: TextStyle(fontSize: 40,color: Global.SuperLikeBlue),))
+                Center(child: Text("Super Play",style: TextStyle(fontSize: 40,color: Global.SuperLikeBlue),))
               ],
             ),
           ),
@@ -799,13 +803,29 @@ class _ProfileCardState extends State<ProfileCard> {
                       ],
                     ),
                     SizedBox(height: 5,),
+              /*      Row(
+                      children: <Widget>[
+                        Icon(MdiIcons.server,color: Global.whitepanda,size: 20,),
+                        //Flag('AD', height: 15, width: 20, fit: BoxFit.fill),
+                        SizedBox(width: 10,),
+                        new Text(
+                          (widget.profile.server!=null && widget.profile.server!=""?  "${widget.profile.server}, ":"") ,
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    SizedBox(height: 10,),*/
                     Row(
                       children: <Widget>[
                         Icon(Icons.location_on,color: Global.whitepanda,),
                         //Flag('AD', height: 15, width: 20, fit: BoxFit.fill),
                         SizedBox(width: 10,),
                         new Text(
-                          widget.profile.country??"",
+                          (widget.profile.server!=null && widget.profile.server!=""?  "${widget.profile.server}, ":"") +widget.profile.country??"",
                           style: new TextStyle(
                             color: Colors.white,
                             fontSize: 13,

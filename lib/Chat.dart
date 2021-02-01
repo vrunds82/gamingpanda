@@ -407,7 +407,7 @@ class _ChatState extends State<Chat> {
         body:textEditingController.text.toString(),
     title: Global.userData.userName,
     data: {"id": "asdf", "qwer": "wer"},
-    userId: Global.User.uid);
+    userId: Global.OtherUserProfile.id);
   }
 
   UpdateMessage(){

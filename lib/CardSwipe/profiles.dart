@@ -9,6 +9,7 @@ class Profile {
   final String country;
   final String bio;
   final String dp;
+  final String server;
   final bool liked;
   final bool disliked;
 
@@ -26,7 +27,8 @@ class Profile {
     this.country,
     this.age,
     this.games,
-    this.disliked
+    this.disliked,
+    this.server
   });
 
 
@@ -41,7 +43,8 @@ class Profile {
   games=json['games'],
   country=json['country'],
   age=json['age'],
-  gender=json['gender']
+  gender=json['gender'],
+        server=json['server']
   ;
 
   Map<String, dynamic> toJson() =>
@@ -52,6 +55,7 @@ class Profile {
         'id':id,
         'dp':dp,
         'liked':liked,
+        'server':server
 
       };
 

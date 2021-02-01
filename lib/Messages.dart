@@ -42,7 +42,7 @@ class _MessagesState extends State<Messages> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection("inbox/messages/"+Global.User.uid).snapshots(),
+                stream: Firestore.instance.collection("inbox/messages/"+Global.User.uid).orderBy('time',descending: true).snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError)
                     return new Text('Error: ${snapshot.error}');
@@ -67,7 +67,21 @@ class _MessagesState extends State<Messages> {
 
                           },child: myMessagesTile(documentSnapshot: document,));
                         }).toList(),
-                      ):Center(child: CustomText(text:"No Messages "),);
+                      ):Center(child: GestureDetector(
+                        onTap: (){
+
+                          print(Global.userData.userId);
+
+                          SendNotification(
+                            body: "Testing Body",
+                            title: "Testing Title",
+                            userId: Global.userData.userId,
+                            data: {"id": "asdf", "qwer": "wer"},
+                            chat: "no",
+
+                          );
+                        }
+                      ,child: CustomText(text:"No Messages ")),);
                   }
                 },
               ),

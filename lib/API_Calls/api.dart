@@ -12,6 +12,7 @@ import '../Lists.dart';
 GetUserDeatils() async {
   await http.post("${Global.BaseURL}profile/GetOwnUserProfile",
       body:{"UserId":Global.User.uid}).then((response){
+        print(response.statusCode);
 
         print(response.body);
         var parsedjson=jsonDecode(response.body);
@@ -20,6 +21,18 @@ GetUserDeatils() async {
 
   });
 
+}
+
+
+getTotalUsers() async {
+  await http.post("${Global.BaseURL}UserCount").then((value){
+    var parsedData = jsonDecode(value.body);
+
+    if(parsedData['message']!=null){
+      Global.noOfUsers = parsedData['message'];
+    }
+
+  });
 }
 
 
@@ -41,17 +54,25 @@ UpdateTokenWeb() async {
 
 UpdateToken() async {
   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
- await firebaseMessaging.getToken().then((value) {
+ await firebaseMessaging.getToken().then((value) async {
 
    if(value!=null) {
      Global.token = value;
 
      print("TOKEN : " + Global.token);
+     await http.post("${Global.BaseURL}profile/token",
+         body:{"Token":Global.token??"","UserID":Global.User.uid}).then((response){
+
+           print("TOKEN UPDATED");
+           print(response.body);
+           print("TOKEN UPDATED");
+
+     });
    }
+
   });
 
-  await http.post("${Global.BaseURL}profile/token",
-      body:{"Token":Global.token??"","UserID":Global.User.uid}).then((response){});
+
 }
 
 Future<Profile> OtherUserDetails() async {

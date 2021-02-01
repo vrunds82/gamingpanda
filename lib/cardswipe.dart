@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/cards.dart';
 import 'package:gamingpanda/CardSwipe/matches.dart';
@@ -20,6 +21,15 @@ class cardpage extends StatefulWidget {
 
 class _cardpageState extends State<cardpage> {
 
+
+  MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    testDevices:  null,
+    childDirected: true,
+    nonPersonalizedAds: true,
+  );
+
+
+  InterstitialAd _interstitialAd;
 
   void callback(){
     widget.callback();
@@ -129,6 +139,7 @@ loading = true;
     // TODO: implement initState
     super.initState();
     GetAllUsers();
+
   }
 
   static final List<Profile> demoProfiles = [
@@ -226,6 +237,10 @@ loading = true;
       ),
     );
   }
+
+
+
+
 
 
 

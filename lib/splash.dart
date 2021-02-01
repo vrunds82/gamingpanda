@@ -19,16 +19,25 @@ class splashscreen extends StatefulWidget {
 class _splashscreenState extends State<splashscreen> {
 
   FirebaseMessaging firebaseMessaging=new FirebaseMessaging();
+
+
+
   startTime() async {
-
-
+    await getTotalUsers();
+    await ManageNotifications();
     await getSwitchState();
     FirebaseAuth.instance.currentUser().then((value) async {
       if(value!=null) {
+        print(value);
         Global.User = value;
-        print("Calling");
+        print("Calling ${Global.User.uid}");
         await GetUserDeatils();
-        Navigator.of(context).pushReplacementNamed('home');
+
+        Future.delayed(Duration.zero,(){
+          Navigator.of(context).pushReplacementNamed('home');
+        });
+
+
       }else
         {
           var _duration = new Duration(seconds: 3);
@@ -67,6 +76,10 @@ class _splashscreenState extends State<splashscreen> {
   ManageNotifications()async{
     firebaseMessaging.getToken().then((token){print(token);
     Global.token=token;});
+
+
+    firebaseMessaging.requestNotificationPermissions();
+
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
 
@@ -87,9 +100,9 @@ class _splashscreenState extends State<splashscreen> {
               background: Colors.green);
         }
       },
-      onBackgroundMessage:await (Map<String, dynamic> message){
+     /* onBackgroundMessage:await (Map<String, dynamic> message){
         myBackgroundMessageHandler(message,context);
-      },
+      },*/
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
 
@@ -108,7 +121,7 @@ class _splashscreenState extends State<splashscreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    ManageNotifications();
+
     startTime();
   }
 }

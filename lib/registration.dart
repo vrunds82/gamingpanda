@@ -10,6 +10,7 @@ import 'package:gamingpanda/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class register extends StatefulWidget {
   @override
@@ -19,10 +20,11 @@ class register extends StatefulWidget {
 class _registerState extends State<register> {
   File croppedFile,image;
   String URL ="";
-  TextEditingController name = TextEditingController(text: "asdfaf");
-  TextEditingController email = TextEditingController(text: "a@b.com");
-  TextEditingController password = TextEditingController(text: "12345678");
-  TextEditingController confirmpassword = TextEditingController(text:"12345678");
+  bool above18 = false;
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController confirmpassword = TextEditingController();
 
   checkpassword(){
 
@@ -139,13 +141,39 @@ class _registerState extends State<register> {
                  CustomText(text: "Confirm password",),
                  SizedBox(height: 5,),
                  Customtextfield(controllername: confirmpassword,obsecuretext: true,focusborder: true,),
-                 SizedBox(height: 20,),
+                 SizedBox(height: 10,),
+                 Row(children: [
+                   SizedBox(width: 24,height: 24,child:
+                   Checkbox(checkColor: Global.orangepanda,
+                     activeColor: Global.darkgrey,
+                     value: above18,
+                     onChanged: (value){
+                     above18 = value;
+                     setState(() {
+
+                     });
+                   },),),
+                   SizedBox(width: 10,),
+                   CustomText(text:"I am above 18")
+                 ],),
+                 SizedBox(height: 10,),
+
                  Row(
                    children: <Widget>[
                      Expanded(
                          child: customraisedbutton(click: (){
 
-                             if(name.text == "" )
+                            if(!above18){
+                              Fluttertoast.showToast(
+                                  msg: "You must be above 18 to use this app.",
+                                  //toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0
+                              );
+                            } else if(name.text == "" )
                              {
                                Fluttertoast.showToast(
                                    msg: "Name filed is required",
@@ -257,6 +285,23 @@ class _registerState extends State<register> {
                      ],
                    ),
                  ),
+                 SizedBox(height: 20,),
+
+                 GestureDetector(onTap: () async {
+                   String url = "www.google.com";
+                   if (await canLaunch(url)) {
+                   await launch(url);
+                   } else {
+                   throw 'Could not launch $url';
+                   }
+                 },
+                   child: Column(
+                     children: [
+                       CustomText(text:"By Registering you agree with our",color: Colors.grey,),
+                       CustomText(text:"Terms and Conditions.",decoration: TextDecoration.underline,color: Colors.white,)
+                     ],
+                   ),
+                 ),
                ],
              ),
            ),
@@ -310,17 +355,17 @@ class _registerState extends State<register> {
     await http.post("${Global.BaseURL}register",
         body: {
           "UserId": Global.User.uid,
-          "UserName": Global.User.displayName??name.text,
+         "UserName": Global.User.displayName??name.text,
           "Email" : Global.User.email??email.text,
           "Token":Global.token??""
         }).then((response) async {
+          print(response.statusCode);
     //  print("Response from Body : "+response.body.toString());
       await GetUserDeatils();
-      Navigator.of(context).pop();
+      Global.firstLogin=true;
+   //   Navigator.of(context).pop();
    //   Navigator.of(context).pushReplacementNamed('cardswipe');
       Navigator.of(context).pushReplacementNamed('home');
-    }).catchError((onError){
-      print("Erorr"+onError);
     });
   }
 
@@ -339,25 +384,15 @@ class _registerState extends State<register> {
       }else{
       }
 
-    }).catchError((e){
-      if(e!=null )
+    }).catchError((onError){
+      if(onError!=null && onError.message!=null) {
+        Fluttertoast.showToast(msg: onError.message);
+      }else
         {
-          print(e);
-          Fluttertoast.showToast(msg: e.message);
-        }else
-          {
-            Fluttertoast.showToast(msg:"Something Went Wrong Please try Again Later.");
-          }
-      print(e.message);
+          Fluttertoast.showToast(msg: "Something went Wrong");
+        }
     });
   }
-
-
-
-
-
-
-
 
 }
 

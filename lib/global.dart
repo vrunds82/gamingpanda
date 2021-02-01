@@ -21,7 +21,7 @@ class Global {
   //https://pandagamingweb2020.azurewebsites.net/
   //static String BaseURL = "https://pandaweb20200605061105.azurewebsites.net/api/panda/";
   static String BaseURL =
-      "https://pandaweb20200818100047.azurewebsites.net/api/panda/";
+      "https://pandapanweaker.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
   static bool isSwitchedFT = true;
@@ -42,6 +42,8 @@ class Global {
   static UserData userData;
   static Profile OtherUserProfile;
   static String OtherUserId = "arunarun";
+  static int noOfUsers =0;
+  static bool firstLogin = false;
 
 // web Globals
   static bool isweb = false;
@@ -114,11 +116,12 @@ class myMessagesTile extends StatelessWidget {
                         fontSize: 18,
                       ),
                       Text(
-                        documentSnapshot.data['message'] ?? "",
+                        documentSnapshot.data['msg'] ?? "",
                         style: TextStyle(
-                          fontWeight: documentSnapshot.data['read']?FontWeight.normal:FontWeight.bold,
-                            fontSize: 15, color: Global.greypandaicon),
+                          fontWeight: documentSnapshot.data['read']!=null && documentSnapshot.data['read']?FontWeight.normal:FontWeight.bold,
+                            fontSize: 15, color: documentSnapshot.data['read']!=null && documentSnapshot.data['read']?Colors.grey:Global.orangepanda),
                         textAlign: TextAlign.left,
+
                       ),
                     ],
                   ),
@@ -679,7 +682,7 @@ class CustomButton extends StatelessWidget {
         onPressed();
       },
       child: Container(
-        width: MediaQuery.of(context).size.width * .5,
+        width: MediaQuery.of(context).size.width * .55,
         decoration: BoxDecoration(
             color: backgroundColor, borderRadius: BorderRadius.circular(100)),
         child: Padding(
@@ -700,6 +703,17 @@ class CustomButton extends StatelessWidget {
                 text,
                 style: TextStyle(fontWeight: FontWeight.w900, color: textColor),
               ))),
+              Opacity(
+                opacity: 0,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(211, 211, 211, 0.4),
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: icon,
+                    )),
+              ),
             ],
           ),
         ),
@@ -757,6 +771,7 @@ class CustomProfileRoundButton extends StatelessWidget {
 
           Text(
             myText,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: textColor == null
                     ? Global.isSwitchedFT == false
@@ -1240,12 +1255,18 @@ SendNotification(
     String chat}) async {
   print("Sending Notification");
 
+
   String token;
-  await http.post("${Global.BaseURL}profile/token",
-      body: {"UserID": "H0h5NBo9laU6NECDm8pbEohQw9l2"}).then((value) {
-    print(token);
+  print(Global.userData.userId);
+  await http.post("${Global.BaseURL}profile/GetToken",
+      body: {"UserID": Global.userData.userId}).then((value) {
+        print("AÀ");
     token = value.body;
+    print(token);
+
   });
+
+
 
   Map<String, String> data = {
     'chat': chat ?? 'no',

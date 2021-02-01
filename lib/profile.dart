@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class profilepage extends StatefulWidget {
   Function callback;
@@ -113,7 +114,7 @@ class _profilepageState extends State<profilepage> {
                 SizedBox(
                   height: 15,
                 ),
-                CustomText(text: Global.userData.userName,fontSize: 18),
+                CustomText(text: Global.userData.userName??"",fontSize: 18),
                 CustomText(text: (DateTime.now().year-Global.userData.year).toString(),fontSize: 18,color: Global.orangepanda,  fontWeight: FontWeight.bold,),
                 SizedBox(
                   height: 20,
@@ -129,22 +130,22 @@ class _profilepageState extends State<profilepage> {
                 (Global.userData.game1==""||Global.userData.game1==null)&&(Global.userData.game2==""||Global.userData.game2==null)?
                 GestureDetector(
                   onTap: (){
-                    Navigator.of(context).pushNamed('settings');
+                   /* Navigator.of(context).pushNamed('settings');*/
                   },
                   child: Column(
                     children: [
                       CustomText(
-                        text:  "No Games Selected",
+                        text:  "League of Legends",
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
 
                       ),
-                      CustomText(
+                    /*  CustomText(
                         text:  "Click here to edit",
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
 
-                      ),
+                      ),*/
                     ],
                   ),
                 ):
@@ -198,6 +199,7 @@ class _profilepageState extends State<profilepage> {
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(""),
                 CustomProfileRoundButton(onClick: (){
@@ -220,7 +222,7 @@ class _profilepageState extends State<profilepage> {
                 ),
                 CustomProfileRoundButton(onClick: (){
                   print(" Like Button Clicked");
-                  showDialog(
+          /*        showDialog(
                       context: context,
                       builder: (BuildContext context) =>BoostDialogBox(
                         icon: "assets/images/boostIcon.png",
@@ -230,28 +232,38 @@ class _profilepageState extends State<profilepage> {
                         upperText: "CONVERT PANDA COINS INTO BOOST",
                       )
                   );
-                  print(" Like Button Clicked");
+                  print(" Like Button Clicked");*/
 
                 },
                   img: "assets/images/boostIcon.png",
-                  myText: "8 Boost",
+                  myText: "BETA",
                 ),
                 CustomProfileRoundButton(onClick: (){
-                  print(" Like Button Clicked");
-                  Navigator.of(context).pushNamed('BuyCoinsNow');
+                 /* print(" Like Button Clicked");
+                  Navigator.of(context).pushNamed('BuyCoinsNow');*/
 
                 },
                   img: "assets/images/pandaCoins.png",
-                  myText: "6 Panda Coins",
+                  myText: "BETA",
                 ),
                 Text(""),
               ],
             ),
 
             GestureDetector(
-              onTap: (){
-                print("Way to PRemium");
+              onTap: () async {
+               /* print("Way to PRemium");
                 Navigator.of(context).pushNamed("GetPremium");
+*/
+
+                const url = 'https://paypal.me/welovegamingpanda';
+                if (await canLaunch(url)) {
+                await launch(url);
+                } else {
+                throw 'Could not launch $url';
+                }
+
+
 
               },
               child: Container(
@@ -262,7 +274,7 @@ class _profilepageState extends State<profilepage> {
                 //color: Global.orangepanda,
                 child: Padding(
                   padding: const EdgeInsets.only(left:10.0,right: 10.0,bottom: 5.0,top: 5.0),
-                  child: Text("GO PREMIUM",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),),
+                  child: Text("Donate & Reward",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),),
                 ),
               ),
             ),

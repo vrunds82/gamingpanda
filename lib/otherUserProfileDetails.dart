@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
+import 'package:gamingpanda/customToast/CustomToast.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -260,7 +261,9 @@ class _OtherUserProfileWidgetState extends State<OtherUserProfileWidget> {
                 ),
                 Expanded(
                     child: customraisedbutton(
-                      click: () {},
+                      click: () {
+                        CustomToast.comingSoon(msg: "Reported");
+                      },
                       text: "REPORT",
                       clr: Global.whitepanda,
                       bgclr: Global.darkBlue,
