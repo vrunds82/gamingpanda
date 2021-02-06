@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +24,14 @@ class profilepage extends StatefulWidget {
 class _profilepageState extends State<profilepage> {
 
   File croppedFile;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    showWelcomeMessage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -357,6 +366,51 @@ class _profilepageState extends State<profilepage> {
     setState(() {
 
     });
+  }
+
+  showWelcomeMessage() {
+
+    Future.delayed(Duration(seconds: 2),(){
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width*0.6,
+              height: MediaQuery.of(context).size.width*0.6,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Global.blackpanda,
+                  borderRadius: BorderRadius.circular(10),
+
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text("Dear ${Global.userData.userName}, welcome to the Gaming Panda.\n\nHere you will find new friends for hanging out online and playing together.\n\nPlease be patient because we are new and just launched this beautiful app.",
+                            style: TextStyle(color: Global.orangepanda),),
+                        ),
+                      ),
+                    ),
+                    FlatButton(onPressed: (){
+                      Navigator.of(context).pop();
+                    }, child: Text("Close",style: TextStyle(color: Colors.white),))
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+
+
+
   }
 
 }

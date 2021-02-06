@@ -112,7 +112,16 @@ class _CardStackState extends State<CardStack> {
       case Decision.like:
         return SlideDirection.right;
       case Decision.superLike:
-        return SlideDirection.up;
+
+        if(Global.superPlay<1){
+          Fluttertoast.showToast(msg: "No More SuperPlay left, Try again tomorrow.");
+          return null;
+        }else{
+          return SlideDirection.up;
+        }
+
+        break;
+
       default:
         return null;
     }
@@ -588,10 +597,18 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
 
         slideOutDirection = isInLeftRegion ? SlideDirection.left : SlideDirection.right;
       } else if (isInTopRegion) {
-        slideOutTween = new Tween(begin: cardOffset, end: dragVector * (2 * context.size.height));
-        slideOutAnimation.forward(from: 0.0);
 
-        slideOutDirection = SlideDirection.up;
+        if(Global.superPlay<1){
+          Fluttertoast.showToast(msg: "No SuperPlay left, try tomorrow.");
+          slideBackStart = cardOffset;
+          slideBackAnimation.forward(from: 0.0);
+        }else {
+          slideOutTween = new Tween(
+              begin: cardOffset, end: dragVector * (2 * context.size.height));
+          slideOutAnimation.forward(from: 0.0);
+
+          slideOutDirection = SlideDirection.up;
+        }
       } else {
         slideBackStart = cardOffset;
         slideBackAnimation.forward(from: 0.0);

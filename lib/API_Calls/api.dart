@@ -25,13 +25,18 @@ GetUserDeatils() async {
 
 
 getTotalUsers() async {
-  await http.post("${Global.BaseURL}UserCount").then((value){
-    var parsedData = jsonDecode(value.body);
+  await http.get("${Global.BaseURL}UserCount").then((value){
+
+    print(value.body);
+
+    if(value.body!=null && value.body!="") {
+
+       var parsedData = jsonDecode(value.body);
 
     if(parsedData['message']!=null){
-      Global.noOfUsers = parsedData['message'];
+      Global.noOfUsers = int.parse(parsedData['message']);
     }
-
+    }
   });
 }
 

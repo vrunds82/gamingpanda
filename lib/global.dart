@@ -44,6 +44,8 @@ class Global {
   static String OtherUserId = "arunarun";
   static int noOfUsers =0;
   static bool firstLogin = false;
+  static int superPlay=0;
+
 
 // web Globals
   static bool isweb = false;

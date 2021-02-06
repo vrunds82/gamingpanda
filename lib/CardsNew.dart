@@ -221,10 +221,18 @@ class _CardsNewState extends State<CardsNew> {
                   Center(
                     child: GestureDetector(
                         onTap: () async {
-                          matchEngine.currentMatch.superLike();
-                          ActionsToUsers(action: "superlike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                          await Future.delayed(Duration(milliseconds: 1000));
-                          CreateChat(true);
+
+                          if(Global.superPlay<1){
+                            Fluttertoast.showToast(msg: "No SuperPlay left, try tomorrow");
+                          }else {
+                            ActionsToUsers(action: "superlike", user1: Global
+                                .userData.userId, user2: matchEngine
+                                .currentMatch.profile.id);
+                            await Future.delayed(Duration(milliseconds: 1000));
+                            CreateChat(true);
+                            matchEngine.currentMatch.superLike();
+                          }
+
                         },child: Padding(
                           padding: const EdgeInsets.all(1.0),
                           child: Image.asset('assets/images/star.png',height: 40,width: 40,fit: BoxFit.fill),
@@ -234,11 +242,12 @@ class _CardsNewState extends State<CardsNew> {
                   Center(
                     child: GestureDetector(
                         onTap: () async {
-                          matchEngine.currentMatch.like();
+
 
                           ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
                           await Future.delayed(Duration(milliseconds: 1000));
                           CreateChat(false);
+                          matchEngine.currentMatch.like();
                         },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
                   ),
                   Spacer(),
