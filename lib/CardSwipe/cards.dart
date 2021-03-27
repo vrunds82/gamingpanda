@@ -184,14 +184,14 @@ class _CardStackState extends State<CardStack> {
       "uid":_currentMatch.profile.id,
       "image":_currentMatch.profile.dp,
       "name":_currentMatch.profile.name,
-      "msg":"It's a Match",
+      "msg":"New Connection",
       'time': Timestamp.now(),
     });
     Firestore.instance.collection('inbox/messages/${_currentMatch.profile.id}').document(Global.User.uid).setData({
       "uid":_currentMatch.profile.id,
       "image":_currentMatch.profile.dp,
       "name":_currentMatch.profile.name,
-      "msg":"It's a Match",
+      "msg":"New Connection",
       'time': Timestamp.now(),
     });
 

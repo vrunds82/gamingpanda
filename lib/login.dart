@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gamingpanda/API_Calls/api.dart';
+import 'package:gamingpanda/forgotPassword.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,8 +17,8 @@ class loginpage extends StatefulWidget {
 
 class _loginpageState extends State<loginpage> {
 
-  TextEditingController email = TextEditingController(text: "marta@gmail.com");
-  TextEditingController password = TextEditingController(text: "marta@gmail.com");
+  TextEditingController email = TextEditingController(text: "");
+  TextEditingController password = TextEditingController(text: "");
 
   var firebaseAuth = FirebaseAuth.instance;
 
@@ -138,7 +139,12 @@ body: Center(
             ),
                 ),
                 Spacer(),
-                CustomText(text: "Forgot Password?",decoration: TextDecoration.underline,
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pushNamed(ForgotPassword.route);
+                  },
+                  child: CustomText(text: "Forgot Password?",decoration: TextDecoration.underline,
+                  ),
                 ),
 
               ],
@@ -285,6 +291,7 @@ body: Center(
         }).then((response) async {
 
       //  print("Response from Body : "+response.body.toString());
+      await UpdateToken();
       await GetUserDeatils();
       Navigator.of(context).pop();
       //   Navigator.of(context).pushReplacementNamed('cardswipe');

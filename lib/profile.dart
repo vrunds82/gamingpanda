@@ -29,7 +29,10 @@ class _profilepageState extends State<profilepage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    showWelcomeMessage();
+   if(Global.firstLogin){
+     showWelcomeMessage();
+     Global.firstLogin=false;
+   }
   }
 
   @override
@@ -212,7 +215,7 @@ class _profilepageState extends State<profilepage> {
               children: [
                 Text(""),
                 CustomProfileRoundButton(onClick: (){
-                  print(" Like Button Clicked");
+             /*     print(" Like Button Clicked");
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>BoostDialogBox(
@@ -223,11 +226,11 @@ class _profilepageState extends State<profilepage> {
                         upperText: "CONVERT PANDA COINS INTO SUPERLIKES",
                       )
                   );
-                  print(" Like Button Clicked");
+                  print(" Like Button Clicked");*/
 
                 },
                   img: "assets/images/superLike.png",
-                  myText: "4 Super Likes",
+                  myText:  "${Global.superPlay<=0?0:Global.superPlay} Super Play",
                 ),
                 CustomProfileRoundButton(onClick: (){
                   print(" Like Button Clicked");
@@ -378,30 +381,30 @@ class _profilepageState extends State<profilepage> {
           return Dialog(
             backgroundColor: Colors.transparent,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width*0.6,
-              height: MediaQuery.of(context).size.width*0.6,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Global.blackpanda,
-                  borderRadius: BorderRadius.circular(10),
 
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Padding(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Global.blackpanda,
+                      borderRadius: BorderRadius.circular(10),
+
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text("Dear ${Global.userData.userName}, welcome to the Gaming Panda.\n\nHere you will find new friends for hanging out online and playing together.\n\nPlease be patient because we are new and just launched this beautiful app.",
                             style: TextStyle(color: Global.orangepanda),),
                         ),
-                      ),
+                        FlatButton(onPressed: (){
+                          Navigator.of(context).pop();
+                        }, child: Text("Close",style: TextStyle(color: Colors.white),))
+                      ],
                     ),
-                    FlatButton(onPressed: (){
-                      Navigator.of(context).pop();
-                    }, child: Text("Close",style: TextStyle(color: Colors.white),))
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

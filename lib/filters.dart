@@ -282,7 +282,7 @@ SizedBox(height: 10,),
                             value: val,
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: CustomText(text:val=="World Wide"?val:val+" BETA",fontSize: 12),
+                              child: CustomText(text:val=="World Wide"?val:val+" BETA"+" (locked)",fontSize: 12),
                             ),
                           );
                         }).toList(),

@@ -6,6 +6,7 @@ import 'package:gamingpanda/buyCoinsNow.dart';
 import 'package:gamingpanda/cardswipe.dart';
 import 'package:gamingpanda/Messages.dart';
 import 'package:gamingpanda/filters.dart';
+import 'package:gamingpanda/forgotPassword.dart';
 import 'package:gamingpanda/login.dart';
 import 'package:gamingpanda/otherUserProfileDetails.dart';
 import 'package:gamingpanda/profile.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
           'webChattingPage':(context)=>webChatting(),
           'GetPremium':(context)=>GetPremium(),
           'BuyCoinsNow':(context)=>BuyCoinsNow(),
+          ForgotPassword.route:(context)=>ForgotPassword()
         },
       ),
     );

@@ -34,8 +34,8 @@ dependencies:
   image_picker_web: 1.0.9
   cached_network_image: 2.2.0+1
   firebase_messaging: 6.0.13
-  overlay_support: ^1.0.5
-  flutter_svg: 0.19.0
+  overlay_support: ^1.2.0
+  flutter_svg: 0.19.3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: 0.1.2

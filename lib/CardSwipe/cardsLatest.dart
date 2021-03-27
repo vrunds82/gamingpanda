@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttery_dart2/layout.dart';
+import 'package:gamingpanda/API_Calls/api.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -173,30 +174,44 @@ class _CardStackState extends State<CardStack> {
     //  print(_currentMatch.profile.name);
 
     switch (direction) {
+
+
       case SlideDirection.left:
-        ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: currentMatch.profile.id);
+
+        //Fluttertoast.showToast(msg: "Nope");
+        Profile profile = currentMatch.profile;
         currentMatch.nope();
+        ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: profile.id,profile:profile );
+
 
         break;
       case SlideDirection.right:
 
+        Profile profile = currentMatch.profile;
+
         currentMatch.like();
-        if(currentMatch.profile.liked) {
+   //     Fluttertoast.showToast(msg: "Let's Play");
+
           ActionsToUsers(action: "like",
               user1: Global.userData.userId,
-              user2: currentMatch.profile.id);
-          CreateChat(false, currentMatch.profile);
-        }
+              user2: profile.id,profile:profile );
+       //   CreateChat(false, currentMatch.profile);
 
         break;
       case SlideDirection.up:
 
+
+   //     Fluttertoast.showToast(msg: "Super play");
+
         if(currentMatch.profile.disliked==null || !currentMatch.profile.disliked) {
+
+          Profile profile = currentMatch.profile;
+          currentMatch.superLike();
           ActionsToUsers(action: "superlike",
               user1: Global.userData.userId,
-              user2: currentMatch.profile.id);
-          CreateChat(true, currentMatch.profile);
-          currentMatch.superLike();
+              user2: profile.id,profile:profile);
+        //  CreateChat(true, currentMatch.profile);
+
         }else{
           currentMatch.superLike();
         }
@@ -210,28 +225,69 @@ class _CardStackState extends State<CardStack> {
   }
 
 
-  Future ActionsToUsers({String action,String user1,String user2})
+  Future ActionsToUsers({String action,String user1,String user2,Profile profile})
   async {
+
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    print(action);
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 
 
     String URL = "";
     if(action=="like"){
-      Fluttertoast.showToast(msg: "Let's play");
+      //Fluttertoast.showToast(msg: "Let's play");
       URL ="${Global.BaseURL}like";
     }else if(action == "dislike"){
-      Fluttertoast.showToast(msg: "Nope");
+     // Fluttertoast.showToast(msg: "Nope");
       URL ="${Global.BaseURL}dislike";
     }else if(action == "superlike"){
-      Fluttertoast.showToast(msg: "Super Like");
+      //Fluttertoast.showToast(msg: "Super Play");
       URL = "${Global.BaseURL}superlike";
     }
     await http.post(URL,body:{
       "fromUserId":user1,
       "toUserId":user2,
-    }).then((response){
-      print("Response : "+response.body.toString());
+    }).then((response) async {
+
+      if((response.body.toString()=="true" || action == "superlike") && action != "dislike" ){
+
+
+        if(action == "superlike"){
+          print("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+          print("/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+          print("////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+          print("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+        }else
+        {
+          print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+          print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+          print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+          print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+   }
+
+
+        await SendNotification(
+            chat: 'no',
+            body:"New Connection",
+            title: Global.userData.userName,
+            data: {"id":  profile.id, "text": "New Connection"},
+            userId: profile.id);
+
+        print(response.body.toString());
+
+        CreateChat(true,profile);
+
+      }
+
+
+
     });
+
+
   }
 
 
@@ -242,7 +298,7 @@ class _CardStackState extends State<CardStack> {
       "uid":profile.id,
       "image":profile.dp,
       "name":profile.name,
-      "msg":"It's a Match",
+      "msg":"New Connection",
       'time': Timestamp.now(),
     });
 
@@ -250,12 +306,13 @@ class _CardStackState extends State<CardStack> {
       "uid":Global.User.uid,
       "image":Global.userData.profilePicture,
       "name":Global.User.displayName,
-      "msg":"It's a Match",
+      "msg":"New Connection",
       'time': Timestamp.now(),
     });
 
 
     if(SuperLike){
+      print("ShowDialogs for superPlay");
       Global.OtherUserProfile = profile;
       _showDialog(profile);
       //Global.currentpageindex=2;
@@ -598,11 +655,12 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
         slideOutDirection = isInLeftRegion ? SlideDirection.left : SlideDirection.right;
       } else if (isInTopRegion) {
 
-        if(Global.superPlay<1){
+        if(/*Global.superPlay<1*/1==0){
           Fluttertoast.showToast(msg: "No SuperPlay left, try tomorrow.");
           slideBackStart = cardOffset;
           slideBackAnimation.forward(from: 0.0);
         }else {
+          reduceSuperPlay();
           slideOutTween = new Tween(
               begin: cardOffset, end: dragVector * (2 * context.size.height));
           slideOutAnimation.forward(from: 0.0);
@@ -677,8 +735,8 @@ class _DraggableCardState extends State<DraggableCard> with TickerProviderStateM
 
 
 
-    print("DYYYYYY : "+widget.isDraggable.toString()
-    );
+   /* print("DYYYYYY : "+widget.isDraggable.toString()
+    );*/
 
 
     return Stack(

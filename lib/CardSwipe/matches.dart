@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'profiles.dart';
 
 class MatchEngine extends ChangeNotifier {
@@ -34,7 +35,7 @@ class DateMatch extends ChangeNotifier {
   });
 
   void like() {
-    print("Clicked on Like $decision");
+
 
 
     if (decision == Decision.undecided) {
@@ -43,6 +44,7 @@ class DateMatch extends ChangeNotifier {
       notifyListeners();
 
     }
+
   }
 
   void nope() {
@@ -50,6 +52,7 @@ class DateMatch extends ChangeNotifier {
       decision = Decision.nope;
       notifyListeners();
     }
+
   }
 
   void superLike() {
@@ -57,6 +60,7 @@ class DateMatch extends ChangeNotifier {
       decision = Decision.superLike;
       notifyListeners();
     }
+
   }
 
   void reset() {
@@ -64,6 +68,7 @@ class DateMatch extends ChangeNotifier {
       decision = Decision.undecided;
       notifyListeners();
     }
+
   }
 }
 

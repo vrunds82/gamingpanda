@@ -786,7 +786,7 @@ class _settingpageState extends State<settingpage> {
                                             value: val,
                                             child: Padding(
                                               padding: const EdgeInsets.all(10.0),
-                                              child: CustomText(text:val=="World Wide"?val:val+" BETA",
+                                              child: CustomText(text:val=="World Wide"?val:val,
                                                   fontSize: 12),
                                             ),
                                           );
@@ -794,7 +794,7 @@ class _settingpageState extends State<settingpage> {
                                         value: _currentSelectedItemcountry,
                                         onChanged: (value) {
                                           setState(() {
-                                           /* _currentSelectedItemcountry = value;*/
+                                            _currentSelectedItemcountry = value;
                                           });
                                         },
                                       ),

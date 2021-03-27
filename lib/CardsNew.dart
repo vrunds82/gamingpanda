@@ -14,6 +14,8 @@ import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:gamingpanda/models/SwipeUser.dart';
 
+import 'API_Calls/api.dart';
+
 
 class CardsNew extends StatefulWidget {
 
@@ -86,7 +88,7 @@ class _CardsNewState extends State<CardsNew> {
             if(games==""){
               games = ShortName[Games.indexOf(Userslist[i].game2)];
             }else{
-              games +=","+ ShortName[Games.indexOf(Userslist[i].game2)];
+              games +=","+ (Games.indexOf(Userslist[i].game2)!=-1? ShortName[Games.indexOf(Userslist[i].game2)]:"");
             }
           }
           UserProfiles.add(new
@@ -210,9 +212,12 @@ class _CardsNewState extends State<CardsNew> {
                   Spacer(),
                   Center(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () async {
+                        ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+                        await Future.delayed(Duration(milliseconds: 200));
+                        Fluttertoast.showToast(msg: "Nope");
                         matchEngine.currentMatch.nope();
-                      //  ActionsToUsers(action: "dislike",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
+
                       },
                       child: Image.asset('assets/images/cancel.png',height: 50,width: 50,fit: BoxFit.fill,),
                     ),
@@ -225,11 +230,15 @@ class _CardsNewState extends State<CardsNew> {
                           if(Global.superPlay<1){
                             Fluttertoast.showToast(msg: "No SuperPlay left, try tomorrow");
                           }else {
+                            reduceSuperPlay();
+                           // CreateChat(true,matchEngine.currentMatch.profile);
                             ActionsToUsers(action: "superlike", user1: Global
                                 .userData.userId, user2: matchEngine
-                                .currentMatch.profile.id);
-                            await Future.delayed(Duration(milliseconds: 1000));
-                            CreateChat(true);
+                                .currentMatch.profile.id,profile: matchEngine
+                                .currentMatch.profile);
+                            await Future.delayed(Duration(milliseconds: 200));
+
+                            Fluttertoast.showToast(msg: "Super play");
                             matchEngine.currentMatch.superLike();
                           }
 
@@ -244,9 +253,10 @@ class _CardsNewState extends State<CardsNew> {
                         onTap: () async {
 
 
-                          ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id);
-                          await Future.delayed(Duration(milliseconds: 1000));
-                          CreateChat(false);
+                          print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIJKKKKKKKKKKKKKKKKKKKKKKEEEEEEEEEEEEEEEEE");
+                          ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id,profile:matchEngine.currentMatch.profile);
+                          await Future.delayed(Duration(milliseconds: 200));
+                          Fluttertoast.showToast(msg: "Like");
                           matchEngine.currentMatch.like();
                         },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
                   ),
@@ -305,35 +315,35 @@ class _CardsNewState extends State<CardsNew> {
     );
   }
 
-  CreateChat(bool SuperLike){
+  CreateChat(bool SuperLike,Profile profile){
 
-    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(matchEngine.currentMatch.profile.id).setData({
-      "uid":matchEngine.currentMatch.profile.id,
-      "image":matchEngine.currentMatch.profile.dp,
-      "name":matchEngine.currentMatch.profile.name,
-      "msg":"It's a Match",
+    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(profile.id).setData({
+      "uid":profile.id,
+      "image":profile.dp,
+      "name":profile.name,
+      "msg":"New Connection",
       'time': Timestamp.now(),
       "read":false
     });
-    Firestore.instance.collection('inbox/messages/${matchEngine.currentMatch.profile.id}').document(Global.User.uid).setData({
-      "uid":matchEngine.currentMatch.profile.id,
-      "image":matchEngine.currentMatch.profile.dp,
-      "name":matchEngine.currentMatch.profile.name,
-      "msg":"It's a Match",
+    Firestore.instance.collection('inbox/messages/${profile.id}').document(Global.User.uid).setData({
+      "uid":Global.User.uid,
+      "image":Global.User.photoUrl,
+      "name":Global.User.displayName,
+      "msg":"New Connection",
       'time': Timestamp.now(),
       "read":false
     });
 
     if(SuperLike){
-      Global.OtherUserProfile = matchEngine.currentMatch.profile;
+      Global.OtherUserProfile = profile;
     //  Global.currentpageindex=2;
-      if(!matchEngine.currentMatch.profile.disliked) {
-        _showDialog();
+      if(!profile.disliked) {
+        _showDialog(profile: profile);
       }
     }else
     {
-      if(!matchEngine.currentMatch.profile.disliked) {
-        _showDialog();
+      if(!profile.disliked) {
+        _showDialog(profile: profile);
       }
     }
 
@@ -341,7 +351,7 @@ class _CardsNewState extends State<CardsNew> {
     //Navigator.of(context).pushNamed('chat');
   }
 
-  void _showDialog() {
+  void _showDialog({Profile profile}) {
     // flutter defined function
     showDialog(
       context: context,
@@ -390,7 +400,7 @@ class _CardsNewState extends State<CardsNew> {
                                   GestureDetector(
                                     onTap: (){
                                       Navigator.of(context).pop();
-                                      Global.OtherUserProfile = matchEngine.currentMatch.profile;
+                                      Global.OtherUserProfile = profile;
 
                                       if(Global.isweb){
                                         Navigator.of(context).pushReplacementNamed('webChattingPage');
@@ -421,8 +431,11 @@ class _CardsNewState extends State<CardsNew> {
     );
   }
 
-  Future ActionsToUsers({String action,String user1,String user2})
+  Future ActionsToUsers({String action,String user1,String user2,Profile profile})
   {
+
+    print("ACTIONASDAS ASD");
+
     String URL = "";
     if(action=="like"){
       URL ="${Global.BaseURL}like";
@@ -431,11 +444,47 @@ class _CardsNewState extends State<CardsNew> {
     }else if(action == "superlike"){
       URL = "${Global.BaseURL}superlike";
     }
+
+    print("$action");
+
     http.post(URL,body:{
       "fromUserId":user1,
       "toUserId":user2,
-    }).then((response){
-      print(response.body.toString());
+    }).then((response) async {
+      print("Response : ${response.body}");
+      if(response.body.toString()=="true" || action == "superlike" ){
+
+
+        if(action == "superlike"){
+          print("///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+          print("/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+          print("////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+          print("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+        }else
+          {
+            print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+
+
+          }
+
+
+        await SendNotification(
+            chat: 'no',
+            body:"New Connection",
+            title: Global.userData.userName,
+            data: {"id":  profile.id, "text": "New Connection"},
+            userId: profile.id);
+            print(response.body.toString());
+
+        CreateChat(true,profile);
+
+      }
+
+
+
     });
 
   }

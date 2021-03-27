@@ -44,7 +44,7 @@ class Global {
   static String OtherUserId = "arunarun";
   static int noOfUsers =0;
   static bool firstLogin = false;
-  static int superPlay=0;
+  static int superPlay=3;
 
 
 // web Globals
@@ -226,6 +226,7 @@ class customraisedbutton extends StatelessWidget {
           style: TextStyle(
             color: clr,
             fontSize: 12,
+            fontWeight: FontWeight.bold
           ),
         ),
       ),
@@ -1261,10 +1262,10 @@ SendNotification(
   String token;
   print(Global.userData.userId);
   await http.post("${Global.BaseURL}profile/GetToken",
-      body: {"UserID": Global.userData.userId}).then((value) {
+      body: {"UserID": userId}).then((value) {
         print("AÀ");
     token = value.body;
-    print(token);
+    print("TOKEN : "+token);
 
   });
 

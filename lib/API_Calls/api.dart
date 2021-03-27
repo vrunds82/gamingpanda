@@ -21,6 +21,8 @@ GetUserDeatils() async {
 
   });
 
+  //await getSuperPlay();
+
 }
 
 
@@ -40,6 +42,44 @@ getTotalUsers() async {
   });
 }
 
+
+getSuperPlay() async {
+  await http.post("${Global.BaseURL}profile/SuperPanda",body: {
+    "UserId":Global.userData.userId
+  }).then((value){
+
+    print(value.body);
+
+    if(value.body!=null && value.body!="") {
+
+      var parsedData = jsonDecode(value.body);
+
+      if(parsedData['message']!=null && parsedData['type']!="Error"){
+        Global.superPlay = int.parse(parsedData['message']);
+      }
+    }
+  });
+}
+
+reduceSuperPlay() async {
+  await http.post("${Global.BaseURL}profile/SuperPandaReduce",body: {
+    "UserId":Global.userData.userId
+  }).then((value){
+
+    print(value.body);
+
+    if(value.body!=null && value.body!="") {
+
+      var parsedData = jsonDecode(value.body);
+
+      if(parsedData['message']!=null && parsedData['type']!="Error"){
+        Global.superPlay = int.parse(parsedData['message']);
+      }
+    }
+
+
+  });
+}
 
 
 

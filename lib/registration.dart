@@ -363,7 +363,7 @@ class _registerState extends State<register> {
     //  print("Response from Body : "+response.body.toString());
       await GetUserDeatils();
       Global.firstLogin=true;
-   //   Navigator.of(context).pop();
+      Navigator.of(context).pop();
    //   Navigator.of(context).pushReplacementNamed('cardswipe');
       Navigator.of(context).pushReplacementNamed('home');
     });
@@ -371,7 +371,7 @@ class _registerState extends State<register> {
 
   SignUp() async {
 
-  //  ProgressDialog(context);
+    ProgressDialog(context);
 
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text,
@@ -382,13 +382,17 @@ class _registerState extends State<register> {
         print("User Id : ${result.user.uid}");
         await SignupAPI(result.user.uid);
       }else{
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(msg: "Something went Wrong");
       }
 
     }).catchError((onError){
       if(onError!=null && onError.message!=null) {
+        Navigator.of(context).pop();
         Fluttertoast.showToast(msg: onError.message);
       }else
         {
+          Navigator.of(context).pop();
           Fluttertoast.showToast(msg: "Something went Wrong");
         }
     });

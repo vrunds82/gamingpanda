@@ -181,40 +181,40 @@ class _ChatState extends State<Chat> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.arrow_back,color:Global.isSwitchedFT == true ? Global.whitepanda : Global.blackpanda ,),
+                child: Icon(Icons.arrow_back,color:Global.isSwitchedFT == true ? Global.whitepanda : Global.blackpanda ,size: 30,),
               ),
             ),
 
-            title: Row(
+            title: GestureDetector(
+              onTap:(){
+                Navigator.of(context).pushNamed('otherUserDetails');
+              },
+              child: Row(
 
-              children: <Widget>[
-                GestureDetector(
-                  onTap:(){
-                    Navigator.of(context).pushNamed('otherUserDetails');
-                  },
-                  child: Container(
-                      height: 30,
-                      width: 30,
-                      margin: EdgeInsets.only(left: 00, top: 15, bottom: 10),
+                children: <Widget>[
+                  Container(
+                      height: 40,
+                      width: 40,
+
                       decoration: new BoxDecoration(
                           shape: BoxShape.circle,
                           image: new DecorationImage(
                             fit: BoxFit.cover,
                             image:  Global.OtherUserProfile.dp==null|| Global.OtherUserProfile.dp==""?AssetImage('assets/images/user.png'):NetworkImage( Global.OtherUserProfile.dp),
                           ))),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                CustomText(
-                  text: Global.OtherUserProfile.name.length>12?Global.OtherUserProfile.name.substring(0,12):Global.OtherUserProfile.name,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-              ],
+                  SizedBox(
+                    width: 10,
+                  ),
+                  CustomText(
+                    text: Global.OtherUserProfile.name.length>12?Global.OtherUserProfile.name.substring(0,12):Global.OtherUserProfile.name,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                ],
+              ),
             ),
             centerTitle: true,
             actions: <Widget>[
@@ -339,11 +339,14 @@ class _ChatState extends State<Chat> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: (){
-                      sendMessage();
-                      textEditingController.text="";
-                      setState(() {
 
-                      });
+                      if(textEditingController.text!="") {
+                        sendMessage();
+                        textEditingController.text = "";
+                        setState(() {
+
+                        });
+                      }
                    //   Fluttertoast.showToast(msg: "Clicked");
                     },
                     splashColor: Global.orangepanda,
@@ -406,7 +409,7 @@ class _ChatState extends State<Chat> {
         chat: 'yes',
         body:textEditingController.text.toString(),
     title: Global.userData.userName,
-    data: {"id": "asdf", "qwer": "wer"},
+    data: {"id":  Global.OtherUserProfile.id, "text": textEditingController.text.toString()},
     userId: Global.OtherUserProfile.id);
   }
 
@@ -472,17 +475,22 @@ if(!Global.dates.contains(ChatDay)){
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
         children: <Widget>[
-          document['uid'].toString() != Global.userData.userId ?Container(
-              height: 30,
-              width: 30,
-              margin:
-              EdgeInsets.only(left: 20, top: 15, bottom: 10),
-              decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    image: Global.OtherUserProfile.dp==null?AssetImage('assets/images/logo.png'):NetworkImage(Global.OtherUserProfile.dp),
-                  ))):SizedBox(),
+          document['uid'].toString() != Global.userData.userId ?GestureDetector(
+            onTap:(){
+              Navigator.of(context).pushNamed('otherUserDetails');
+            },
+            child: Container(
+                height: 30,
+                width: 30,
+                margin:
+                EdgeInsets.only(left: 20, top: 15, bottom: 10),
+                decoration: new BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(
+                      fit: BoxFit.cover,
+                      image: Global.OtherUserProfile.dp==null?AssetImage('assets/images/logo.png'):NetworkImage(Global.OtherUserProfile.dp),
+                    ))),
+          ):SizedBox(),
           Expanded(
             child: Column(
               crossAxisAlignment: document['uid'].toString() == Global.userData.userId
