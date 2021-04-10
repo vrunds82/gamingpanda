@@ -39,7 +39,7 @@ class _loginpageState extends State<loginpage> {
     }
   }
 
-  Future <FirebaseUser> signIn(String email, String password) async {
+  Future <User> signIn(String email, String password) async {
 
   }
 
@@ -165,12 +165,15 @@ body: Center(
                   final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
                   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
                   ProgressDialog(context);
-                  final AuthCredential credential =await GoogleAuthProvider.getCredential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
+
+
+
+                  final AuthCredential credential = GoogleAuthProvider.credential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
                   print(credential);
                   await FirebaseAuth.instance.signInWithCredential(credential).then((result) async {
 
                     if(result.user!=null){
-                      Global.User=result.user;
+                      Global.firebaseUser=result.user;
                    /*   await UpdateToken();
                       await GetUserDeatils();
                       Navigator.of(context).pushReplacementNamed('home');*/
@@ -210,7 +213,9 @@ body: Center(
 
     ProgressDialog(context);
 
-    await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
+
+
+    await FirebaseAuth.instance.fetchSignInMethodsForEmail(email.text.replaceAll(" ", "").toLowerCase()).then((value) {
       print(value.toString());
       if(value!=null && value.isNotEmpty) {
         login = value[0];
@@ -235,7 +240,7 @@ body: Center(
             .then((user) async {
           if(user.user!=null)
           {
-            Global.User=user.user;
+            Global.firebaseUser=user.user;
             await UpdateToken();
             await GetUserDeatils();
 
@@ -282,11 +287,11 @@ body: Center(
 
     ProgressDialog(context);
 
-    await http.post("${Global.BaseURL}register",
+    await http.post(Uri.parse("${Global.BaseURL}register"),
         body: {
-          "UserId": Global.User.uid,
-          "UserName": Global.User.displayName??"name.text",
-          "Email" : Global.User.email??Global.User.email,
+          "UserId": Global.firebaseUser.uid,
+          "UserName": Global.firebaseUser.displayName??"name.text",
+          "Email" : Global.firebaseUser.email??Global.firebaseUser.email,
           "Token":Global.token??""
         }).then((response) async {
 

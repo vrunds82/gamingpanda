@@ -38,7 +38,7 @@ class _webloginpageState extends State<webloginpage> {
     }
   }
 
-  Future <FirebaseUser> signIn(String email, String password) async {
+  Future <User> signIn(String email, String password) async {
 
   }
 
@@ -130,12 +130,12 @@ class _webloginpageState extends State<webloginpage> {
                         GestureDetector(onTap: () async {
                           final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
                           final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-                          final AuthCredential credential =await GoogleAuthProvider.getCredential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
+                          final AuthCredential credential =await GoogleAuthProvider.credential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken, );
                           print(credential);
                           await FirebaseAuth.instance.signInWithCredential(credential).then((result) async {
 
                             if(result.user!=null){
-                              Global.User=result.user;
+                              Global.firebaseUser=result.user;
                               await GetUserDeatils();
                               await UpdateToken();
 
@@ -211,7 +211,7 @@ class _webloginpageState extends State<webloginpage> {
 
       ProgressDialog(context);
 
-      await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: email.text.replaceAll(" ", "").toLowerCase()).then((value) {
+      await FirebaseAuth.instance.fetchSignInMethodsForEmail(email.text.replaceAll(" ", "").toLowerCase()).then((value) {
         login=value[0];
       }).catchError((onError){
         print("Error in finding values");
@@ -238,7 +238,7 @@ class _webloginpageState extends State<webloginpage> {
             print(user.user.uid);
 
 
-            Global.User=user.user;
+            Global.firebaseUser=user.user;
             //  await UpdateTokenWeb();
             await GetUserDeatils();
             Navigator.of(context).pushReplacementNamed('webHome');

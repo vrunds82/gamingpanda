@@ -18,7 +18,7 @@ class splashscreen extends StatefulWidget {
 
 class _splashscreenState extends State<splashscreen> {
 
-  FirebaseMessaging firebaseMessaging=new FirebaseMessaging();
+  FirebaseMessaging firebaseMessaging;
 
 
 
@@ -26,24 +26,26 @@ class _splashscreenState extends State<splashscreen> {
     await getTotalUsers();
     await ManageNotifications();
     await getSwitchState();
-    FirebaseAuth.instance.currentUser().then((value) async {
-      if(value!=null) {
-        print(value);
-        Global.User = value;
-        print("Calling ${Global.User.uid}");
-        await GetUserDeatils();
 
-        Future.delayed(Duration.zero,(){
-          Navigator.of(context).pushReplacementNamed('home');
-        });
+    User value = FirebaseAuth.instance.currentUser;
+
+    if(value!=null) {
+      print(value);
+      Global.firebaseUser = value;
+      print("Calling ${Global.firebaseUser.uid}");
+      await GetUserDeatils();
+
+      Future.delayed(Duration.zero,(){
+        Navigator.of(context).pushReplacementNamed('home');
+      });
 
 
-      }else
-        {
-          var _duration = new Duration(seconds: 3);
-          new Timer(_duration, navigationPage);
-        }
-    });
+    }else
+    {
+      var _duration = new Duration(seconds: 3);
+      new Timer(_duration, navigationPage);
+    }
+
   }
   void navigationPage() {
     Navigator.of(context).pushReplacementNamed('login');
@@ -74,13 +76,39 @@ class _splashscreenState extends State<splashscreen> {
   }
 
   ManageNotifications()async{
-    firebaseMessaging.getToken().then((token){print(token);
+
+
+    FirebaseMessaging.instance.getToken().then((token){print(token);
     Global.token=token;});
 
 
-    firebaseMessaging.requestNotificationPermissions();
+    FirebaseMessaging.instance.requestPermission();
 
-    firebaseMessaging.configure(
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+        print("onMessage awsef s : $message");
+        var parseddata = message.data;
+        if (Platform.isIOS) {
+          //   toast("iOS");
+
+          showSimpleNotification(
+              Text( parseddata['name']+":"+ parseddata['content']),
+              background: Colors.green);
+        }else
+        {
+          //toast( ['data']);
+          showSimpleNotification(
+              Text(parseddata['name']+":"+parseddata['content']),
+              background: Colors.green);
+        }
+      }
+    });
+
+   /* firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
 
         //  var parsedJson = jsonDecode(message['notification']);
@@ -100,9 +128,9 @@ class _splashscreenState extends State<splashscreen> {
               background: Colors.green);
         }
       },
-     /* onBackgroundMessage:await (Map<String, dynamic> message){
+     *//* onBackgroundMessage:await (Map<String, dynamic> message){
         myBackgroundMessageHandler(message,context);
-      },*/
+      },*//*
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
 
@@ -112,7 +140,7 @@ class _splashscreenState extends State<splashscreen> {
 
         Navigator.of(context).pushNamed('chat');
       },
-    );
+    );*/
 
   }
 

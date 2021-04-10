@@ -19,23 +19,25 @@ class webSplashScreen extends StatefulWidget {
 
 class _webSplashScreenState extends State<webSplashScreen> {
 
-  FirebaseMessaging firebaseMessaging=new FirebaseMessaging();
+  FirebaseMessaging firebaseMessaging;
   startTime() async {
 
 
     await getSwitchState();
-    FirebaseAuth.instance.currentUser().then((value) async {
-      if(value!=null) {
-        Global.User = value;
-        print("Calling");
-        await GetUserDeatils();
-        Navigator.of(context).pushNamed('weblogin');
-      }else
-      {
-        var _duration = new Duration(seconds: 3);
-        new Timer(_duration, navigationPage);
-      }
-    });
+    User value =
+   FirebaseAuth.instance.currentUser;
+
+    if(value!=null) {
+      Global.firebaseUser = value;
+      print("Calling");
+      await GetUserDeatils();
+      Navigator.of(context).pushNamed('weblogin');
+    }else
+    {
+      var _duration = new Duration(seconds: 3);
+      new Timer(_duration, navigationPage);
+    }
+
   }
   void navigationPage() {
     Navigator.of(context).pushNamed('weblogin');
@@ -66,7 +68,7 @@ class _webSplashScreenState extends State<webSplashScreen> {
 
   @override
   void initState() {
-    ManageNotifications();
+  /*  ManageNotifications();*/
     startTime();
     // TODO: implement initState
     super.initState();
@@ -74,7 +76,7 @@ class _webSplashScreenState extends State<webSplashScreen> {
 
   }
 
-  ManageNotifications()async{
+  /*ManageNotifications()async{
 
 
 
@@ -119,6 +121,6 @@ class _webSplashScreenState extends State<webSplashScreen> {
     );
 
   }
-
+*/
 }
 

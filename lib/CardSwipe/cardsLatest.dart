@@ -248,7 +248,7 @@ class _CardStackState extends State<CardStack> {
       //Fluttertoast.showToast(msg: "Super Play");
       URL = "${Global.BaseURL}superlike";
     }
-    await http.post(URL,body:{
+    await http.post(Uri.parse(URL),body:{
       "fromUserId":user1,
       "toUserId":user2,
     }).then((response) async {
@@ -294,7 +294,7 @@ class _CardStackState extends State<CardStack> {
 
 
   CreateChat(bool SuperLike,Profile profile){
-    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(profile.id).setData({
+    FirebaseFirestore.instance.collection('inbox/messages/${Global.firebaseUser.uid}').doc(profile.id).set({
       "uid":profile.id,
       "image":profile.dp,
       "name":profile.name,
@@ -302,10 +302,10 @@ class _CardStackState extends State<CardStack> {
       'time': Timestamp.now(),
     });
 
-    Firestore.instance.collection('inbox/messages/${profile.id}').document(Global.User.uid).setData({
-      "uid":Global.User.uid,
+    FirebaseFirestore.instance.collection('inbox/messages/${profile.id}').doc(Global.firebaseUser.uid).set({
+      "uid":Global.firebaseUser.uid,
       "image":Global.userData.profilePicture,
-      "name":Global.User.displayName,
+      "name":Global.firebaseUser.displayName,
       "msg":"New Connection",
       'time': Timestamp.now(),
     });
@@ -369,7 +369,7 @@ class _CardStackState extends State<CardStack> {
                           ),
                           color:Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
                           child: Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.fromLTRB(20.0,0,20,20),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -378,7 +378,10 @@ class _CardStackState extends State<CardStack> {
                                   mainAxisAlignment: MainAxisAlignment.end,children: [
                                   GestureDetector(onTap: (){
                                     Navigator.of(context).pop();
-                                  },child: Icon(Icons.cancel,color: Global.orangepanda,size: 20,)),
+                                  },child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Icon(Icons.cancel,color: Global.orangepanda,size: 20,),
+                                  )),
                                 ],),
                                 Padding(
                                   padding: const EdgeInsets.all(20.0),

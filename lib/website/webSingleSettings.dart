@@ -1043,7 +1043,7 @@ class _webSingleSettingPageState extends State<webSingleSettingPage> {
     print(year);
     print(gender[selectedRadio]);
 
-    await http.post("${Global.BaseURL}profile/OwnUserProfile",
+    await http.post(Uri.parse("${Global.BaseURL}profile/OwnUserProfile"),
         body:{
         "UserId": Global.userData.userId,
         "UserName": username.text.toString(),
@@ -1053,7 +1053,7 @@ class _webSingleSettingPageState extends State<webSingleSettingPage> {
         "Rank":_currentSelectedItemrank,
         "Country":_currentSelectedItemcountry,
         "Gender":gender[selectedRadio],
-        "Email":Global.User.email,
+        "Email":Global.firebaseUser.email,
         "Password":"",
         "Day":day,
         "Month":(Monthlist.indexOf(month)+1).toString(),

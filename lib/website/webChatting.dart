@@ -159,8 +159,8 @@ class _webChattingState extends State<webChatting> {
                                 click: () async {
 
                                   ProgressDialog(context);
-                                  print("inbox/messages/"+Global.User.uid+"/"+widget.UserProfile.id);
-                                  await Firestore.instance.collection("inbox/messages/"+Global.User.uid).document(widget.UserProfile.id).delete().catchError((error){
+                                  print("inbox/messages/"+Global.firebaseUser.uid+"/"+widget.UserProfile.id);
+                                  await FirebaseFirestore.instance.collection("inbox/messages/"+Global.firebaseUser.uid).doc(widget.UserProfile.id).delete().catchError((error){
                                     print(error);
                                   });
                                   Navigator.of(context).pop();

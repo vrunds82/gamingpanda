@@ -301,8 +301,13 @@ class _profilepageState extends State<profilepage> {
     String URL ="";
 
 
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
+    final picker = ImagePicker();
+    File image;
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+
+      image  = File(pickedFile.path);
+
 
       croppedFile = await ImageCropper.cropImage(
           sourcePath: image.path,
@@ -325,35 +330,24 @@ class _profilepageState extends State<profilepage> {
 
       ProgressDialog(context);
 
-      final StorageReference storageReferencem = FirebaseStorage()
+      final Reference storageReferencem = FirebaseStorage.instance
           .ref()
-          .child("Users/"+Global.User.email+ "/${DateTime.now().millisecondsSinceEpoch}");
-      final StorageUploadTask uploadTaskm =
-      storageReferencem.putFile(croppedFile);
-      await uploadTaskm.onComplete;
+          .child("Users/"+Global.firebaseUser.email+ "/${DateTime.now().millisecondsSinceEpoch}");
+   await storageReferencem.putFile(croppedFile);
+
       await storageReferencem.getDownloadURL().then((url) {
         URL=url;
       });
 
-      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
-      userUpdateInfo.photoUrl = URL;
-     FirebaseUser u;
-      await FirebaseAuth.instance.currentUser().then((User) {
-        u = User;
-      });
-      await u.updateProfile(
-          userUpdateInfo);
-      await u.reload();
-      await FirebaseAuth.instance
-          .currentUser()
-          .then((User) {
-        Global.User = User;
-      });
+      User u = FirebaseAuth.instance.currentUser;
+      u.updateProfile(photoURL: URL);
 
 
-      await http.post("${Global.BaseURL}profile/profileImage",
+
+
+      await http.post(Uri.parse("${Global.BaseURL}profile/profileImage"),
           body:{
-            "UserId": Global.User.uid,
+            "UserId": Global.firebaseUser.uid,
             "ProfilePicture": URL,
           }
       ).then((response){

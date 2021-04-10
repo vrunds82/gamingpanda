@@ -1,12 +1,11 @@
 import 'dart:convert';
-
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/cards.dart';
 import 'package:gamingpanda/CardSwipe/matches.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/Lists.dart';
 import 'package:gamingpanda/models/SwipeUser.dart';
+
 import 'package:http/http.dart' as http;
 import 'global.dart';
 
@@ -22,14 +21,6 @@ class cardpage extends StatefulWidget {
 class _cardpageState extends State<cardpage> {
 
 
-  MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices:  null,
-    childDirected: true,
-    nonPersonalizedAds: true,
-  );
-
-
-  InterstitialAd _interstitialAd;
 
   void callback(){
     widget.callback();
@@ -53,7 +44,7 @@ loading = true;
     setState(() {
 
     });
-    http.post("${Global.BaseURL}filtered",body: {"UserId":Global.User.uid}).then((value) {
+    http.post(Uri.parse("${Global.BaseURL}filtered"),body: {"UserId":Global.firebaseUser.uid}).then((value) {
       dynamic parsedjson = jsonDecode(value.body);
       Userslist = (parsedjson as List).map((json) => SwipeUser.fromJson(json)).toList();
       print(Userslist.length);

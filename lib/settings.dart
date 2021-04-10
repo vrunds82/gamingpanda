@@ -247,7 +247,7 @@ class _settingpageState extends State<settingpage> {
                                 image: new DecorationImage(
 
                                   fit: BoxFit.cover,
-                                  image:Global.User.photoUrl==null||Global.User.photoUrl==""?AssetImage('assets/images/logo.png'): NetworkImage(Global.User.photoUrl),
+                                  image:Global.firebaseUser.photoURL==null||Global.firebaseUser.photoURL==""?AssetImage('assets/images/logo.png'): NetworkImage(Global.firebaseUser.photoURL),
                                 ))),
                       ),
                     ),
@@ -1222,9 +1222,9 @@ class _settingpageState extends State<settingpage> {
     print(year);
     print(gender[selectedRadio]);
 
-    await http.post("${Global.BaseURL}profile/OwnUserProfile",
+    await http.post(Uri.parse("${Global.BaseURL}profile/OwnUserProfile"),
         body:{
-        "UserId": Global.User.uid,
+        "UserId": Global.firebaseUser.uid,
         "UserName": username.text.toString(),
         "Game1":_currentSelectedItemgame??"",
         "Game2":_currentSelectedItemgame2??"",
@@ -1232,7 +1232,7 @@ class _settingpageState extends State<settingpage> {
         "Rank":_currentSelectedItemrank??"",
         "Country":_currentSelectedItemcountry??"",
         "Gender":gender[selectedRadio]??"",
-        "Email":Global.User.email??"",
+        "Email":Global.firebaseUser.email??"",
         "Password":"",
         "Day":day??"",
         "Month":(Monthlist.indexOf(month)+1).toString()??"",
@@ -1327,11 +1327,11 @@ class _settingpageState extends State<settingpage> {
       ShowErrorMessage(msg: "Password must be of minimum 8 characters.");
     }else {
       await http.post(
-          "${Global.BaseURL}profile/deleteMe",
-          body: {"UserId": Global.User.uid}).then((response) {
+          Uri.parse("${Global.BaseURL}profile/deleteMe"),
+          body: {"UserId": Global.firebaseUser.uid}).then((response) {
 
 
-        FirebaseAuth.instance.signInWithEmailAndPassword(email: Global.User.email, password: DeletePassword.text).then((value){
+        FirebaseAuth.instance.signInWithEmailAndPassword(email: Global.firebaseUser.email, password: DeletePassword.text).then((value){
           if(value.user!=null){
             value.user.delete();
           }else

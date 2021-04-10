@@ -11,10 +11,12 @@ class Messages extends StatefulWidget {
 }
 
 class _MessagesState extends State<Messages> {
+
   getDocuments() async {
-    QuerySnapshot asdf = await Firestore.instance.collection("inbox/messages/"+Global.User.uid).getDocuments();
-    print("Documentsdfa asdfasdf ${asdf.documents.length}");
+    QuerySnapshot asdf = await FirebaseFirestore.instance.collection("inbox/messages/"+Global.firebaseUser.uid).get();
+    print("Documentsdfa asdfasdf ${asdf.docs.length}");
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -42,23 +44,27 @@ class _MessagesState extends State<Messages> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection("inbox/messages/"+Global.User.uid).orderBy('time',descending: true).snapshots(),
+                stream: FirebaseFirestore.instance.collection("inbox/messages/"+Global.firebaseUser.uid).orderBy('time',descending: true).snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError)
                     return new Text('Error: ${snapshot.error}');
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting: return new Text('Loading...');
                     default:
-                      print(snapshot.data.documents.toString());
-                      return snapshot.data.documents.length!=0?
+                      print(snapshot.data.docs.toString());
+                      return snapshot.data.docs.length!=0?
                       ListView(
                         padding: EdgeInsets.all(0),
-                        children: snapshot.data.documents.map((DocumentSnapshot document) {
+                        children: snapshot.data.docs.map((DocumentSnapshot document) {
+
+                          Map<String,dynamic> data = document.data();
+
                           return GestureDetector(onTap: (){
                             Global.OtherUserProfile = Profile(
-                              name: document.data['name'],
-                              id: document.data['uid'],
-                              dp: document.data['image']
+                              name: data['name'],
+                              id:data['uid'],
+                              dp: data['image'],
+                              unmatched: data['unmatch']??false
                             );
 
                             print(jsonEncode(Global.OtherUserProfile));

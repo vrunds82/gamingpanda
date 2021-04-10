@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +40,14 @@ class Global {
   static Color SuperLikeBlue = Color(0xff6B73FF);
   static int currentpageindex = 1;
   static double IconSize = 0.06;
-  static FirebaseUser User;
+  static User firebaseUser;
   static UserData userData;
   static Profile OtherUserProfile;
   static String OtherUserId = "arunarun";
   static int noOfUsers =0;
   static bool firstLogin = false;
   static int superPlay=3;
+  static bool rateUsDialogCancel= false;
 
 
 // web Globals
@@ -80,10 +83,10 @@ class myMessagesTile extends StatelessWidget {
                           color: Colors.white,
                           image: new DecorationImage(
                             fit: BoxFit.cover,
-                            image: documentSnapshot.data['image'] == null ||
-                                    documentSnapshot.data['image'] == ""
+                            image: documentSnapshot.get('image') == null ||
+                                    documentSnapshot.get('image') == ""
                                 ? AssetImage('assets/images/logo.png')
-                                : NetworkImage(documentSnapshot.data['image']),
+                                : NetworkImage(documentSnapshot.get('image')),
                           ))),
                   Positioned(
                     right: 8,
@@ -114,14 +117,14 @@ class myMessagesTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CustomText(
-                        text: documentSnapshot.data['name'] ?? "",
+                        text: documentSnapshot.get('name') ?? "",
                         fontSize: 18,
                       ),
                       Text(
-                        documentSnapshot.data['msg'] ?? "",
+                        documentSnapshot.get('msg') ?? "",
                         style: TextStyle(
-                          fontWeight: documentSnapshot.data['read']!=null && documentSnapshot.data['read']?FontWeight.normal:FontWeight.bold,
-                            fontSize: 15, color: documentSnapshot.data['read']!=null && documentSnapshot.data['read']?Colors.grey:Global.orangepanda),
+                          fontWeight: documentSnapshot.get('read')!=null && documentSnapshot.get('read')?FontWeight.normal:FontWeight.bold,
+                            fontSize: 15, color: documentSnapshot.get('read')!=null && documentSnapshot.get('read')?Colors.grey:Global.orangepanda),
                         textAlign: TextAlign.left,
 
                       ),
@@ -1261,7 +1264,7 @@ SendNotification(
 
   String token;
   print(Global.userData.userId);
-  await http.post("${Global.BaseURL}profile/GetToken",
+  await http.post(Uri.parse("${Global.BaseURL}profile/GetToken"),
       body: {"UserID": userId}).then((value) {
         print("AÀ");
     token = value.body;
@@ -1273,7 +1276,7 @@ SendNotification(
 
   Map<String, String> data = {
     'chat': chat ?? 'no',
-    'uid': Global.User.uid,
+    'uid': Global.firebaseUser.uid,
     'name': title,
     'image': "",
     'content': body
@@ -1282,11 +1285,11 @@ SendNotification(
   // Replace with server token from firebase console settings.
   final String serverToken =
       'AAAAFA6EFDc:APA91bH0UQSM4KRrmHdl4ZvdT3wm1Ow5bDn9-PfarK2RoXd26yo5OyHTLiUElsJvzQWTp8FH1a-J19Na6h9kcvxejzVCge4YS-9CadDNSvy5GWNGbxJUMm6xa8cwSlMlCDRkzCJo1ph2';
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+   FirebaseMessaging firebaseMessaging ;
 
   await http
       .post(
-    'https://fcm.googleapis.com/fcm/send',
+    Uri.parse('https://fcm.googleapis.com/fcm/send'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'Authorization': 'key=$serverToken',

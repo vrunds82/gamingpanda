@@ -304,7 +304,7 @@ class _aboutuState extends State<aboutu> {
     ProgressDialog(context);
     print(myImagesURL);
     print(AboutUsController.text);
-    await http.post("${Global.BaseURL}image",body: {
+    await http.post(Uri.parse("${Global.BaseURL}image"),body: {
       "UserId":Global.userData.userId,
       "image1":myImagesURL[0]??"null",
       "image2":myImagesURL[1]??"null",
@@ -329,8 +329,8 @@ class _aboutuState extends State<aboutu> {
     ProgressDialog(context);
     print(myImagesURL);
     print(AboutUsController.text);
-    await http.post("${Global.BaseURL}changeImage",body: {
-      "UserId":Global.User.uid,
+    await http.post(Uri.parse("${Global.BaseURL}changeImage"),body: {
+      "UserId":Global.firebaseUser.uid,
       "image1":myImagesURL[0]??"null",
       "image2":myImagesURL[1]??"null",
       "image3":myImagesURL[2]??"null",
@@ -357,9 +357,12 @@ class _aboutuState extends State<aboutu> {
   Future<File> GetImage(int index) async {
     String URL ="";
     File croppedFile;
+    final picker = ImagePicker();
+    File image;
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    if (pickedFile != null) {
 
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
+      image  = File(pickedFile.path);
 
       croppedFile = await ImageCropper.cropImage(
           sourcePath: image.path,
@@ -383,14 +386,14 @@ class _aboutuState extends State<aboutu> {
       if(croppedFile!=null) {
         ProgressDialog(context);
 
-        final StorageReference storageReferencem = FirebaseStorage()
+        final Reference storageReferencem = FirebaseStorage.instance
             .ref()
-            .child("Users/" + Global.User.email + "/${DateTime
+            .child("Users/" + Global.firebaseUser.email + "/${DateTime
             .now()
             .millisecondsSinceEpoch}");
-        final StorageUploadTask uploadTaskm =
-        storageReferencem.putFile(croppedFile);
-        await uploadTaskm.onComplete;
+
+      await storageReferencem.putFile(croppedFile);
+
         await storageReferencem.getDownloadURL().then((url) {
           URL = url;
         });

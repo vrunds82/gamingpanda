@@ -251,7 +251,7 @@ class _OtherUserProfileWidgetState extends State<OtherUserProfileWidget> {
                       click: () {
                         DeleteUserFromChat();
                       },
-                      text: "DELETE",
+                      text: "UNMATCH",
                       clr: Global.whitepanda,
                       bgclr: Global.darkBlue,
 
@@ -278,9 +278,19 @@ class _OtherUserProfileWidgetState extends State<OtherUserProfileWidget> {
 
 
   DeleteUserFromChat() async {
+
+
+
+
+
     ProgressDialog(context);
-    print("inbox/messages/"+Global.User.uid+"/"+widget.UserProfile.id);
-    await Firestore.instance.collection("inbox/messages/"+Global.User.uid).document(widget.UserProfile.id).delete().catchError((error){
+    print("inbox/messages/"+Global.firebaseUser.uid+"/"+widget.UserProfile.id);
+    await FirebaseFirestore.instance.collection("inbox/messages/"+Global.firebaseUser.uid).doc(widget.UserProfile.id).delete().catchError((error){
+      print(error);
+    });
+    await FirebaseFirestore.instance.collection("inbox/messages/"+widget.UserProfile.id).doc(Global.firebaseUser.uid).update({
+      "unmatch":true
+    }).catchError((error){
       print(error);
     });
     Navigator.of(context).pop();

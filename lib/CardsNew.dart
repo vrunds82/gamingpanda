@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttery_dart2/layout.dart';
 import 'package:gamingpanda/Lists.dart';
 import 'package:gamingpanda/customToast/CustomToast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardSwipe/cardsLatest.dart';
@@ -13,6 +15,7 @@ import 'package:gamingpanda/CardSwipe/matches.dart';
 import 'package:gamingpanda/CardSwipe/profiles.dart';
 import 'package:gamingpanda/global.dart';
 import 'package:gamingpanda/models/SwipeUser.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'API_Calls/api.dart';
 
@@ -28,10 +31,25 @@ class CardsNew extends StatefulWidget {
 
 class _CardsNewState extends State<CardsNew> {
 
+  String androidAdUnit="ca-app-pub-4410082645831184/5602740922";
+  String iOSAdUnit = "ca-app-pub-4410082645831184/9031043561";
+
+InterstitialAd myInterstitial;
+
+ AdListener listener;
+
+
   void callback(){
     widget.callback();
   }
 
+
+  ShowAd(){
+
+    myInterstitial.load();
+    myInterstitial.show();
+
+  }
   bool loading = true;
 
   List<SwipeUser> Userslist = new List();
@@ -42,9 +60,8 @@ class _CardsNewState extends State<CardsNew> {
   GetAllUsers(){
     loading = true;
     setState(() {
-
     });
-    http.post("${Global.BaseURL}filtered",body: {"UserId":Global.User.uid}).then((value) {
+    http.post(Uri.parse("${Global.BaseURL}filtered"),body: {"UserId":Global.firebaseUser.uid}).then((value) {
       dynamic parsedjson = jsonDecode(value.body);
       Userslist = (parsedjson as List).map((json) => SwipeUser.fromJson(json)).toList();
       print(Userslist.length);
@@ -129,6 +146,36 @@ class _CardsNewState extends State<CardsNew> {
     // TODO: implement initState
     super.initState();
     GetAllUsers();
+
+    listener = AdListener(
+      // Called when an ad is successfully received.
+      onAdLoaded: (Ad ad) {
+
+        myInterstitial.show();
+      },
+      // Called when an ad request failed.
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        ad.dispose();
+        print('Ad failed to load: $error');
+      },
+      // Called when an ad opens an overlay that covers the screen.
+      onAdOpened: (Ad ad) => print('Ad opened.'),
+      // Called when an ad removes an overlay that covers the screen.
+      onAdClosed: (Ad ad) {
+        ad.dispose();
+        print('Ad closed.');
+      },
+      // Called when an ad is in the process of leaving the application.
+      onApplicationExit: (Ad ad) => print('Left application.'),
+    );
+
+    myInterstitial = InterstitialAd(
+        adUnitId: Platform.isAndroid?"ca-app-pub-4410082645831184/5602740922":"ca-app-pub-4410082645831184/9031043561",
+      //adUnitId: "ca-app-pub-3940256099942544/1033173712",
+      request: AdRequest(),
+      listener: AdListener(),
+    );
+
   }
 
   @override
@@ -256,7 +303,7 @@ class _CardsNewState extends State<CardsNew> {
                           print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIJKKKKKKKKKKKKKKKKKKKKKKEEEEEEEEEEEEEEEEE");
                           ActionsToUsers(action: "like",user1: Global.userData.userId,user2: matchEngine.currentMatch.profile.id,profile:matchEngine.currentMatch.profile);
                           await Future.delayed(Duration(milliseconds: 200));
-                          Fluttertoast.showToast(msg: "Like");
+                          Fluttertoast.showToast(msg: "Let's Play");
                           matchEngine.currentMatch.like();
                         },child: Image.asset('assets/images/gamebtn.png',height: 50,width: 50,fit: BoxFit.fill,)),
                   ),
@@ -317,7 +364,7 @@ class _CardsNewState extends State<CardsNew> {
 
   CreateChat(bool SuperLike,Profile profile){
 
-    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(profile.id).setData({
+    FirebaseFirestore.instance.collection('inbox/messages/${Global.firebaseUser.uid}').doc(profile.id).set({
       "uid":profile.id,
       "image":profile.dp,
       "name":profile.name,
@@ -325,10 +372,10 @@ class _CardsNewState extends State<CardsNew> {
       'time': Timestamp.now(),
       "read":false
     });
-    Firestore.instance.collection('inbox/messages/${profile.id}').document(Global.User.uid).setData({
-      "uid":Global.User.uid,
-      "image":Global.User.photoUrl,
-      "name":Global.User.displayName,
+    FirebaseFirestore.instance.collection('inbox/messages/${profile.id}').doc(Global.firebaseUser.uid).set({
+      "uid":Global.firebaseUser.uid,
+      "image":Global.firebaseUser.photoURL,
+      "name":Global.firebaseUser.displayName,
       "msg":"New Connection",
       'time': Timestamp.now(),
       "read":false
@@ -374,7 +421,7 @@ class _CardsNewState extends State<CardsNew> {
                       color:Global.isSwitchedFT == true ? Global.blackpanda : Global.whitepanda,
 
                       child: Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.fromLTRB(20.0,0,20,20),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -384,7 +431,10 @@ class _CardsNewState extends State<CardsNew> {
 
                               GestureDetector(onTap: (){
                                 Navigator.of(context).pop();
-                              },child: Icon(Icons.cancel,color: Global.orangepanda,size: 20,)),
+                              },child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Icon(Icons.cancel,color: Global.orangepanda,size: 20,),
+                              )),
                             ],),
                             Padding(
                               padding: const EdgeInsets.all(20.0),
@@ -431,6 +481,8 @@ class _CardsNewState extends State<CardsNew> {
     );
   }
 
+
+
   Future ActionsToUsers({String action,String user1,String user2,Profile profile})
   {
 
@@ -447,7 +499,7 @@ class _CardsNewState extends State<CardsNew> {
 
     print("$action");
 
-    http.post(URL,body:{
+    http.post(Uri.parse(URL),body:{
       "fromUserId":user1,
       "toUserId":user2,
     }).then((response) async {

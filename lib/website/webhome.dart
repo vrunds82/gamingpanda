@@ -46,7 +46,7 @@ class _webHomeState extends State<webHome> {
 
     print("Getting UserDetails of : ${Global.OtherUserProfile.id}");
 
-   await http.post("${Global.BaseURL}profile/otherUser",
+   await http.post(Uri.parse("${Global.BaseURL}profile/otherUser"),
        body: {"UserId":Global.OtherUserProfile.id}).then((value) {
 
 
@@ -160,7 +160,7 @@ class _webHomeState extends State<webHome> {
                                     image: new DecorationImage(
 
                                       fit: BoxFit.cover,
-                                      image:Global.User.photoUrl==null||Global.User.photoUrl==""?AssetImage('assets/images/logo.png'): NetworkImage(Global.User.photoUrl),
+                                      image:Global.firebaseUser.photoURL==null||Global.firebaseUser.photoURL==""?AssetImage('assets/images/logo.png'): NetworkImage(Global.firebaseUser.photoURL),
                                     ))),
                           ),
                         ),
@@ -220,22 +220,25 @@ class _webHomeState extends State<webHome> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance.collection("inbox/messages/"+Global.User.uid).snapshots(),
+                        stream: FirebaseFirestore.instance.collection("inbox/messages/"+Global.firebaseUser.uid).snapshots(),
                         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasError)
                             return new Text('Error: ${snapshot.error}');
                           switch (snapshot.connectionState) {
                             case ConnectionState.waiting: return new Text('Loading...');
                             default:
-                              print(snapshot.data.documents.toString());
-                              return snapshot.data.documents.length!=0?
+                              print(snapshot.data.docs.toString());
+                              return snapshot.data.docs.length!=0?
                               ListView(
-                                children: snapshot.data.documents.map((DocumentSnapshot document) {
+                                children: snapshot.data.docs.map((DocumentSnapshot document) {
+
+                                  Map<String,dynamic> data = document.data();
+
                                   return GestureDetector(onTap: (){
                                     Global.OtherUserProfile = Profile(
-                                        name: document.data['name'],
-                                        id: document.data['uid'],
-                                        dp: document.data['image']
+                                        name: data['name'],
+                                        id:data['uid'],
+                                        dp: data['image']
                                     );
                                    // Navigator.of(context).pushNamed('chat');
                                     Global.webCurrentPageIndex=1;

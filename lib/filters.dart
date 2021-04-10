@@ -450,7 +450,7 @@ Row(
 
     ProgressDialog(context);
 
-    print(Global.User.uid);
+    print(Global.firebaseUser.uid);
     print(_currentSelectedItemgame);
     print(_currentSelectedItemcountry);
     print(_currentSelectedItemrank);
@@ -461,9 +461,9 @@ Row(
     print(end);
 
     print("calling..");
- await  http.post("${Global.BaseURL}profile/updateFilter",
+ await  http.post(Uri.parse("${Global.BaseURL}profile/updateFilter"),
       body:{
-        "UserId": Global.User.uid,
+        "UserId": Global.firebaseUser.uid,
         "Game":_currentSelectedItemgame??"null",
         "Server":_currentSelectedItemserver??"null",
         "Rank":_currentSelectedItemrank??"null",

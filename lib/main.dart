@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gamingpanda/CardsNew.dart';
 import 'package:gamingpanda/Chat.dart';
@@ -21,6 +22,7 @@ import 'package:gamingpanda/website/webSettingPage.dart';
 import 'package:gamingpanda/website/webSplashScreen.dart';
 import 'package:gamingpanda/website/webhome.dart';
 import 'package:gamingpanda/website/weblogin.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 
@@ -28,9 +30,14 @@ import 'Home.dart';
 import 'global.dart';
 import 'livechat.dart';
 
-void main() => runApp(
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  MobileAds.instance.initialize();
+  runApp(
 
-    MyApp());
+      MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -86,7 +93,7 @@ class MyApplication extends StatefulWidget {
 }
 
 class _MyApplicationState extends State<MyApplication> {
-  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+  FirebaseMessaging firebaseMessaging ;
 
   gettoken() async {
     await firebaseMessaging.getToken().then((token) {

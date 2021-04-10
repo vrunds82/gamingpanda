@@ -41,7 +41,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     }
   }
 
-  Future <FirebaseUser> signIn(String email, String password) async {
+  Future <User> signIn(String email, String password) async {
 
   }
 

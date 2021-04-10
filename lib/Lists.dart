@@ -267,7 +267,7 @@ const List<String> Games =[
 
 const List<String> gender = ["","Male","Female","Unknown"];
 const List<String> Server =[
-  "EUW", "EUNE", "NA", "LAN (LA1)", "LAS (LA2)", "TR", "RU", "OCE", "BR", "KR", "JP"
+  "Any Server","EUW", "EUNE", "NA", "LAN (LA1)", "LAS (LA2)", "TR", "RU", "OCE", "BR", "KR", "JP"
 ];
 
 const List<String> Rank =[

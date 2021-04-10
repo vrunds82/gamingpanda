@@ -72,8 +72,12 @@ class _registerState extends State<register> {
                  SizedBox(height: 15,),
                  GestureDetector(
                  onTap: () async {
-                   image = await ImagePicker.pickImage(source: ImageSource.gallery);
-                   if (image != null) {
+                   final picker = ImagePicker();
+                   File image;
+                   final pickedFile = await picker.getImage(source: ImageSource.camera);
+                   if (pickedFile != null) {
+
+                     image  = File(pickedFile.path);
 
                      croppedFile = await ImageCropper.cropImage(
                          sourcePath: image.path,
@@ -319,44 +323,33 @@ class _registerState extends State<register> {
 
     if(croppedFile!=null) {
       print("Uploading FUle");
-      final StorageReference storageReferencem = FirebaseStorage()
+      final Reference storageReferencem = FirebaseStorage.instance
           .ref()
           .child("Users/" +email.text + "/${DateTime
           .now()
           .millisecondsSinceEpoch}");
-      final StorageUploadTask uploadTaskm = storageReferencem.putFile(croppedFile);
-      await uploadTaskm.onComplete.catchError((onError){
-        print(onError);
-      });
+     await storageReferencem.putFile(croppedFile);
+
       await storageReferencem.getDownloadURL().then((url) {
         URL = url;
       });
 
-      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
-      userUpdateInfo.photoUrl = URL;
-      FirebaseUser u;
-      await FirebaseAuth.instance.currentUser().then((User) {
-        u = User;
-      });
-      await u.updateProfile(
-          userUpdateInfo);
-      await u.reload();
-      await FirebaseAuth.instance
-          .currentUser()
-          .then((User) {
-        Global.User = User;
-      });
+
+      User u = FirebaseAuth.instance.currentUser;
+
+      u.updateProfile(photoURL: URL);
+
     }else{
       print("Uploading");
     }
 
     print("Calling API");
 
-    await http.post("${Global.BaseURL}register",
+    await http.post(Uri.parse("${Global.BaseURL}register"),
         body: {
-          "UserId": Global.User.uid,
-         "UserName": Global.User.displayName??name.text,
-          "Email" : Global.User.email??email.text,
+          "UserId": Global.firebaseUser.uid,
+         "UserName": Global.firebaseUser.displayName??name.text,
+          "Email" : Global.firebaseUser.email??email.text,
           "Token":Global.token??""
         }).then((response) async {
           print(response.statusCode);
@@ -378,7 +371,7 @@ class _registerState extends State<register> {
         password:password.text).
     then((result) async {
       if(result.user!=null) {
-        Global.User=result.user;
+        Global.firebaseUser=result.user;
         print("User Id : ${result.user.uid}");
         await SignupAPI(result.user.uid);
       }else{

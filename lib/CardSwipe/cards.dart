@@ -141,7 +141,7 @@ class _CardStackState extends State<CardStack> {
   }else if(action == "superlike"){
     URL = "${Global.BaseURL}superlike";
   }
-    http.post(URL,body:{
+    http.post(Uri.parse(URL),body:{
       "fromUserId":user1,
       "toUserId":user2,
     }).then((response){
@@ -180,14 +180,14 @@ class _CardStackState extends State<CardStack> {
 
   CreateChat(bool SuperLike){
 
-    Firestore.instance.collection('inbox/messages/${Global.User.uid}').document(_currentMatch.profile.id).setData({
+    FirebaseFirestore.instance.collection('inbox/messages/${Global.firebaseUser.uid}').doc(_currentMatch.profile.id).set({
       "uid":_currentMatch.profile.id,
       "image":_currentMatch.profile.dp,
       "name":_currentMatch.profile.name,
       "msg":"New Connection",
       'time': Timestamp.now(),
     });
-    Firestore.instance.collection('inbox/messages/${_currentMatch.profile.id}').document(Global.User.uid).setData({
+    FirebaseFirestore.instance.collection('inbox/messages/${_currentMatch.profile.id}').doc(Global.firebaseUser.uid).set({
       "uid":_currentMatch.profile.id,
       "image":_currentMatch.profile.dp,
       "name":_currentMatch.profile.name,

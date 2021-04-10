@@ -10,8 +10,8 @@ import 'package:http/http.dart' as http;
 import '../Lists.dart';
 
 GetUserDeatils() async {
-  await http.post("${Global.BaseURL}profile/GetOwnUserProfile",
-      body:{"UserId":Global.User.uid}).then((response){
+  await http.post(Uri.parse("${Global.BaseURL}profile/GetOwnUserProfile"),
+      body:{"UserId":Global.firebaseUser.uid}).then((response){
         print(response.statusCode);
 
         print(response.body);
@@ -27,7 +27,7 @@ GetUserDeatils() async {
 
 
 getTotalUsers() async {
-  await http.get("${Global.BaseURL}UserCount").then((value){
+  await http.get(Uri.parse("${Global.BaseURL}UserCount")).then((value){
 
     print(value.body);
 
@@ -44,7 +44,7 @@ getTotalUsers() async {
 
 
 getSuperPlay() async {
-  await http.post("${Global.BaseURL}profile/SuperPanda",body: {
+  await http.post(Uri.parse("${Global.BaseURL}profile/SuperPanda"),body: {
     "UserId":Global.userData.userId
   }).then((value){
 
@@ -62,7 +62,7 @@ getSuperPlay() async {
 }
 
 reduceSuperPlay() async {
-  await http.post("${Global.BaseURL}profile/SuperPandaReduce",body: {
+  await http.post(Uri.parse("${Global.BaseURL}profile/SuperPandaReduce"),body: {
     "UserId":Global.userData.userId
   }).then((value){
 
@@ -93,20 +93,20 @@ UpdateTokenWeb() async {
     print('Token: $_token');
   });*/
 
-  await http.post("${Global.BaseURL}profile/token",
-      body:{"Token":Global.token??"","UserID":Global.User.uid}).then((response){});
+  await http.post(Uri.parse("${Global.BaseURL}profile/token"),
+      body:{"Token":Global.token??"","UserID":Global.firebaseUser.uid}).then((response){});
 }
 
 UpdateToken() async {
-  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+  FirebaseMessaging firebaseMessaging;
  await firebaseMessaging.getToken().then((value) async {
 
    if(value!=null) {
      Global.token = value;
 
      print("TOKEN : " + Global.token);
-     await http.post("${Global.BaseURL}profile/token",
-         body:{"Token":Global.token??"","UserID":Global.User.uid}).then((response){
+     await http.post(Uri.parse("${Global.BaseURL}profile/token"),
+         body:{"Token":Global.token??"","UserID":Global.firebaseUser.uid}).then((response){
 
            print("TOKEN UPDATED");
            print(response.body);
@@ -127,7 +127,7 @@ Future<Profile> OtherUserDetails() async {
 
   print("Getting UserDetails of : ${Global.OtherUserProfile.id}");
 
-  await http.post("${Global.BaseURL}profile/otherUser",
+  await http.post(Uri.parse("${Global.BaseURL}profile/otherUser"),
       body: {"UserId":Global.OtherUserProfile.id}).then((value) {
 
     OtherUserProfile = UserData.fromJson(jsonDecode(value.body));
