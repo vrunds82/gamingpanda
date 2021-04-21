@@ -554,7 +554,7 @@ class _ChatState extends State<Chat> {
                               ],),
                             Padding(
                               padding: const EdgeInsets.all(20.0),
-                              child: Image.asset('assets/images/pandaorange.png',width: Global.width*(Global.isweb?0.05:0.3),),
+                              child: Image.asset('assets/images/rateusicon.png',width: Global.width*(Global.isweb?0.05:0.3),),
                             ),
                             CustomText(text:"Please help us to attract more gramers",color: Global.orangepanda,),
                             Padding(

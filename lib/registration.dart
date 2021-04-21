@@ -108,11 +108,11 @@ class _registerState extends State<register> {
 
                    });
                  },
-                   child: image!=null?Container(
+                   child: croppedFile!=null?Container(
                      decoration: BoxDecoration(
                          borderRadius: BorderRadius.circular(100),
 
-                         image: DecorationImage(image: FileImage(image),fit: BoxFit.cover)
+                         image: DecorationImage(image: FileImage(croppedFile),fit: BoxFit.cover)
 
                      ),
                      width: 84,

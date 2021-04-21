@@ -23,7 +23,7 @@ class Global {
   //https://pandagamingweb2020.azurewebsites.net/
   //static String BaseURL = "https://pandaweb20200605061105.azurewebsites.net/api/panda/";
   static String BaseURL =
-      "https://pandapanweaker.azurewebsites.net/api/panda/";
+      "https://pandaweb20210417054605.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
   static bool isSwitchedFT = true;

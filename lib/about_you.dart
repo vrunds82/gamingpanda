@@ -174,7 +174,8 @@ class _aboutuState extends State<aboutu> {
 
                                }, onclick: () async {
                                print("asdasdfadf");
-                               GetImage(0);
+                               //GetImage(0);
+                               showBottomSheet(0);
 
                              },
                              file: myImagesFiles[0],
@@ -188,7 +189,8 @@ class _aboutuState extends State<aboutu> {
 
                              },onclick: () async {
                                print("asdasdfadf");
-                               GetImage(1);
+                            //   GetImage(1);
+                               showBottomSheet(1);
                              },
                                file: myImagesFiles[1],
                                ImageURL: myImagesURL[1],
@@ -199,7 +201,8 @@ class _aboutuState extends State<aboutu> {
 
                              },onclick: () async {
                                print("asdasdfadf");
-                               GetImage(2);
+                             //  GetImage(2);
+                               showBottomSheet(2);
                              },
                                file: myImagesFiles[2],
                                ImageURL: myImagesURL[2],
@@ -216,7 +219,8 @@ class _aboutuState extends State<aboutu> {
 
                              },onclick: () async {
                                print("asdasdfadf");
-                               GetImage(3);
+                            //   GetImage(3);
+                               showBottomSheet(3);
                              },
                                file: myImagesFiles[3],
                                ImageURL: myImagesURL[3],
@@ -226,7 +230,8 @@ class _aboutuState extends State<aboutu> {
 
                              },onclick: () async {
                                print("asdasdfadf");
-                               GetImage(4);
+                               showBottomSheet(4);
+                               //GetImage(4);
                              },
                                file: myImagesFiles[4],
                                ImageURL: myImagesURL[4],
@@ -235,7 +240,8 @@ class _aboutuState extends State<aboutu> {
                                Remove(5);
                              },onclick: () async {
                                print("asdasdfadf");
-                               GetImage(5);
+                               showBottomSheet(5);
+                               //GetImage(5);
                              },
                                file: myImagesFiles[5],
                                ImageURL: myImagesURL[5],
@@ -354,12 +360,12 @@ class _aboutuState extends State<aboutu> {
   }
 
 
-  Future<File> GetImage(int index) async {
+  Future<File> GetImage({int index,bool camera}) async {
     String URL ="";
     File croppedFile;
     final picker = ImagePicker();
     File image;
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: camera? ImageSource.camera:ImageSource.gallery);
     if (pickedFile != null) {
 
       image  = File(pickedFile.path);
@@ -414,6 +420,71 @@ class _aboutuState extends State<aboutu> {
     setState(() {
 
     });
+  }
+
+
+  showBottomSheet(int index){
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          color: Global.isSwitchedFT == true
+        ? Global.blackpanda
+            : Global.whitepanda,
+
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: (){
+
+                    GetImage(index: index,camera: false);
+                    Navigator.of(context).pop();
+
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.image,size: 30,color: Global.orangepanda,),
+                      SizedBox(width: 10,),
+                      CustomText(text: "Gallery",fontSize: 20,)
+
+                      ],
+                    ),
+                  ),
+                ),
+                Divider(color: Global.isSwitchedFT == false
+                    ? Global.blackpanda
+                    : Global.whitepanda,),
+                GestureDetector(
+                  onTap: (){
+                    GetImage(index: index,camera: true);
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.camera,size: 35,color: Global.orangepanda,),
+                        SizedBox(width: 10,),
+                        CustomText(text: "Camera",fontSize: 20,)
+
+                      ],
+                    ),
+                  ),
+                )
+
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
   }
 
 
