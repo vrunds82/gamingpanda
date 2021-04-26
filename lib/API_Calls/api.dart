@@ -98,8 +98,8 @@ UpdateTokenWeb() async {
 }
 
 UpdateToken() async {
-  FirebaseMessaging firebaseMessaging;
- await firebaseMessaging.getToken().then((value) async {
+
+ await FirebaseMessaging.instance.getToken().then((value) async {
 
    if(value!=null) {
      Global.token = value;
