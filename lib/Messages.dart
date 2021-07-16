@@ -61,9 +61,9 @@ class _MessagesState extends State<Messages> {
 
                           return GestureDetector(onTap: (){
                             Global.OtherUserProfile = Profile(
-                              name: data['name'],
-                              id:data['uid'],
-                              dp: data['image'],
+                              name: data['name']??"",
+                              id:data['uid']??"",
+                              dp: data['image']??"",
                               unmatched: data['unmatch']??false
                             );
 

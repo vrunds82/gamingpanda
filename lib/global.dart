@@ -22,8 +22,11 @@ class Global {
 
   //https://pandagamingweb2020.azurewebsites.net/
   //static String BaseURL = "https://pandaweb20200605061105.azurewebsites.net/api/panda/";
+  //"https://pandaweb20210417054605.azurewebsites.net/api/panda/";
+  /*static String BaseURL =
+      "https://pandaweb20210529040219.azurewebsites.net/api/panda/";*/
   static String BaseURL =
-      "https://pandaweb20210417054605.azurewebsites.net/api/panda/";
+      "https://newappabt.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
   static bool isSwitchedFT = true;
@@ -66,6 +69,12 @@ class myMessagesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+    Map<String,dynamic> data = documentSnapshot.data();
+
+
     return Container(
       color: Colors.transparent,
       child: Column(
@@ -123,10 +132,9 @@ class myMessagesTile extends StatelessWidget {
                       Text(
                         documentSnapshot.get('msg') ?? "",
                         style: TextStyle(
-                          fontWeight: documentSnapshot.get('read')!=null && documentSnapshot.get('read')?FontWeight.normal:FontWeight.bold,
-                            fontSize: 15, color: documentSnapshot.get('read')!=null && documentSnapshot.get('read')?Colors.grey:Global.orangepanda),
+                          fontWeight: data['read']!=null && data['read']?FontWeight.normal:FontWeight.bold,
+                            fontSize: 15, color:data['read']!=null &&data['read']?Colors.grey:Global.orangepanda),
                         textAlign: TextAlign.left,
-
                       ),
                     ],
                   ),

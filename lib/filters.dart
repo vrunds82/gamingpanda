@@ -416,6 +416,8 @@ Row(
 
                 new CustomText(text:'Any',fontSize: 12),
 
+                Spacer(),
+                new CustomText(text:'BETA',fontSize: 12),
               ],),
 
 
