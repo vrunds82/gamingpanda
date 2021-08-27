@@ -25,8 +25,8 @@ class Global {
   //"https://pandaweb20210417054605.azurewebsites.net/api/panda/";
   /*static String BaseURL =
       "https://pandaweb20210529040219.azurewebsites.net/api/panda/";*/
-  static String BaseURL =
-      "https://newappabt.azurewebsites.net/api/panda/";
+  static String BaseURL ="https://pandica.azurewebsites.net/";
+      //"https://newappabt.azurewebsites.net/api/panda/";
   static double width = 100;
   static double height = 500;
   static bool isSwitchedFT = true;
